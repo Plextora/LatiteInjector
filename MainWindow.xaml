@@ -14,6 +14,41 @@
     <!-- region Control Templates & Styles -->
     <Window.Resources>
 
+        <ControlTemplate TargetType="Button" x:Key="DefaultButton">
+            <Border Name="RootElement" BorderThickness="1">
+
+                <Grid>
+                    <Grid.Background>
+                        <SolidColorBrush x:Name="ButtonBackground" Color="#FF211E2B" />
+                    </Grid.Background>
+                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="4,5,4,4" />
+                </Grid>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="ButtonBackground"
+                                                Storyboard.TargetProperty="Color" To="#FF211E2B" SpeedRatio="8" />
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState x:Name="MouseOver">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="ButtonBackground"
+                                                Storyboard.TargetProperty="Color" To="#FF2A2736" SpeedRatio="8" />
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="ButtonBackground"
+                                                Storyboard.TargetProperty="Color" To="#FF373345" SpeedRatio="8" />
+                            </Storyboard>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Border>
+        </ControlTemplate>
+
         <ControlTemplate TargetType="Button" x:Key="CloseButton">
             <Border Name="RootElement" BorderThickness="1">
 
@@ -308,6 +343,18 @@
             HorizontalAlignment="Left"
             Margin="0,66,0,0"
             VerticalAlignment="Top"/>
-
+        <Button
+            x:Name="LaunchButton"
+            Content="Launch"
+            FontWeight="Medium"
+            FontSize="35px"
+            Cursor="Hand"
+            Foreground="AliceBlue"
+            FontFamily="Segoe UI"
+            Template="{StaticResource DefaultButton}"
+            Height="68"
+            Margin="205,0,205,0"
+            VerticalAlignment="Center"
+            Click="LaunchButton_OnClick" />
     </Grid>
 </Window>
