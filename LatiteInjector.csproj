@@ -6,6 +6,19 @@
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
         <Platforms>AnyCPU;x64</Platforms>
+        <ApplicationIcon>latite.ico</ApplicationIcon>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="latite.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="latite.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="latite.png" />
+    </ItemGroup>
 
 </Project>
