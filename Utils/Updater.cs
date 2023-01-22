@@ -7,35 +7,69 @@ namespace LatiteInjector.Utils;
 
 public static class Updater
 {
-    private static string? _latestVersion;
-    private const string CurrentVersion = "1.0.0";
-    private static readonly WebClient? Client = new WebClient();
+    private const string CurrentVersion = "v1.2.3";
+    private static string? _selectedVersion;
+    private const string InjectorVersionUrl =
+        "https://github.com/Imrglop/Latite-Releases";
+    private const string InjectorExecutableUrl =
+        "https://github.com/Imrglop/Latite-Releases/raw/main/injector/Injector.exe";
 
-    public static void UpdateInjector()
+    private static readonly WebClient? Client = new WebClient();
+    private static readonly MainWindow? Form = Application.Current.Windows[0] as MainWindow;
+
+    private static string? GetLatestVersion()
     {
         try
         {
-            _latestVersion =
-                Client?.DownloadString(
-                    "https://raw.githubusercontent.com/Plextora/LatiteUtil/master/InjectorVersion.txt");
-            _latestVersion = _latestVersion?.Replace("\n", "");
+            var latestVersion = Client?.DownloadString(
+                InjectorVersionUrl);
+            latestVersion = latestVersion?.Replace("\n", "");
+            return latestVersion;
         }
         catch
         {
             SetStatusLabel.Error("Failed to check latest version of injector. Are you connected to the internet?");
-            return;
+            return "Couldn't get latest version";
         }
-
-        if (CurrentVersion == _latestVersion) return;
+    }
+    
+    public static void UpdateInjector()
+    {
+        var latestVersion = GetLatestVersion();
+        
+        if (CurrentVersion == latestVersion) return;
         var result = MessageBox.Show("The injector is outdated! Do you want to download the newest version?", "Injector outdated", MessageBoxButton.YesNo);
         if (result != MessageBoxResult.Yes) return;
 
-        var fileName = $"Injector_{_latestVersion}.exe";
+        var fileName = $"Injector_{latestVersion}.exe";
         var path = $"./{fileName}";
         if (File.Exists(path))
             File.Delete(path);
-        Client?.DownloadFile("https://github.com/Imrglop/Latite-Releases/raw/main/injector/Injector.exe", path);
+        Client?.DownloadFile(InjectorExecutableUrl, path);
         Process.Start(fileName);
         Application.Current.Shutdown();
+    }
+
+    public static string DownloadDll()
+    {
+        var latestVersion = GetLatestVersion();
+        
+        _selectedVersion = Form?.VersionSelectionComboBox.SelectedIndex switch
+        {
+            0 => "1.19.51",
+            1 => "1.18.12",
+            2 => "1.18",
+            3 => "1.17.41",
+            _ => _selectedVersion
+        }; // woah cool switch expression
+
+        var dllPath = $"{Path.GetTempPath()}Latite_{latestVersion}_{_selectedVersion}.dll";
+        if (File.Exists(dllPath)) return dllPath;
+        SetStatusLabel.Pending($"Downloading Latite's {_selectedVersion} DLL");
+        Client?.DownloadFile(
+            $"https://github.com/Imrglop/Latite-Releases/releases/download/{latestVersion}/Latite.{_selectedVersion}.dll",
+            dllPath);
+
+        return dllPath;
     }
 }

@@ -55,7 +55,7 @@ public static class Injector
             Api.CreateRemoteThread(procHandle, nint.Zero, 0, loadLibraryAddress,
                 allocMemAddress, 0, nint.Zero);
             
-            SetStatusLabel.Completed($"Injected {path} into Minecraft successfully!");
+            SetStatusLabel.Completed($"Injected Latite Client into Minecraft successfully!");
         }
         catch (Exception e)
         {

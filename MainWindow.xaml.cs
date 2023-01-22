@@ -16,7 +16,6 @@ public partial class MainWindow
     public MainWindow()
     {
         InitializeComponent();
-        Updater.UpdateInjector();
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
@@ -45,6 +44,6 @@ public partial class MainWindow
         }
 
         await Injector.WaitForModules();
-        Injector.Inject(@"C:\Users\Plextora\Desktop\latite.dll");
+        Injector.Inject(Updater.DownloadDll());
     }
 }
