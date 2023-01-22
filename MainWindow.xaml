@@ -365,5 +365,18 @@
             Margin="0,387,0,0"
             VerticalAlignment="Top"
             Width="601"/>
+        <Button
+            x:Name="CreditButton"
+            Content="Credits"
+            FontWeight="Medium"
+            FontSize="15px"
+            Cursor="Hand"
+            Foreground="AliceBlue"
+            FontFamily="Segoe UI"
+            Template="{StaticResource DefaultButton}"
+            Height="34"
+            Margin="532,365,10,0"
+            VerticalAlignment="Top"
+            Click="CreditButton_OnClick" />
     </Grid>
 </Window>

@@ -46,4 +46,10 @@ public partial class MainWindow
         await Injector.WaitForModules();
         Injector.Inject(Updater.DownloadDll());
     }
+
+    private void CreditButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        MessageBox.Show(
+            "Launcher made by Plextora (Plextora#0033)\nLatite Client made by Imrglop (JayRSky#9295)\nSome injector code made by carlton (baseballer#4451)");
+    }
 }
