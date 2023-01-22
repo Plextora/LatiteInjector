@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Windows;
@@ -7,17 +8,20 @@ namespace LatiteInjector.Utils;
 
 public static class Updater
 {
-    private const string CurrentVersion = "2";
+    private const string InjectorCurrentVersion = "3";
+    private const string DllCurrentVersion = "v1.2.3";
     private static string? _selectedVersion;
     private const string InjectorVersionUrl =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/launcher_version";
+    private const string DllVersionUrl =
+        "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/latest_version.txt";
     private const string InjectorExecutableUrl =
         "https://github.com/Imrglop/Latite-Releases/raw/main/injector/Injector.exe";
 
     private static readonly WebClient? Client = new WebClient();
     private static readonly MainWindow? Form = Application.Current.Windows[0] as MainWindow;
 
-    private static string? GetLatestVersion()
+    private static string? GetLatestInjectorVersion()
     {
         try
         {
@@ -32,12 +36,28 @@ public static class Updater
             return "Couldn't get latest version";
         }
     }
+
+    private static string? GetLatestDllVersion()
+    {
+        try
+        {
+            var latestVersion = Client?.DownloadString(
+                DllVersionUrl);
+            latestVersion = latestVersion?.Replace("\n", "");
+            return latestVersion;
+        }
+        catch
+        {
+            SetStatusLabel.Error("Failed to check latest version of dll. Are you connected to the internet?");
+            return "Couldn't get latest version";
+        }
+    }
     
     public static void UpdateInjector()
     {
-        var latestVersion = GetLatestVersion();
+        var latestVersion = GetLatestInjectorVersion();
         
-        if (CurrentVersion == latestVersion) return;
+        if (Convert.ToInt32(InjectorCurrentVersion) > Convert.ToInt32(latestVersion)) return;
         var result = MessageBox.Show("The injector is outdated! Do you want to download the newest version?", "Injector outdated", MessageBoxButton.YesNo);
         if (result != MessageBoxResult.Yes) return;
 
@@ -52,7 +72,7 @@ public static class Updater
 
     public static string DownloadDll()
     {
-        var latestVersion = GetLatestVersion();
+        var latestVersion = GetLatestDllVersion();
         
         _selectedVersion = Form?.VersionSelectionComboBox.SelectedIndex switch
         {
