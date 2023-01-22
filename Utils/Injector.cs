@@ -46,14 +46,14 @@ public static class Injector
 
             var loadLibraryAddress = Api.GetProcAddress(Api.GetModuleHandle("kernel32.dll"), "LoadLibraryA");
 
-            var allocMemAddress = Api.VirtualAllocEx(procHandle, nint.Zero,
+            var allocMemAddress = Api.VirtualAllocEx(procHandle, IntPtr.Zero,
                 (uint)((path.Length + 1) * Marshal.SizeOf(typeof(char))), Api.MEM_COMMIT
                                                                           | Api.MEM_RESERVE, Api.PAGE_READWRITE);
 
             Api.WriteProcessMemory(procHandle, allocMemAddress, Encoding.Default.GetBytes(path),
                 (uint)((path.Length + 1) * Marshal.SizeOf(typeof(char))), out _);
-            Api.CreateRemoteThread(procHandle, nint.Zero, 0, loadLibraryAddress,
-                allocMemAddress, 0, nint.Zero);
+            Api.CreateRemoteThread(procHandle, IntPtr.Zero, 0, loadLibraryAddress,
+                allocMemAddress, 0, IntPtr.Zero);
             
             SetStatusLabel.Completed($"Injected Latite Client into Minecraft successfully!");
         }
