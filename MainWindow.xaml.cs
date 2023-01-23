@@ -60,7 +60,9 @@ public partial class MainWindow
             "Launcher made by Plextora (Plextora#0033)\nLatite Client made by Imrglop (JayRSky#9295)\nSome injector code made by carlton (baseballer#4451)");
     }
 
-    private static void IfMinecraftExited(object sender,
-        EventArgs e) =>
+    private static void IfMinecraftExited(object sender, EventArgs e)
+    {
         DiscordPresence.DiscordClient.UpdateState("Idling in the client");
+        SetStatusLabel.Default();
+    }
 }
