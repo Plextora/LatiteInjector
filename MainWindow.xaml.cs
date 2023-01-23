@@ -12,6 +12,7 @@ namespace LatiteInjector;
 public partial class MainWindow
 {
     public static Process? Minecraft;
+    private static readonly ChangelogWindow ChangelogWindow = new();
 
     public MainWindow()
     {
@@ -63,5 +64,11 @@ public partial class MainWindow
     {
         DiscordPresence.DiscordClient.UpdateState("Idling in the client");
         Application.Current.Dispatcher.Invoke(SetStatusLabel.Default);
+    }
+
+    private void ChangelogButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        ChangelogWindow.Show();
+        DiscordPresence.DiscordClient.UpdateState("Checking the changelog");
     }
 }

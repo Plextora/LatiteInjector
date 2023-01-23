@@ -375,16 +375,29 @@
             FontFamily="Segoe UI"
             Template="{StaticResource DefaultButton}"
             Height="34"
-            Margin="532,365,10,0"
+            Margin="531,352,11,0"
             VerticalAlignment="Top"
             Click="CreditButton_OnClick" />
         <Image
             x:Name="LatiteIcon"
             HorizontalAlignment="Left"
-            Height="38"
-            Margin="495,370,0,0"
+            Height="25"
+            Margin="412,357,0,0"
             VerticalAlignment="Top"
             Width="25"
             Source="/latite.png"/>
+        <Button
+            x:Name="ChangelogButton"
+            Content="Changelog"
+            FontWeight="Medium"
+            FontSize="15px"
+            Cursor="Hand"
+            Foreground="AliceBlue"
+            FontFamily="Segoe UI"
+            Template="{StaticResource DefaultButton}"
+            Height="34"
+            Margin="442,352,94,0"
+            VerticalAlignment="Top"
+            Click="ChangelogButton_OnClick" />
     </Grid>
 </Window>
