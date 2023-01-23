@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using LatiteInjector.Utils;
@@ -63,6 +62,6 @@ public partial class MainWindow
     private static void IfMinecraftExited(object sender, EventArgs e)
     {
         DiscordPresence.DiscordClient.UpdateState("Idling in the client");
-        SetStatusLabel.Default();
+        Application.Current.Dispatcher.Invoke(SetStatusLabel.Default);
     }
 }
