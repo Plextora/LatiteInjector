@@ -70,19 +70,24 @@ public static class Updater
         Application.Current.Shutdown();
     }
 
-    public static string DownloadDll()
+    public static string GetSelectedVersion()
     {
-        var latestVersion = GetLatestDllVersion();
-        
-        _selectedVersion = Form?.VersionSelectionComboBox.SelectedIndex switch
+        return Form?.VersionSelectionComboBox.SelectedIndex switch
         {
             0 => "1.19.51",
             1 => "1.18.12",
             2 => "1.18",
             3 => "1.17.41",
-            _ => _selectedVersion
-        }; // woah cool switch expression
+            _ => "Could not get version"
+        };
+    }
 
+    public static string DownloadDll()
+    {
+        var latestVersion = GetLatestDllVersion();
+
+        _selectedVersion = GetSelectedVersion();
+        
         var dllPath = $"{Path.GetTempPath()}Latite_{latestVersion}_{_selectedVersion}.dll";
         if (File.Exists(dllPath)) return dllPath;
         SetStatusLabel.Pending($"Downloading Latite's {_selectedVersion} DLL");

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -17,6 +18,8 @@ public partial class MainWindow
     {
         InitializeComponent();
         Updater.UpdateInjector();
+        DiscordPresence.DiscordClient.Initialize();
+        DiscordPresence.IdlePresence();
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
@@ -46,6 +49,9 @@ public partial class MainWindow
 
         await Injector.WaitForModules();
         Injector.Inject(Updater.DownloadDll());
+
+        Minecraft.EnableRaisingEvents = true;
+        Minecraft.Exited += IfMinecraftExited;
     }
 
     private void CreditButton_OnClick(object sender, RoutedEventArgs e)
@@ -53,4 +59,8 @@ public partial class MainWindow
         MessageBox.Show(
             "Launcher made by Plextora (Plextora#0033)\nLatite Client made by Imrglop (JayRSky#9295)\nSome injector code made by carlton (baseballer#4451)");
     }
+
+    private static void IfMinecraftExited(object sender,
+        EventArgs e) =>
+        DiscordPresence.DiscordClient.UpdateState("Idling in the client");
 }

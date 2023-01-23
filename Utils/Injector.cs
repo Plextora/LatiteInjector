@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
 using static LatiteInjector.MainWindow;
 
 namespace LatiteInjector.Utils;
@@ -94,6 +93,7 @@ public static class Injector
         Application.Current.Dispatcher.Invoke(() =>
         {
             SetStatusLabel.Completed("Minecraft has finished loading!");
+            DiscordPresence.DiscordClient.UpdateState($"Playing Minecraft {Updater.GetSelectedVersion()}");
         });
     }
 }
