@@ -1,7 +1,7 @@
 # LatiteInjector
 Latite Client's new and improved injector!
 
-![Header](https://i.imgur.com/OIf1x9h.png)
+![Header](https://cdn.discordapp.com/attachments/885657616490041418/1066765777241391144/image.png)
 
 # Guidelines for handling this launcher's source:
 Here's what you're **allowed** to do
