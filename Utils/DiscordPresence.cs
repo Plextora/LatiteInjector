@@ -10,9 +10,12 @@ public static class DiscordPresence
     {
         DiscordClient.SetPresence(new RichPresence
         {
-            Details = "Launcher made by Plextora#0033",
             State = "Idling in the client",
             Timestamps = Timestamps.Now,
+            Buttons = new[]
+            {
+                new Button { Label = "Download Latite Client", Url = "https://discord.gg/zcJfXxKTA4" }
+            },
             Assets = new Assets
             {
                 LargeImageKey = "latite",
