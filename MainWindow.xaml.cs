@@ -15,6 +15,7 @@ public partial class MainWindow
     public static Process? Minecraft;
     private static readonly ChangelogWindow ChangelogWindow = new();
     private static readonly CreditWindow CreditWindow = new();
+    public static bool IsMinecraftRunning;
 
     public MainWindow()
     {
@@ -45,6 +46,7 @@ public partial class MainWindow
 
         await Injector.WaitForModules();
         Injector.Inject(Updater.DownloadDll());
+        IsMinecraftRunning = true;
 
         Minecraft.EnableRaisingEvents = true;
         Minecraft.Exited += IfMinecraftExited;
@@ -54,6 +56,7 @@ public partial class MainWindow
     {
         DiscordPresence.DiscordClient.UpdateState("Idling in the client");
         Application.Current.Dispatcher.Invoke(SetStatusLabel.Default);
+        IsMinecraftRunning = false;
     }
 
     private void ChangelogButton_OnClick(object sender, RoutedEventArgs e)
