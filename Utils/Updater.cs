@@ -48,7 +48,7 @@ public static class Updater
         catch
         {
             SetStatusLabel.Error("Failed to check latest version of dll. Are you connected to the internet?");
-            return "Couldn't get latest version";
+            throw new Exception("Cannot get latest DLL!");
         }
     }
     
