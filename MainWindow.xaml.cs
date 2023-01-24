@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
@@ -21,6 +22,8 @@ public partial class MainWindow
         Updater.UpdateInjector();
         DiscordPresence.DiscordClient.Initialize();
         DiscordPresence.IdlePresence();
+        ChangelogWindow.Closing += OnClosing;
+        CreditWindow.Closing += OnClosing;
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
@@ -64,4 +67,6 @@ public partial class MainWindow
         CreditWindow.Show();
         DiscordPresence.DiscordClient.UpdateState("Reading the credits");
     }
+
+    private static void OnClosing(object sender, CancelEventArgs e) => e.Cancel = true;
 }
