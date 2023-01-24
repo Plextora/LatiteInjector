@@ -113,5 +113,19 @@
             FontSize="20px"
             HorizontalAlignment="Center"
             VerticalAlignment="Top" Margin="0,91,0,0"/>
+        <Label
+            Content="• Proper GUI added to the Credits page"
+            Foreground="AliceBlue"
+            FontWeight="Regular"
+            FontSize="10px"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top" Margin="10,233,0,0"/>
+        <Label
+            Content="Last edited on January 24, 2023"
+            Foreground="AliceBlue"
+            FontWeight="Regular"
+            FontSize="7px"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top" Margin="259,295,0,0"/>
     </Grid>
 </Window>
