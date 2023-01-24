@@ -18,7 +18,7 @@ public static class Updater
         "https://github.com/Imrglop/Latite-Releases/raw/main/injector/Injector.exe";
 
     private static readonly WebClient? Client = new WebClient();
-    private static readonly MainWindow? Form = Application.Current.Windows[0] as MainWindow;
+    private static readonly MainWindow? Form = Application.Current.Windows[1] as MainWindow;
 
     private static string? GetLatestInjectorVersion()
     {
