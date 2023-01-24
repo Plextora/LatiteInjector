@@ -6,7 +6,7 @@ namespace LatiteInjector.Utils;
 
 public static class SetStatusLabel
 {
-    private static readonly MainWindow? Form = Application.Current.Windows[1] as MainWindow;
+    private static readonly MainWindow? Form = Application.Current.Windows[2] as MainWindow;
     private static readonly Label? StatusLabel = Form?.StatusLabel;
 
     public static void Default()

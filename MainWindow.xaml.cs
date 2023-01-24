@@ -13,6 +13,7 @@ public partial class MainWindow
 {
     public static Process? Minecraft;
     private static readonly ChangelogWindow ChangelogWindow = new();
+    private static readonly CreditWindow CreditWindow = new();
 
     public MainWindow()
     {
@@ -46,12 +47,6 @@ public partial class MainWindow
         Minecraft.Exited += IfMinecraftExited;
     }
 
-    private void CreditButton_OnClick(object sender, RoutedEventArgs e)
-    {
-        MessageBox.Show(
-            "Launcher made by Plextora (Plextora#0033)\nLatite Client made by Imrglop (JayRSky#9295)\nSome injector code made by carlton (baseballer#4451)");
-    }
-
     private static void IfMinecraftExited(object sender, EventArgs e)
     {
         DiscordPresence.DiscordClient.UpdateState("Idling in the client");
@@ -61,6 +56,12 @@ public partial class MainWindow
     private void ChangelogButton_OnClick(object sender, RoutedEventArgs e)
     {
         ChangelogWindow.Show();
-        DiscordPresence.DiscordClient.UpdateState("Checking the changelog");
+        DiscordPresence.DiscordClient.UpdateState("Reading the changelog");
+    }
+    
+    private void CreditButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        CreditWindow.Show();
+        DiscordPresence.DiscordClient.UpdateState("Reading the credits");
     }
 }

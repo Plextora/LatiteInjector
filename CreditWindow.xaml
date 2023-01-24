@@ -1,0 +1,104 @@
+﻿<Window x:Class="LatiteInjector.CreditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LatiteInjector"
+        mc:Ignorable="d"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Title="Latite Client Credits"
+        Height="324"
+        Width="376"
+        Background="#FF171217">
+
+    <Window.Resources>
+        <ControlTemplate TargetType="Button" x:Key="CloseButton">
+            <Border Name="RootElement" BorderThickness="1">
+
+                <Grid>
+                    <Grid.Background>
+                        <SolidColorBrush x:Name="ButtonBackground" Color="#1f171f" />
+                    </Grid.Background>
+                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="4,5,4,4" />
+                </Grid>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="ButtonBackground"
+                                                Storyboard.TargetProperty="Color" To="#1f171f" SpeedRatio="8" />
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState x:Name="MouseOver">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="ButtonBackground"
+                                                Storyboard.TargetProperty="Color" To="#f7c1c1" SpeedRatio="8" />
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetName="ButtonBackground"
+                                                Storyboard.TargetProperty="Color" To="#ffabab" SpeedRatio="8" />
+                            </Storyboard>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Border>
+        </ControlTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Button
+            x:Name="CloseButton"
+            Content="&#xE894;"
+            Cursor="Hand"
+            Foreground="AliceBlue"
+            FontFamily="Segoe MDL2 Assets"
+            Template="{StaticResource CloseButton}"
+            Height="37"
+            Margin="335,0,0,0"
+            VerticalAlignment="Top"
+            Click="CloseButton_Click" />
+        <Rectangle
+            x:Name="WindowToolbar"
+            HorizontalAlignment="Center"
+            Height="37"
+            Fill="#FF171217"
+            Panel.ZIndex="-1"
+            Stroke="AliceBlue"
+            StrokeThickness="0.5"
+            VerticalAlignment="Top"
+            MouseLeftButtonDown="WindowToolbar_OnMouseLeftButtonDown"
+            Width="376"/>
+        <Label
+            Content="Credits"
+            Foreground="AliceBlue"
+            FontWeight="Regular"
+            FontSize="18px"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top" Margin="10,2,0,0"/>
+        <Label
+            Content="Launcher made by Plextora (Plextora#0033)"
+            Foreground="AliceBlue"
+            FontWeight="Regular"
+            FontSize="15px"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top" Margin="0,121,0,0"/>
+        <Label
+            Content="Latite Client made by Imrglop (JayRSky#9295)"
+            Foreground="AliceBlue"
+            FontWeight="Regular"
+            FontSize="15px"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top" Margin="0,154,0,0"/>
+        <Label
+            Content="Some injector code made by carlton (baseballer#4451)"
+            Foreground="AliceBlue"
+            FontWeight="Regular"
+            FontSize="15px"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top" Margin="0,189,0,0"/>
+    </Grid>
+</Window>
