@@ -57,7 +57,11 @@ public static class Updater
         var latestVersion = GetLatestInjectorVersion();
         
         if (Convert.ToInt32(InjectorCurrentVersion) >= Convert.ToInt32(latestVersion)) return;
-        var result = MessageBox.Show("The injector is outdated! Do you want to download the newest version?", "Injector outdated", MessageBoxButton.YesNo);
+        
+        var result =
+            MessageBox.Show("The injector is outdated! Do you want to download the newest version?",
+                "Injector outdated!", MessageBoxButton.YesNo, MessageBoxImage.Error);
+        
         if (result != MessageBoxResult.Yes) return;
 
         var fileName = $"Injector_{latestVersion}.exe";
