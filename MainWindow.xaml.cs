@@ -71,5 +71,7 @@ public partial class MainWindow
         DiscordPresence.DiscordClient.UpdateState("Reading the credits");
     }
 
+    private void DiscordIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => Process.Start("discord://-/invite/zcJfXxKTA4");
+
     private static void OnClosing(object sender, CancelEventArgs e) => e.Cancel = true;
 }

@@ -399,5 +399,14 @@
             Margin="442,352,94,0"
             VerticalAlignment="Top"
             Click="ChangelogButton_OnClick" />
+        <Image
+            x:Name="DiscordIcon"
+            HorizontalAlignment="Left"
+            Height="34"
+            Margin="579,79,0,0"
+            VerticalAlignment="Top"
+            Width="30"
+            Source="/Discord Icon.png"
+            Cursor="Hand" MouseLeftButtonDown="DiscordIcon_MouseLeftButtonDown"/>
     </Grid>
 </Window>

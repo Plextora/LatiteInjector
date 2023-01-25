@@ -11,6 +11,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Discord Icon.png" />
       <None Remove="latite.png" />
     </ItemGroup>
 
@@ -19,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Resource Include="Discord Icon.png" />
       <Resource Include="latite.png" />
     </ItemGroup>
 
