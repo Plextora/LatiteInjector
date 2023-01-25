@@ -336,13 +336,6 @@
                 Content="1.17.41"
                 Foreground="AliceBlue"/>
         </ComboBox>
-        <Label
-            Content="Select Latite version to inject"
-            Foreground="AliceBlue"
-            FontWeight="Light"
-            HorizontalAlignment="Left"
-            Margin="0,66,0,0"
-            VerticalAlignment="Top"/>
         <Button
             x:Name="LaunchButton"
             Content="Launch"
@@ -355,7 +348,8 @@
             Height="68"
             Margin="205,0,205,0"
             VerticalAlignment="Center"
-            Click="LaunchButton_OnClick" />
+            Click="LaunchButton_OnLeftClick"
+            MouseRightButtonDown="LaunchButton_OnRightClick"/>
         <Label
             x:Name="StatusLabel"
             FontSize="10px"
@@ -365,6 +359,13 @@
             Margin="0,387,0,0"
             VerticalAlignment="Top"
             Width="601"/>
+        <Label
+            Content="Right click the launch button to inject custom DLLs"
+            Foreground="AliceBlue"
+            FontWeight="Light"
+            HorizontalAlignment="Center"
+            Margin="0,249,0,0"
+            VerticalAlignment="Top"/>
         <Button
             x:Name="CreditButton"
             Content="Credits"
@@ -378,6 +379,13 @@
             Margin="531,352,11,0"
             VerticalAlignment="Top"
             Click="CreditButton_OnClick" />
+        <Label
+            Content="Select Latite version to inject"
+            Foreground="AliceBlue"
+            FontWeight="Light"
+            HorizontalAlignment="Left"
+            Margin="0,66,0,0"
+            VerticalAlignment="Top"/>
         <Image
             x:Name="LatiteIcon"
             HorizontalAlignment="Left"
@@ -407,6 +415,7 @@
             VerticalAlignment="Top"
             Width="30"
             Source="/Discord Icon.png"
-            Cursor="Hand" MouseLeftButtonDown="DiscordIcon_MouseLeftButtonDown"/>
+            Cursor="Hand"
+            MouseLeftButtonDown="DiscordIcon_MouseLeftButtonDown"/>
     </Grid>
 </Window>
