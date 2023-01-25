@@ -121,7 +121,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Top" Margin="0,233,0,0"/>
         <Label
-            Content="Last edited on January 24, 2023"
+            Content="Last edited on January 25, 2023"
             Foreground="AliceBlue"
             FontWeight="Regular"
             FontSize="7px"
@@ -135,7 +135,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Top" Margin="0,256,0,0"/>
         <Label
-            Content="You no longer need .NET 7 for the injector!"
+            Content="Added ability to inject custom DLLs!"
             Foreground="AliceBlue"
             FontWeight="Regular"
             FontSize="10px"
