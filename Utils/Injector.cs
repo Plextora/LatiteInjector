@@ -41,12 +41,12 @@ public static class Injector
             Api.CreateRemoteThread(procHandle, IntPtr.Zero, 0, loadLibraryAddress,
                 allocMemAddress, 0, IntPtr.Zero);
             
-            SetStatusLabel.Completed($"Injected Latite Client into Minecraft successfully!");
+            SetStatusLabel.Completed("Injected Latite Client into Minecraft successfully!");
         }
         catch (Exception e)
         {
             SetStatusLabel.Error("Ran into an error while injecting!");
-            MessageBox.Show(e.ToString());
+            Logging.ErrorLogging(e);
         }
 
         void ApplyAppPackages(string path)
