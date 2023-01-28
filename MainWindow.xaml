@@ -349,7 +349,7 @@
             Margin="205,0,205,0"
             VerticalAlignment="Center"
             Click="LaunchButton_OnLeftClick"
-            MouseRightButtonDown="LaunchButton_OnRightClick"/>
+            MouseRightButtonUp="LaunchButton_OnRightClick"/>
         <Label
             x:Name="StatusLabel"
             FontSize="10px"

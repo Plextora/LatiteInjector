@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using LatiteInjector.Utils;
@@ -55,8 +56,8 @@ public partial class MainWindow
     
     private async void LaunchButton_OnRightClick(object sender, RoutedEventArgs e)
     {
-        SetStatusLabel.Pending("Opening DLL...");
-        
+        SetStatusLabel.Pending("User is selecting DLL...");
+
         OpenFileDialog openFileDialog = new()
         {
             Filter = "DLL files (*.dll)|*.dll|All files (*.*)|*.*",
