@@ -19,7 +19,7 @@ public partial class MainWindow
     private static readonly CreditWindow CreditWindow = new();
     public static bool IsMinecraftRunning;
     public static bool IsCustomDll;
-    public static string CustomDllName;
+    public static string? CustomDllName;
 
     public MainWindow()
     {
