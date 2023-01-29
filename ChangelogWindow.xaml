@@ -79,26 +79,19 @@
             FontSize="18px"
             HorizontalAlignment="Left"
             VerticalAlignment="Top" Margin="10,2,0,0"/>
-        <Label
-            Content="Added Discord Activity Status"
-            Foreground="AliceBlue"
-            FontWeight="Regular"
-            FontSize="10px"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top" Margin="0,210,0,0"/>
         <Rectangle
             HorizontalAlignment="Center"
             Height="1"
             Stroke="AliceBlue"
-            VerticalAlignment="Center"
-            Width="356"/>
+            VerticalAlignment="Top"
+            Width="356" Margin="0,166,0,0"/>
         <Label
             Content="Client"
             Foreground="AliceBlue"
             FontWeight="Regular"
             FontSize="20px"
             HorizontalAlignment="Center"
-            VerticalAlignment="Top" Margin="0,42,0,0"/>
+            VerticalAlignment="Top" Margin="0,37,0,0"/>
         <Label
             Content="Injector"
             Foreground="AliceBlue"
@@ -107,19 +100,77 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Top" Margin="0,168,0,0"/>
         <Label
-            Content="Nothing here yet! :("
+            x:FieldModifier="public"
+            x:Name="ClientChangelogLine1"
+            Content=""
             Foreground="AliceBlue"
             FontWeight="Regular"
-            FontSize="20px"
+            FontSize="10px"
             HorizontalAlignment="Center"
-            VerticalAlignment="Top" Margin="0,91,0,0"/>
+            VerticalAlignment="Top" Margin="0,69,0,0"/>
         <Label
-            Content="Proper GUI added to the Credits page"
+            x:FieldModifier="public"
+            x:Name="ClientChangelogLine2"
+            Content=""
+            Foreground="AliceBlue"
+            FontWeight="Regular"
+            FontSize="10px"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top" Margin="0,92,0,0"/>
+        <Label
+            x:FieldModifier="public"
+            x:Name="ClientChangelogLine3"
+            Content=""
+            Foreground="AliceBlue"
+            FontWeight="Regular"
+            FontSize="10px"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top" Margin="0,115,0,0"/>
+        <Label
+            x:FieldModifier="public"
+            x:Name="ClientChangelogLine4"
+            Content=""
+            Foreground="AliceBlue"
+            FontWeight="Regular"
+            FontSize="10px"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top" Margin="0,138,0,0"/>
+        <Label
+            x:FieldModifier="public"
+            x:Name="InjectorChangelogLine1"
+            Content=""
+            Foreground="AliceBlue"
+            FontWeight="Regular"
+            FontSize="10px"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top" Margin="0,210,0,0"/>
+        <Label
+            x:FieldModifier="public"
+            x:Name="InjectorChangelogLine2"
+            Content=""
             Foreground="AliceBlue"
             FontWeight="Regular"
             FontSize="10px"
             HorizontalAlignment="Center"
             VerticalAlignment="Top" Margin="0,233,0,0"/>
+        <Label
+            x:FieldModifier="public"
+            x:Name="InjectorChangelogLine3"
+            Content=""
+            Foreground="AliceBlue"
+            FontWeight="Regular"
+            FontSize="10px"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top" Margin="0,256,0,0"/>
+        <Label
+            x:FieldModifier="public"
+            x:Name="InjectorChangelogLine4"
+            Content=""
+            Foreground="AliceBlue"
+            FontWeight="Regular"
+            FontSize="10px"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top" Margin="0,279,0,0"/>
         <Label
             Content="Last edited on January 25, 2023"
             Foreground="AliceBlue"
@@ -127,19 +178,5 @@
             FontSize="7px"
             HorizontalAlignment="Left"
             VerticalAlignment="Top" Margin="269,302,0,0"/>
-        <Label
-            Content="Added error logging for better bug reports"
-            Foreground="AliceBlue"
-            FontWeight="Regular"
-            FontSize="10px"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top" Margin="0,256,0,0"/>
-        <Label
-            Content="Added ability to inject custom DLLs!"
-            Foreground="AliceBlue"
-            FontWeight="Regular"
-            FontSize="10px"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top" Margin="0,279,0,0"/>
     </Grid>
 </Window>

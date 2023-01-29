@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Windows;
+using System.Windows.Controls;
+using static LatiteInjector.MainWindow;
 
 namespace LatiteInjector.Utils;
 
@@ -16,9 +20,14 @@ public static class Updater
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/latest_version.txt";
     private const string INJECTOR_EXECUTABLE_URL =
         "https://github.com/Imrglop/Latite-Releases/raw/main/injector/Injector.exe";
+    private const string INJECTOR_CHANGELOG_URL =
+        "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/injector_changelog";
+    private const string CLIENT_CHANGELOG_URL =
+        "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/client_changelog";
 
     private static readonly WebClient? Client = new WebClient();
     private static readonly MainWindow? Form = Application.Current.Windows[2] as MainWindow;
+    private static readonly ChangelogWindow? ChangelogForm = Application.Current.Windows[0] as ChangelogWindow;
 
     private static string? GetLatestInjectorVersion()
     {
@@ -83,6 +92,61 @@ public static class Updater
             3 => "1.17.41",
             _ => "Could not get version"
         };
+    }
+
+    private static string? GetChangelogLine(string? changelog, int line, string changelogNum)
+    {
+        if (changelog != null && GetLine(changelog, line).StartsWith($"{changelogNum} "))
+            return GetLine(changelog, line)?.Replace($"{changelogNum} ", "");
+        return "Couldn't get changelog line";
+    }
+
+    public static void GetInjectorChangelog()
+    {
+        string? rawChangelog = null;
+        
+        try
+        {
+            rawChangelog = Client?.DownloadString(
+                INJECTOR_CHANGELOG_URL);
+        }
+        catch
+        {
+            SetStatusLabel.Error("Failed to obtain injector changelog. Are you connected to the internet?");
+        }
+
+        if (ChangelogForm == null) return;
+        ChangelogForm.InjectorChangelogLine1.Content = GetChangelogLine(rawChangelog, 1, "1.");
+        ChangelogForm.InjectorChangelogLine2.Content = GetChangelogLine(rawChangelog, 2, "2.");
+        ChangelogForm.InjectorChangelogLine3.Content = GetChangelogLine(rawChangelog, 3, "3.");
+        ChangelogForm.InjectorChangelogLine4.Content = GetChangelogLine(rawChangelog, 4, "4.");
+    }
+    
+    public static void GetClientChangelog()
+    {
+        string? rawChangelog = null;
+        
+        try
+        {
+            rawChangelog = Client?.DownloadString(
+                CLIENT_CHANGELOG_URL);
+        }
+        catch
+        {
+            SetStatusLabel.Error("Failed to obtain client changelog. Are you connected to the internet?");
+        }
+
+        if (rawChangelog == "\n")
+        {
+            SetStatusLabel.Error("Failed to obtain client changelog. Please report error to devs");
+            throw new Exception("The client changelog on Latite-Releases is (probably) empty");
+        }
+
+        if (ChangelogForm == null) return;
+        ChangelogForm.ClientChangelogLine1.Content = GetChangelogLine(rawChangelog, 1, "1.");
+        ChangelogForm.ClientChangelogLine2.Content = GetChangelogLine(rawChangelog, 2, "2.");
+        ChangelogForm.ClientChangelogLine3.Content = GetChangelogLine(rawChangelog, 3, "3.");
+        ChangelogForm.ClientChangelogLine4.Content = GetChangelogLine(rawChangelog, 4, "4.");
     }
 
     public static string DownloadDll()

@@ -29,12 +29,19 @@ public partial class MainWindow
         DiscordPresence.IdlePresence();
         ChangelogWindow.Closing += OnClosing;
         CreditWindow.Closing += OnClosing;
+        Updater.GetInjectorChangelog();
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
     private void MinimizeButton_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
     private void WindowToolbar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
 
+    public static string? GetLine(string? text, int lineNo)
+    {
+        string?[] lines = text?.Replace("\r","").Split('\n') ?? Array.Empty<string>();
+        return lines.Length >= lineNo ? lines[lineNo-1] : null;
+    } // https://stackoverflow.com/a/2606405/20083929
+    
     private async void LaunchButton_OnLeftClick(object sender, RoutedEventArgs e)
     {
         if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
