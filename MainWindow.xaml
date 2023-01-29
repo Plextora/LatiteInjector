@@ -7,6 +7,9 @@
         ResizeMode="NoResize"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
+        StateChanged="OnStateChanged"
+        IsVisibleChanged="OnIsVisibleChanged"
+        Closing="Window_Closing"
         Title="Latite Injector"
         Height="420"
         Width="620"
@@ -281,18 +284,6 @@
             Margin="559,0,0,0"
             VerticalAlignment="Top"
             Click="CloseButton_Click" />
-        <Button
-            x:Name="MinimizeButton"
-            Content="&#xE738;"
-            Cursor="Hand"
-            Foreground="AliceBlue"
-            FontFamily="Segoe MDL2 Assets"
-            Template="{StaticResource MinimizeButton}"
-            Height="62"
-            Width="61"
-            Margin="501,0,58,0"
-            VerticalAlignment="Top"
-            Click="MinimizeButton_Click" />
         <Rectangle
             Panel.ZIndex="-1"
             x:Name="WindowToolbar"

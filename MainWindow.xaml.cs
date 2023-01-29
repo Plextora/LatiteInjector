@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using LatiteInjector.Utils;
-using Microsoft.Win32;
+using Application = System.Windows.Application;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace LatiteInjector;
 
@@ -21,10 +22,41 @@ public partial class MainWindow
     public static bool IsMinecraftRunning;
     public static bool IsCustomDll;
     public static string? CustomDllName;
+    
+    private NotifyIcon? _notifyIcon;
+    private readonly ContextMenu _contextMenu = new();
+    private readonly MenuItem _menuItem = new();
+    private WindowState _storedWindowState = WindowState.Normal;
 
     public MainWindow()
     {
         InitializeComponent();
+        
+        _notifyIcon = new NotifyIcon();
+        if (!File.Exists("first_run"))
+        {
+            _notifyIcon.BalloonTipText =
+                "Latite Client has been minimized. Click the tray icon to bring back Latite Client. Right click the tray icon to exit Latite Client";
+            _notifyIcon.BalloonTipTitle = "I'm over here!";
+            File.Create("first_run");
+        }
+        else
+        {
+            File.Create("first_run");
+            _notifyIcon.BalloonTipText = null;
+            _notifyIcon.BalloonTipTitle = null;
+        }
+        _notifyIcon.Text = "Latite Client";
+        _notifyIcon.Icon = new System.Drawing.Icon(@"..\..\..\latite.ico");
+        _notifyIcon.Click += NotifyIconClick;
+        
+        _contextMenu.MenuItems.AddRange(new[] {_menuItem});
+        _menuItem.Index = 0;
+        _menuItem.Text = "Exit Latite Client";
+        _menuItem.Click += MenuExitItem_Click;
+
+        _notifyIcon.ContextMenu = _contextMenu;
+        
         Updater.UpdateInjector();
         DiscordPresence.DiscordClient.Initialize();
         DiscordPresence.IdlePresence();
@@ -34,11 +66,42 @@ public partial class MainWindow
         Updater.GetInjectorChangelog();
     }
 
+    private void OnStateChanged(object sender, EventArgs args)
+    {
+        if (WindowState == WindowState.Minimized)
+        {
+            Hide();
+            if (_notifyIcon?.BalloonTipText == null) return;
+            _notifyIcon.ShowBalloonTip(2000);
+            _notifyIcon.BalloonTipText = null;
+            _notifyIcon.BalloonTipTitle = null;
+        }
+        else
+            _storedWindowState = WindowState;
+    }
+
+    private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs args) => CheckTrayIcon();
+
+    private void NotifyIconClick(object sender, EventArgs e)
+    {
+        Show();
+        WindowState = _storedWindowState;
+    }
+
+    private void CheckTrayIcon() => ShowTrayIcon(!IsVisible);
+
+    private void ShowTrayIcon(bool show)
+    {
+        if (_notifyIcon != null)
+            _notifyIcon.Visible = show;
+    }
+
     private static void OnUnhandledException(object sender,
         UnhandledExceptionEventArgs e) =>
         Logging.ErrorLogging(e.ExceptionObject as Exception);
-    private void CloseButton_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
-    private void MinimizeButton_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+
+    private void CloseButton_Click(object sender, RoutedEventArgs e) =>
+        WindowState = WindowState.Minimized;
     private void WindowToolbar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
 
     public static string? GetLine(string? text, int lineNo)
@@ -130,4 +193,12 @@ public partial class MainWindow
     private void DiscordIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => Process.Start("discord://-/invite/zcJfXxKTA4");
 
     private static void OnClosing(object sender, CancelEventArgs e) => e.Cancel = true;
+    private static void MenuExitItem_Click(object sender, EventArgs e) => Application.Current.Shutdown();
+
+    private void Window_Closing(object sender, CancelEventArgs e)
+    {
+        DiscordPresence.StopPresence();
+        _notifyIcon?.Dispose();
+        _notifyIcon = null;
+    }
 }
