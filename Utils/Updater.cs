@@ -13,7 +13,6 @@ namespace LatiteInjector.Utils;
 public static class Updater
 {
     private const string INJECTOR_CURRENT_VERSION = "4";
-    private static string? _selectedVersion;
     private const string INJECTOR_VERSION_URL =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/launcher_version";
     private const string DLL_VERSION_URL =
@@ -24,6 +23,7 @@ public static class Updater
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/injector_changelog";
     private const string CLIENT_CHANGELOG_URL =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/client_changelog";
+    private static string? _selectedVersion;
 
     private static readonly WebClient? Client = new WebClient();
     private static readonly MainWindow? Form = Application.Current.Windows[2] as MainWindow;
@@ -113,6 +113,12 @@ public static class Updater
         catch
         {
             SetStatusLabel.Error("Failed to obtain injector changelog. Are you connected to the internet?");
+        }
+        
+        if (rawChangelog == "\n")
+        {
+            SetStatusLabel.Error("Failed to obtain client changelog. Please report error to devs");
+            throw new Exception("The injector changelog on Latite-Releases is (probably) empty");
         }
 
         if (ChangelogForm == null) return;

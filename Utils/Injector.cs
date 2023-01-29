@@ -43,7 +43,7 @@ public static class Injector
             
             SetStatusLabel.Completed("Injected Latite Client into Minecraft successfully!");
         }
-        catch (Exception e)
+        catch (Exception? e)
         {
             SetStatusLabel.Error("Ran into an error while injecting!");
             Logging.ErrorLogging(e);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -29,9 +30,13 @@ public partial class MainWindow
         DiscordPresence.IdlePresence();
         ChangelogWindow.Closing += OnClosing;
         CreditWindow.Closing += OnClosing;
+        AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         Updater.GetInjectorChangelog();
     }
 
+    private static void OnUnhandledException(object sender,
+        UnhandledExceptionEventArgs e) =>
+        Logging.ErrorLogging(e.ExceptionObject as Exception);
     private void CloseButton_Click(object sender, RoutedEventArgs e) => Application.Current.Shutdown();
     private void MinimizeButton_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
     private void WindowToolbar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
