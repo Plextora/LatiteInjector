@@ -177,6 +177,15 @@
             FontWeight="Regular"
             FontSize="7px"
             HorizontalAlignment="Left"
-            VerticalAlignment="Top" Margin="269,302,0,0"/>
+            VerticalAlignment="Top"
+            Margin="269,305,0,0"/>
+        <Label
+            Content="Injector version: 4"
+            Foreground="AliceBlue"
+            FontWeight="Regular"
+            FontSize="7px"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Margin="0,305,311,0"/>
     </Grid>
 </Window>
