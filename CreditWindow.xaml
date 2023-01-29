@@ -94,7 +94,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Top" Margin="0,154,0,0"/>
         <Label
-            Content="Some injector code made by carlton (baseballer#4451)"
+            Content="Some injector code made by carlton (carlton#4451)"
             Foreground="AliceBlue"
             FontWeight="Regular"
             FontSize="15px"
