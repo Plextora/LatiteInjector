@@ -8,6 +8,9 @@
         <Platforms>AnyCPU;x64</Platforms>
         <ApplicationIcon>latite.ico</ApplicationIcon>
         <LangVersion>11</LangVersion>
+        <AssemblyName>Latite Injector</AssemblyName>
+        <Company>Plextora</Company>
+        <Product>Latite Injector</Product>
     </PropertyGroup>
 
     <ItemGroup>
