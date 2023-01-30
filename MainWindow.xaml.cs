@@ -71,6 +71,7 @@ public partial class MainWindow
         if (WindowState == WindowState.Minimized)
         {
             Hide();
+            DiscordPresence.DiscordClient.UpdateState("Minimized to tray");
             if (_notifyIcon?.BalloonTipText == null) return;
             _notifyIcon.ShowBalloonTip(2000);
             _notifyIcon.BalloonTipText = null;
@@ -85,6 +86,7 @@ public partial class MainWindow
     private void NotifyIconClick(object sender, EventArgs e)
     {
         Show();
+        DiscordPresence.DiscordClient.UpdateState("Idling in the client");
         WindowState = _storedWindowState;
     }
 
