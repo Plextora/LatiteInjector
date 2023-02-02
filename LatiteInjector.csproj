@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
         <Platforms>AnyCPU;x64</Platforms>
-        <ApplicationIcon>latite.ico</ApplicationIcon>
+        <ApplicationIcon>Assets\latite.ico</ApplicationIcon>
         <LangVersion>11</LangVersion>
         <AssemblyName>Latite Injector</AssemblyName>
         <Company>Plextora</Company>
@@ -14,16 +14,29 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Assets\Background.png" />
+      <None Remove="Assets\Discord Icon.png" />
+      <None Remove="Assets\LatiteIcon.png" />
+      <None Remove="Assets\LatiteText.png" />
+      <None Remove="Assets\X.png" />
+      <None Remove="Background.png" />
       <None Remove="Discord Icon.png" />
       <None Remove="latite.png" />
+      <None Remove="LatiteIcon.png" />
+      <None Remove="LatiteText.png" />
+      <None Remove="X.png" />
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="latite.ico" />
+      <Content Include="Assets\latite.ico" />
     </ItemGroup>
 
     <ItemGroup>
-      <Resource Include="Discord Icon.png" />
+      <Resource Include="Assets\Background.png" />
+      <Resource Include="Assets\Discord Icon.png" />
+      <Resource Include="Assets\LatiteIcon.png" />
+      <Resource Include="Assets\LatiteText.png" />
+      <Resource Include="Assets\X.png" />
       <Resource Include="latite.png" />
     </ItemGroup>
 

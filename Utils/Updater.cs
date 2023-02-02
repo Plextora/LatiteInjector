@@ -9,7 +9,7 @@ namespace LatiteInjector.Utils;
 
 public static class Updater
 {
-    private const string INJECTOR_CURRENT_VERSION = "4";
+    private const string INJECTOR_CURRENT_VERSION = "5";
     private const string INJECTOR_VERSION_URL =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/launcher_version";
     private const string DLL_VERSION_URL =
@@ -97,6 +97,13 @@ public static class Updater
             return GetLine(changelog, line)?.Replace($"{changelogNum} ", "");
         return "Couldn't get changelog line";
     }
+    
+    private static string? GetClientChangelogLine(string? changelog, int line, string changelogNum)
+    {
+        if (changelog != null && GetLine(changelog, line).StartsWith($"{changelogNum} "))
+            return GetLine(changelog, line)?.Replace($"{changelogNum} ", "");
+        return "";
+    } // temporary function until imrglop actually add more to the changelog
 
     public static void GetInjectorChangelog()
     {
@@ -146,10 +153,10 @@ public static class Updater
         }
 
         if (ChangelogForm == null) return;
-        ChangelogForm.ClientChangelogLine1.Content = GetChangelogLine(rawChangelog, 1, "1.");
-        ChangelogForm.ClientChangelogLine2.Content = GetChangelogLine(rawChangelog, 2, "2.");
-        ChangelogForm.ClientChangelogLine3.Content = GetChangelogLine(rawChangelog, 3, "3.");
-        ChangelogForm.ClientChangelogLine4.Content = GetChangelogLine(rawChangelog, 4, "4.");
+        ChangelogForm.ClientChangelogLine1.Content = GetClientChangelogLine(rawChangelog, 1, "1.");
+        ChangelogForm.ClientChangelogLine2.Content = GetClientChangelogLine(rawChangelog, 2, "2.");
+        ChangelogForm.ClientChangelogLine3.Content = GetClientChangelogLine(rawChangelog, 3, "3.");
+        ChangelogForm.ClientChangelogLine4.Content = GetClientChangelogLine(rawChangelog, 4, "4.");
     }
 
     public static string DownloadDll()

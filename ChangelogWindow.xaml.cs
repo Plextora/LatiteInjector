@@ -29,6 +29,6 @@ namespace LatiteInjector
                     : $"Playing Minecraft {Updater.GetSelectedVersion()} with Latite");
         }
 
-        private void WindowToolbar_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
+        private void Window_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
     }
 }
