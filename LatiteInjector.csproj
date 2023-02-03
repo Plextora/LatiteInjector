@@ -11,6 +11,7 @@
         <AssemblyName>Latite Injector</AssemblyName>
         <Company>Plextora</Company>
         <Product>Latite Injector</Product>
+	    <GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
     </PropertyGroup>
 
     <ItemGroup>
@@ -28,7 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="Assets\latite.ico" />
+      <Resource Include="Assets\latite.ico" />
     </ItemGroup>
 
     <ItemGroup>
@@ -46,10 +47,38 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="DiscordRichPresence" Version="1.1.3.18" />
+      <PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
       <Reference Include="System.Windows.Forms" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Properties\Resources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Properties\Resources.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <COMReference Include="Shell32">
+        <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
+        <VersionMajor>1</VersionMajor>
+        <VersionMinor>0</VersionMinor>
+        <Lcid>0</Lcid>
+        <WrapperTool>tlbimp</WrapperTool>
+        <Isolated>False</Isolated>
+        <EmbedInteropTypes>True</EmbedInteropTypes>
+      </COMReference>
     </ItemGroup>
 
 </Project>

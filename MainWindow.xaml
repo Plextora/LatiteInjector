@@ -10,6 +10,7 @@
     AllowsTransparency="True"
     Background="Transparent"
     Closing="Window_Closing"
+    Icon="Assets/latite.ico"
     IsVisibleChanged="OnIsVisibleChanged"
     ResizeMode="NoResize"
     StateChanged="OnStateChanged"

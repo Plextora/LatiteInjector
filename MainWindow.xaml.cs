@@ -2,12 +2,15 @@
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using LatiteInjector.Utils;
 using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace LatiteInjector;
@@ -20,6 +23,7 @@ public partial class MainWindow
     public static Process? Minecraft;
     private static readonly ChangelogWindow ChangelogWindow = new();
     private static readonly CreditWindow CreditWindow = new();
+    private static readonly WebClient? Client = new WebClient();
     public static bool IsMinecraftRunning;
     public static bool IsCustomDll;
     public static string? CustomDllName;
@@ -32,7 +36,28 @@ public partial class MainWindow
     public MainWindow()
     {
         InitializeComponent();
-        
+        AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+        if (!FontManager.IsFontInstalled("Inter"))
+        {
+            var result = MessageBox.Show(
+                "The font that Latite Injector uses (Inter) is not installed. Do you want to install it?",
+                "Install font", MessageBoxButton.YesNo, MessageBoxImage.Information);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                Client?.DownloadFile("https://latite-client.discowd.com/r/InterFont.ttf", "Inter.ttf");
+                FontManager.InstallFont($"{Directory.GetCurrentDirectory()}\\Inter.ttf");
+                File.Delete($"{Directory.GetCurrentDirectory()}\\Inter.ttf");
+            }
+        }
+        Updater.UpdateInjector();
+        DiscordPresence.DiscordClient.Initialize();
+        DiscordPresence.IdlePresence();
+        ChangelogWindow.Closing += OnClosing;
+        CreditWindow.Closing += OnClosing;
+        Updater.GetInjectorChangelog();
+        Updater.GetClientChangelog();
+
         _notifyIcon = new NotifyIcon();
         if (!File.Exists("first_run"))
         {
@@ -48,7 +73,10 @@ public partial class MainWindow
             _notifyIcon.BalloonTipTitle = null;
         }
         _notifyIcon.Text = "Latite Client";
-        _notifyIcon.Icon = new System.Drawing.Icon(@"..\..\..\..\Assets\latite.ico");
+        var stream = Application.GetResourceStream(new Uri("pack://application:,,,/Assets/latite.ico"))?.Stream;
+        if (stream != null)
+            _notifyIcon.Icon =
+                new Icon(stream);
         _notifyIcon.Click += NotifyIconClick;
         
         _contextMenu.MenuItems.AddRange(new[] {_menuItem});
@@ -57,15 +85,6 @@ public partial class MainWindow
         _menuItem.Click += MenuExitItem_Click;
 
         _notifyIcon.ContextMenu = _contextMenu;
-        
-        Updater.UpdateInjector();
-        DiscordPresence.DiscordClient.Initialize();
-        DiscordPresence.IdlePresence();
-        ChangelogWindow.Closing += OnClosing;
-        CreditWindow.Closing += OnClosing;
-        AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
-        Updater.GetInjectorChangelog();
-        Updater.GetClientChangelog();
     }
 
     private void OnStateChanged(object sender, EventArgs args)
