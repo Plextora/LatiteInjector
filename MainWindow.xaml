@@ -233,12 +233,7 @@
                 FontSize="11px"
                 FontWeight="DemiBold"
                 SelectedIndex="0"
-                Style="{StaticResource ComboboxStyle}">
-                <ComboBoxItem Content="Version 1.19.51" Cursor="Hand" />
-                <ComboBoxItem Content="Version 1.18.12" Cursor="Hand" />
-                <ComboBoxItem Content="Version 1.18" Cursor="Hand" />
-                <ComboBoxItem Content="Version 1.17.41" Cursor="Hand" />
-            </ComboBox>
+                Style="{StaticResource ComboboxStyle}" />
 
             <Button
                 x:Name="LaunchButton"

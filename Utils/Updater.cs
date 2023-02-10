@@ -21,7 +21,7 @@ public static class Updater
     private const string CLIENT_CHANGELOG_URL =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/client_changelog";
     private const string GAME_VERSIONS_URL =
-        "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/game_versions";
+        "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/game_versions_but_I_lose_my_sanity";
     private static string? _selectedVersion;
 
     private static readonly WebClient? Client = new WebClient();
