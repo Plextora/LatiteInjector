@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Forms;
@@ -27,6 +29,7 @@ public partial class MainWindow
     public static bool IsMinecraftRunning;
     public static bool IsCustomDll;
     public static string? CustomDllName;
+    public static List<string> VersionList = new();
     
     private NotifyIcon? _notifyIcon;
     private readonly ContextMenu _contextMenu = new();
@@ -57,6 +60,7 @@ public partial class MainWindow
         CreditWindow.Closing += OnClosing;
         Updater.GetInjectorChangelog();
         Updater.GetClientChangelog();
+        Updater.FetchVersionList();
 
         _notifyIcon = new NotifyIcon();
         if (!File.Exists("first_run"))

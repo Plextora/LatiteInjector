@@ -20,6 +20,8 @@ public static class Updater
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/injector_changelog";
     private const string CLIENT_CHANGELOG_URL =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/client_changelog";
+    private const string GAME_VERSIONS_URL =
+        "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/game_versions";
     private static string? _selectedVersion;
 
     private static readonly WebClient? Client = new WebClient();
@@ -79,16 +81,35 @@ public static class Updater
         Application.Current.Shutdown();
     }
 
+    public static void FetchVersionList()
+    {
+        if (Form != null) {
+            Form.VersionSelectionComboBox.Items.Clear();
+            MainWindow.VersionList.Clear();
+            if (Client != null)
+            {
+                string str = Client.DownloadString(
+                    GAME_VERSIONS_URL);
+                if (str != null)
+                {
+                    str.Replace("\r", ""); // Remove RETURN so the string is clean.
+                    string[] lines = str.Split('\n');
+
+                    foreach (string line in lines)
+                    {
+                        MainWindow.VersionList.Add(line);
+                        string displayStr = "Version " + line;
+                        Form.VersionSelectionComboBox.Items.Add(displayStr);
+                    }
+                }
+            }
+            Form.VersionSelectionComboBox.SelectedIndex = 0;
+        }
+    }
+
     public static string GetSelectedVersion()
     {
-        return Form?.VersionSelectionComboBox.SelectedIndex switch
-        {
-            0 => "1.19.51",
-            1 => "1.18.12",
-            2 => "1.18",
-            3 => "1.17.41",
-            _ => "Could not get version"
-        };
+        return VersionList[Form.VersionSelectionComboBox.SelectedIndex];
     }
 
     private static string? GetChangelogLine(string? changelog, int line, string changelogNum)
