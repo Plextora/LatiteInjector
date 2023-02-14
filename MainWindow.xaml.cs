@@ -177,8 +177,7 @@ public partial class MainWindow
         }
 
         CustomDllName = openFileDialog.SafeFileName;
-        CustomDllName = CustomDllName.Replace(".dll", "");
-        
+
         if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
 
         Process.Start("minecraft:");
