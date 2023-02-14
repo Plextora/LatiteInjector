@@ -112,7 +112,7 @@ public partial class MainWindow
     {
         Show();
         if (!IsMinecraftRunning)
-            DiscordPresence.DiscordClient.UpdateState("Idling in the client");
+            DiscordPresence.DiscordClient.UpdateState("Idling in the injector");
         else if (IsMinecraftRunning)
             DiscordPresence.DiscordClient.UpdateState(
                 IsCustomDll
@@ -205,7 +205,7 @@ public partial class MainWindow
 
     private static void IfMinecraftExited(object sender, EventArgs e)
     {
-        DiscordPresence.DiscordClient.UpdateState("Idling in the client");
+        DiscordPresence.DiscordClient.UpdateState("Idling in the injector");
         Application.Current.Dispatcher.Invoke(SetStatusLabel.Default);
         IsMinecraftRunning = false;
         if (IsCustomDll) IsCustomDll = false;

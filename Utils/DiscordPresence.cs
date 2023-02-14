@@ -10,7 +10,7 @@ public static class DiscordPresence
     {
         DiscordClient.SetPresence(new RichPresence
         {
-            State = "Idling in the client",
+            State = "Idling in the injector",
             Timestamps = Timestamps.Now,
             Buttons = new[]
             {

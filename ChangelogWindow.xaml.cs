@@ -20,7 +20,7 @@ namespace LatiteInjector
             Hide();
             if (!IsMinecraftRunning)
             {
-                DiscordPresence.DiscordClient.UpdateState("Idling in the client");
+                DiscordPresence.DiscordClient.UpdateState("Idling in the injector");
                 return;
             }
             DiscordPresence.DiscordClient.UpdateState(
