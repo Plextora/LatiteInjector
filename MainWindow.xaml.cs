@@ -223,7 +223,21 @@ public partial class MainWindow
         DiscordPresence.DiscordClient.UpdateState("Reading the credits");
     }
 
-    private void DiscordIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => Process.Start("discord://-/invite/zcJfXxKTA4");
+    private void DiscordIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (Process.GetProcessesByName("Discord").Length > 0)
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "discord://-/invite/zcJfXxKTA4",
+                UseShellExecute = true
+            });
+        else
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://discord.gg/zcJfXxKTA4",
+                UseShellExecute = true
+            });
+    }
 
     private static void OnClosing(object sender, CancelEventArgs e) => e.Cancel = true;
     private static void MenuExitItem_Click(object sender, EventArgs e) => Application.Current.Shutdown();

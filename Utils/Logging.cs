@@ -26,6 +26,19 @@ public static class Logging
             MessageBoxImage.Error);
 
         if (result == MessageBoxResult.Yes)
-            Process.Start("discord://-/invite/2ZFsuTsfeX"); // discord protocols for the win!
+        {
+            if (Process.GetProcessesByName("Discord").Length > 0)
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "discord://-/invite/2ZFsuTsfeX",
+                    UseShellExecute = true
+                });
+            else
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://discord.gg/zcJfXxKTA4",
+                    UseShellExecute = true
+                });
+        }
     }
 }
