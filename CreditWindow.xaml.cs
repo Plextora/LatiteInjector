@@ -20,13 +20,10 @@ namespace LatiteInjector
             Hide();
             if (!IsMinecraftRunning)
             {
-                DiscordPresence.DiscordClient.UpdateState("Idling in the injector");
+                DiscordPresence.IdlePresence();
                 return;
             }
-            DiscordPresence.DiscordClient.UpdateState(
-                IsCustomDll
-                    ? $"Playing Minecraft {Updater.GetSelectedVersion()} with {CustomDllName}"
-                    : $"Playing Minecraft {Updater.GetSelectedVersion()} with Latite");
+            DiscordPresence.PlayingPresence();
         }
 
         private void Window_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();

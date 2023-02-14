@@ -80,10 +80,7 @@ public static class Injector
         Application.Current.Dispatcher.Invoke(() =>
         {
             SetStatusLabel.Completed("Minecraft has finished loading!");
-            DiscordPresence.DiscordClient.UpdateState(
-                IsCustomDll
-                    ? $"Playing Minecraft {Updater.GetSelectedVersion()} with {CustomDllName}"
-                    : $"Playing Minecraft {Updater.GetSelectedVersion()} with Latite");
+            DiscordPresence.PlayingPresence();
         });
     }
 }

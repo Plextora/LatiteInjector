@@ -54,8 +54,7 @@ public partial class MainWindow
             }
         }
         Updater.UpdateInjector();
-        DiscordPresence.DiscordClient.Initialize();
-        DiscordPresence.IdlePresence();
+        DiscordPresence.InitalizePresence();
         ChangelogWindow.Closing += OnClosing;
         CreditWindow.Closing += OnClosing;
         Updater.GetInjectorChangelog();
@@ -96,7 +95,7 @@ public partial class MainWindow
         if (WindowState == WindowState.Minimized)
         {
             Hide();
-            DiscordPresence.DiscordClient.UpdateState("Minimized to tray");
+            DiscordPresence.MinimizeToTrayPresence();
             if (_notifyIcon?.BalloonTipText == null) return;
             _notifyIcon.ShowBalloonTip(2000);
             _notifyIcon.BalloonTipText = null;
@@ -112,12 +111,9 @@ public partial class MainWindow
     {
         Show();
         if (!IsMinecraftRunning)
-            DiscordPresence.DiscordClient.UpdateState("Idling in the injector");
+            DiscordPresence.IdlePresence();
         else if (IsMinecraftRunning)
-            DiscordPresence.DiscordClient.UpdateState(
-                IsCustomDll
-                    ? $"Playing Minecraft {Updater.GetSelectedVersion()} with {CustomDllName}"
-                    : $"Playing Minecraft {Updater.GetSelectedVersion()} with Latite");
+            DiscordPresence.PlayingPresence();
         WindowState = _storedWindowState;
     }
 
@@ -205,7 +201,7 @@ public partial class MainWindow
 
     private static void IfMinecraftExited(object sender, EventArgs e)
     {
-        DiscordPresence.DiscordClient.UpdateState("Idling in the injector");
+        DiscordPresence.IdlePresence();
         Application.Current.Dispatcher.Invoke(SetStatusLabel.Default);
         IsMinecraftRunning = false;
         if (IsCustomDll) IsCustomDll = false;
@@ -214,13 +210,13 @@ public partial class MainWindow
     private void ChangelogButton_OnClick(object sender, RoutedEventArgs e)
     {
         ChangelogWindow.Show();
-        DiscordPresence.DiscordClient.UpdateState("Reading the changelog");
+        DiscordPresence.ChangelogPresence();
     }
 
     private void CreditButton_OnClick(object sender, RoutedEventArgs e)
     {
         CreditWindow.Show();
-        DiscordPresence.DiscordClient.UpdateState("Reading the credits");
+        DiscordPresence.CreditsPresence();
     }
 
     private void DiscordIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
