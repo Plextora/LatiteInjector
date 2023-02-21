@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Forms;
@@ -29,7 +27,7 @@ public partial class MainWindow
     public static bool IsMinecraftRunning;
     public static bool IsCustomDll;
     public static string? CustomDllName;
-    public static List<string> VersionList = new();
+    public static readonly List<string> VersionList = new();
 
     private NotifyIcon? _notifyIcon;
     private readonly ContextMenu _contextMenu = new();
@@ -39,6 +37,15 @@ public partial class MainWindow
     public MainWindow()
     {
         InitializeComponent();
+
+        if (!Environment.Is64BitOperatingSystem)
+        {
+            MessageBox.Show(
+                "It looks like you're running a 32 bit OS/Computer. Sadly, you cannot use Latite Client with a 32 bit OS/Computer. Please do not report this as a bug in the Discord, you literally cannot use Latite Client AT ALL (unless you have a 64 bit computer. If this is the case, just switch to the 64 bit version of Windows. If you're not sure if you have a 64 bit computer, it's safe to say that YOU CANNOT USE LATITE CLIENT!)",
+                "32 bit OS/Computer", MessageBoxButton.OK, MessageBoxImage.Error);
+            Application.Current.Shutdown();
+        }
+        
         AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         if (!FontManager.IsFontInstalled("Inter"))
         {
