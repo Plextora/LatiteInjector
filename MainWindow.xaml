@@ -271,7 +271,8 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Cursor="Hand"
-                MouseLeftButtonUp="CloseButton_Click"
+                MouseLeftButtonUp="CloseButton_LeftClick"
+                MouseRightButtonUp="CloseButton_RightClick"
                 Source="/Assets/X.png" />
             <Label
                 Width="258"

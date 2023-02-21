@@ -30,7 +30,7 @@ public partial class MainWindow
     public static bool IsCustomDll;
     public static string? CustomDllName;
     public static List<string> VersionList = new();
-    
+
     private NotifyIcon? _notifyIcon;
     private readonly ContextMenu _contextMenu = new();
     private readonly MenuItem _menuItem = new();
@@ -53,6 +53,7 @@ public partial class MainWindow
                 File.Delete($"{Directory.GetCurrentDirectory()}\\Inter.ttf");
             }
         }
+
         Updater.UpdateInjector();
         DiscordPresence.InitalizePresence();
         ChangelogWindow.Closing += OnClosing;
@@ -75,14 +76,15 @@ public partial class MainWindow
             _notifyIcon.BalloonTipText = null;
             _notifyIcon.BalloonTipTitle = null;
         }
+
         _notifyIcon.Text = "Latite Client";
         var stream = Application.GetResourceStream(new Uri("pack://application:,,,/Assets/latite.ico"))?.Stream;
         if (stream != null)
             _notifyIcon.Icon =
                 new Icon(stream);
         _notifyIcon.Click += NotifyIconClick;
-        
-        _contextMenu.MenuItems.AddRange(new[] {_menuItem});
+
+        _contextMenu.MenuItems.AddRange(new[] { _menuItem });
         _menuItem.Index = 0;
         _menuItem.Text = "Exit Latite Client";
         _menuItem.Click += MenuExitItem_Click;
@@ -129,16 +131,20 @@ public partial class MainWindow
         UnhandledExceptionEventArgs e) =>
         Logging.ErrorLogging(e.ExceptionObject as Exception);
 
-    private void CloseButton_Click(object sender, RoutedEventArgs e) =>
+    private void CloseButton_LeftClick(object sender, RoutedEventArgs e) =>
         WindowState = WindowState.Minimized;
+
+    private void CloseButton_RightClick(object sender, RoutedEventArgs e) =>
+        Application.Current.Shutdown();
+
     private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
 
     public static string? GetLine(string? text, int lineNo)
     {
-        string?[] lines = text?.Replace("\r","").Split('\n') ?? Array.Empty<string>();
-        return lines.Length >= lineNo ? lines[lineNo-1] : null;
+        string?[] lines = text?.Replace("\r", "").Split('\n') ?? Array.Empty<string>();
+        return lines.Length >= lineNo ? lines[lineNo - 1] : null;
     } // https://stackoverflow.com/a/2606405/20083929
-    
+
     private async void LaunchButton_OnLeftClick(object sender, RoutedEventArgs e)
     {
         if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
@@ -159,7 +165,7 @@ public partial class MainWindow
         Minecraft.EnableRaisingEvents = true;
         Minecraft.Exited += IfMinecraftExited;
     }
-    
+
     private async void LaunchButton_OnRightClick(object sender, RoutedEventArgs e)
     {
         SetStatusLabel.Pending("User is selecting DLL...");
