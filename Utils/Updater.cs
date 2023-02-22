@@ -9,7 +9,7 @@ namespace LatiteInjector.Utils;
 
 public static class Updater
 {
-    private const string INJECTOR_CURRENT_VERSION = "5";
+    private const string INJECTOR_CURRENT_VERSION = "6";
     private const string INJECTOR_VERSION_URL =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/launcher_version";
     private const string DLL_VERSION_URL =
@@ -21,7 +21,7 @@ public static class Updater
     private const string CLIENT_CHANGELOG_URL =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/client_changelog";
     private const string GAME_VERSIONS_URL =
-        "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/game_versions_but_I_lose_my_sanity";
+        "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/game_versions";
     private static string? _selectedVersion;
 
     private static readonly WebClient? Client = new WebClient();
