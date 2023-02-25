@@ -157,11 +157,12 @@
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
             <Label
+                x:Name="InjectorVersionLabel"
                 Width="73"
                 Margin="0,314,296,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
-                Content="Injector version: 5"
+                Content="Injector version: "
                 FontFamily="Inter"
                 FontSize="7px"
                 FontWeight="Regular"

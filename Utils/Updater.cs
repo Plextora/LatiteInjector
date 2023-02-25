@@ -9,7 +9,7 @@ namespace LatiteInjector.Utils;
 
 public static class Updater
 {
-    private const string INJECTOR_CURRENT_VERSION = "6";
+    public const string InjectorCurrentVersion = "7";
     private const string INJECTOR_VERSION_URL =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/launcher_version";
     private const string DLL_VERSION_URL =
@@ -64,7 +64,7 @@ public static class Updater
     {
         var latestVersion = GetLatestInjectorVersion();
         
-        if (Convert.ToInt32(INJECTOR_CURRENT_VERSION) >= Convert.ToInt32(latestVersion)) return;
+        if (Convert.ToInt32(InjectorCurrentVersion) >= Convert.ToInt32(latestVersion)) return;
         
         var result =
             MessageBox.Show("The injector is outdated! Do you want to download the newest version?",
