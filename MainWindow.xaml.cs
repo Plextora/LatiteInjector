@@ -70,16 +70,15 @@ public partial class MainWindow
         Updater.FetchVersionList();
 
         _notifyIcon = new NotifyIcon();
-        if (!File.Exists("first_run"))
+        if (!File.Exists($@"{Logging.RoamingStateDirectory}\Latite\injector_first_run"))
         {
             _notifyIcon.BalloonTipText =
                 "Latite Injector has been minimized. Click the tray icon to bring back the Latite Injector. Right click the tray icon to exit the Latite Injector";
             _notifyIcon.BalloonTipTitle = "I'm over here!";
-            File.Create("first_run");
+            File.Create($@"{Logging.RoamingStateDirectory}\Latite\injector_first_run").Close();
         }
         else
         {
-            File.Create("first_run");
             _notifyIcon.BalloonTipText = null;
             _notifyIcon.BalloonTipTitle = null;
         }

@@ -7,7 +7,7 @@ namespace LatiteInjector.Utils;
 
 public static class Logging
 {
-    private static readonly string RoamingStateDirectory =
+    public static readonly string RoamingStateDirectory =
         $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState";
     
     public static void ErrorLogging(Exception? error)
