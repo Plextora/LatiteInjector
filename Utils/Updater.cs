@@ -40,7 +40,7 @@ public static class Updater
         catch
         {
             SetStatusLabel.Error("Failed to check latest version of injector. Are you connected to the internet?");
-            return "Couldn't get latest version";
+            throw new Exception("Cannot get latest injector version!");
         }
     }
 
@@ -63,8 +63,15 @@ public static class Updater
     public static void UpdateInjector()
     {
         var latestVersion = GetLatestInjectorVersion();
-        
-        if (Convert.ToInt32(InjectorCurrentVersion) >= Convert.ToInt32(latestVersion)) return;
+
+        try
+        {
+            if (Convert.ToInt32(InjectorCurrentVersion) >= Convert.ToInt32(latestVersion)) return;
+        }
+        catch
+        {
+            throw new Exception("Failed to convert injector current version or latest injector version");
+        }
         
         var result =
             MessageBox.Show("The injector is outdated! Do you want to download the newest version?",
