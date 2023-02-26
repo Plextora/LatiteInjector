@@ -151,7 +151,6 @@
                 Margin="256,311,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Content="Last edited on February 25, 2023"
                 FontFamily="Inter"
                 FontSize="7px"
                 FontWeight="Regular"
