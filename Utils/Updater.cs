@@ -9,7 +9,7 @@ namespace LatiteInjector.Utils;
 
 public static class Updater
 {
-    public const string InjectorCurrentVersion = "7";
+    public const string InjectorCurrentVersion = "8";
     private const string INJECTOR_VERSION_URL =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/launcher_version";
     private const string DLL_VERSION_URL =
@@ -92,7 +92,7 @@ public static class Updater
     {
         if (Form != null) {
             Form.VersionSelectionComboBox.Items.Clear();
-            MainWindow.VersionList.Clear();
+            VersionList.Clear();
             if (Client != null)
             {
                 string str = Client.DownloadString(
@@ -104,7 +104,7 @@ public static class Updater
 
                     foreach (string line in lines)
                     {
-                        MainWindow.VersionList.Add(line);
+                        VersionList.Add(line);
                         string displayStr = "Version " + line;
                         Form.VersionSelectionComboBox.Items.Add(displayStr);
                     }
