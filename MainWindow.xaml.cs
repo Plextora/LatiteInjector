@@ -36,6 +36,8 @@ public partial class MainWindow
 
     public MainWindow()
     {
+        AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+        
         InitializeComponent();
 
         if (!Environment.Is64BitOperatingSystem)
@@ -46,7 +48,6 @@ public partial class MainWindow
             Application.Current.Shutdown();
         }
         
-        AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         if (!FontManager.IsFontInstalled("Inter"))
         {
             var result = MessageBox.Show(
@@ -55,7 +56,8 @@ public partial class MainWindow
 
             if (result == MessageBoxResult.Yes)
             {
-                Client?.DownloadFile("https://latite-client.discowd.com/r/InterFont.ttf", "Inter.ttf");
+                Client?.DownloadFile("https://github.com/Imrglop/Latite-Releases/raw/main/injector/InterFont.ttf",
+                    "Inter.ttf");
                 FontManager.InstallFont($"{Directory.GetCurrentDirectory()}\\Inter.ttf");
                 File.Delete($"{Directory.GetCurrentDirectory()}\\Inter.ttf");
             }
@@ -70,12 +72,12 @@ public partial class MainWindow
         Updater.FetchVersionList();
 
         _notifyIcon = new NotifyIcon();
-        if (!File.Exists($@"{Logging.RoamingStateDirectory}\Latite\injector_first_run"))
+        if (!File.Exists("first_run"))
         {
             _notifyIcon.BalloonTipText =
                 "Latite Injector has been minimized. Click the tray icon to bring back the Latite Injector. Right click the tray icon to exit the Latite Injector";
             _notifyIcon.BalloonTipTitle = "I'm over here!";
-            File.Create($@"{Logging.RoamingStateDirectory}\Latite\injector_first_run").Close();
+            File.Create("first_run").Close();
         }
         else
         {
