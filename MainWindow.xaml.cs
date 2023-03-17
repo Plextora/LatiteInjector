@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Interop;
 using LatiteInjector.Utils;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
@@ -173,12 +174,9 @@ public partial class MainWindow
         if (!Updater.IsVersionSimilar(version, Updater.GetSelectedVersion()))
         {
             shouldGo = false;
-            Thread.Sleep(500); // this is cringe but needed
-            Window form = new Window { Topmost = true };
-            {
-                var retval = MessageBox.Show(form, "Your minecraft version is " + version + ", but you are trying to inject Latite for version " + Updater.GetSelectedVersion() + ". Please select the proper version in the version list.", "Version Mismatch", MessageBoxButton.OK, MessageBoxImage.Error);
-                form.Close();
-            }
+            var wih = new WindowInteropHelper(this);
+            Api.SetForegroundWindow(wih.Handle);
+            MessageBox.Show(this, "Your minecraft version is " + version + ", but you are trying to inject Latite for version " + Updater.GetSelectedVersion() + ". Please select the proper version in the version list.", "Version Mismatch", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         if (shouldGo)
         {

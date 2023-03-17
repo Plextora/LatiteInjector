@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace LatiteInjector.Utils;
 
@@ -43,4 +44,7 @@ public static class Api
     [DllImport("kernel32.dll")]
     public static extern nint CreateRemoteThread(nint hProcess, nint lpThreadAttributes, uint dwStackSize,
         nint lpStartAddress, nint lpParameter, uint dwCreationFlags, nint lpThreadId);
+
+    [DllImport("user32.dll")]
+    public static extern int SetForegroundWindow(IntPtr hWnd);
 }
