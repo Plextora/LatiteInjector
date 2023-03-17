@@ -166,7 +166,8 @@ public partial class MainWindow
             break;
         }
 
-        await Injector.WaitForModules();
+        if (IsCustomDll)
+            await Injector.WaitForModules();
         Injector.Inject(Updater.DownloadDll());
         IsMinecraftRunning = true;
 
