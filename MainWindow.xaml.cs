@@ -172,16 +172,12 @@ public partial class MainWindow
         var version = Minecraft.MainModule.FileVersionInfo.FileVersion;
         if (!Updater.IsVersionSimilar(version, Updater.GetSelectedVersion()))
         {
+            shouldGo = false;
             Thread.Sleep(500); // this is cringe but needed
             Window form = new Window { Topmost = true };
             {
-                var retval = MessageBox.Show(form, "Your minecraft version is " + version + ", but you are trying to inject Latite for version " + Updater.GetSelectedVersion() + ". Please select the proper version in the version list.\nDo you want to proceed anyway?", "Version Mismatch", MessageBoxButton.YesNo, MessageBoxImage.Error, MessageBoxResult.No);
+                var retval = MessageBox.Show(form, "Your minecraft version is " + version + ", but you are trying to inject Latite for version " + Updater.GetSelectedVersion() + ". Please select the proper version in the version list.", "Version Mismatch", MessageBoxButton.OK, MessageBoxImage.Error);
                 form.Close();
-                shouldGo = false;
-                if (retval == MessageBoxResult.Yes)
-                {
-                    shouldGo = true;
-                }
             }
         }
         if (shouldGo)
