@@ -165,14 +165,28 @@ public partial class MainWindow
             Minecraft = Process.GetProcessesByName("Minecraft.Windows")[0];
             break;
         }
+        bool shouldGo = true;
+        var version = Minecraft.MainModule.FileVersionInfo.FileVersion;
+        if (!Updater.IsVersionSimilar(version, Updater.GetSelectedVersion()))
+        {
+            var result = MessageBox.Show("Your minecraft version is " + version + ", but you are trying to inject Latite for version " + Updater.GetSelectedVersion() + ". Please select the proper version in the version list.\nDo you want to proceed anyway?", "Version Mismatch", MessageBoxButton.YesNo, MessageBoxImage.Error);
+            shouldGo = false;
+            if (result == MessageBoxResult.Yes)
+            {
+                shouldGo = true;
+            }
+        }
+        if (shouldGo)
+        {
+            if (IsCustomDll)
+                await Injector.WaitForModules();
+            Injector.Inject(Updater.DownloadDll());
+            IsMinecraftRunning = true;
 
-        if (IsCustomDll)
-            await Injector.WaitForModules();
-        Injector.Inject(Updater.DownloadDll());
-        IsMinecraftRunning = true;
 
-        Minecraft.EnableRaisingEvents = true;
-        Minecraft.Exited += IfMinecraftExited;
+            Minecraft.EnableRaisingEvents = true;
+            Minecraft.Exited += IfMinecraftExited;
+        }
     }
 
     private async void LaunchButton_OnRightClick(object sender, RoutedEventArgs e)
