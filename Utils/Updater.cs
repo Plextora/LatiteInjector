@@ -59,6 +59,18 @@ public static class Updater
             throw new Exception("Cannot get latest DLL!");
         }
     }
+
+    public static bool IsVersionSimilar(string version1, string version2)
+    {
+        // version1: 1.19.63
+        // version2: 1.19.63.01
+        var split1 = version1.Split('.');
+        var split2 = version2.Split('.');
+
+        if (split1.Length != split2.Length + 1) return false;
+
+        return (split1[0] == split2[0] && split1[1] == split1[1] && split1[2][0] == split2[2][0]);
+    }
     
     public static void UpdateInjector()
     {

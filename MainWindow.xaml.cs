@@ -5,10 +5,13 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using LatiteInjector.Utils;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -165,13 +168,29 @@ public partial class MainWindow
             Minecraft = Process.GetProcessesByName("Minecraft.Windows")[0];
             break;
         }
+        bool shouldGo = true;
+        var version = Minecraft.MainModule.FileVersionInfo.FileVersion;
+        if (!Updater.IsVersionSimilar(version, Updater.GetSelectedVersion()))
+        {
+            shouldGo = false;
+            Thread.Sleep(500); // this is cringe but needed
+            Window form = new Window { Topmost = true };
+            {
+                var retval = MessageBox.Show(form, "Your minecraft version is " + version + ", but you are trying to inject Latite for version " + Updater.GetSelectedVersion() + ". Please select the proper version in the version list.", "Version Mismatch", MessageBoxButton.OK, MessageBoxImage.Error);
+                form.Close();
+            }
+        }
+        if (shouldGo)
+        {
+            if (IsCustomDll)
+                await Injector.WaitForModules();
+            Injector.Inject(Updater.DownloadDll());
+            IsMinecraftRunning = true;
 
-        await Injector.WaitForModules();
-        Injector.Inject(Updater.DownloadDll());
-        IsMinecraftRunning = true;
 
-        Minecraft.EnableRaisingEvents = true;
-        Minecraft.Exited += IfMinecraftExited;
+            Minecraft.EnableRaisingEvents = true;
+            Minecraft.Exited += IfMinecraftExited;
+        }
     }
 
     private async void LaunchButton_OnRightClick(object sender, RoutedEventArgs e)
