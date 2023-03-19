@@ -5,14 +5,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
-using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using LatiteInjector.Utils;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -182,7 +179,7 @@ public partial class MainWindow
         {
             if (IsCustomDll)
                 await Injector.WaitForModules();
-            Injector.Inject(Updater.DownloadDll());
+            Injector.Inject(Updater.DownloadDll(), "Minecraft.Windows");
             IsMinecraftRunning = true;
 
 
@@ -222,7 +219,7 @@ public partial class MainWindow
 
         IsCustomDll = true;
         await Injector.WaitForModules();
-        Injector.Inject(openFileDialog.FileName);
+        Injector.Inject(openFileDialog.FileName, "Minecraft.Windows");
         IsMinecraftRunning = true;
 
         Minecraft.EnableRaisingEvents = true;

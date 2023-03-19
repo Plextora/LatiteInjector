@@ -1,86 +1,109 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System.Security.Principal;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using static LatiteInjector.MainWindow;
 
-namespace LatiteInjector.Utils;
-
-public static class Injector
+namespace LatiteInjector.Utils
 {
-    public static void Inject(string path)
+    internal static class Injector
     {
-        // a lot of this is from https://github.com/notcarlton
+        [DllImport("Kernel32.dll")]
+        private static extern IntPtr OpenProcess(IntPtr dwDesiredAccess, bool bInheritHandle, uint dwProcessId);
 
-        SetStatusLabel.Pending($"Injecting {path} into Minecraft!");
+        [DllImport("Kernel32.dll")]
+        private static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, uint dwSize,
+            uint flAllocationType, uint flProtect);
 
-        try
+        [DllImport("Kernel32.dll")]
+        private static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, IntPtr lpBuffer,
+            ulong nSize, out IntPtr lpNumberOfBytesWritten);
+
+        [DllImport("Kernel32.dll")]
+        private static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize,
+            IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, ref IntPtr lpThreadId);
+
+        [DllImport("Kernel32.dll")]
+        private static extern bool CloseHandle(IntPtr hObject);
+
+        [DllImport("Kernel32.dll")]
+        private static extern IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
+
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr GetModuleHandle(string lpModuleName);
+
+        [DllImport("Kernel32.dll")]
+        public static extern uint GetLastError();
+
+        [DllImport("Kernel32.dll")]
+        public static extern bool VirtualFreeEx(IntPtr hProcess, IntPtr lpAddress, ulong dwAddress, uint dwFreeType);
+
+        public static bool Inject(string path, string application)
         {
-            ApplyAppPackages(path);
+            SetStatusLabel.Pending($"Injecting {path} into Minecraft!");
 
-            var targetProcess = Process.GetProcessesByName("Minecraft.Windows")[0];
+            var procs = Process.GetProcessesByName(application);
+            if (procs.Length == 0)
+            {
+                MessageBox.Show("Minecraft is not open!");
+                return false;
+            }
 
-            var procHandle = Api.OpenProcess(Api.PROCESS_CREATE_THREAD | Api.PROCESS_QUERY_INFORMATION |
-                                             Api.PROCESS_VM_OPERATION | Api.PROCESS_VM_WRITE | Api.PROCESS_VM_READ,
-                false, targetProcess.Id);
+            var proc = procs[0];
+            var procId = proc.Id;
+            var hProc = OpenProcess((IntPtr)2035711, false, (uint)procId);
+            if (hProc == IntPtr.Zero) return false;
 
-            var loadLibraryAddress = Api.GetProcAddress(Api.GetModuleHandle("kernel32.dll"), "LoadLibraryA");
+            var loc = VirtualAllocEx(hProc, IntPtr.Zero, (uint)(path.Length + 1), 12288, 64);
+            if (loc == IntPtr.Zero)
+                MessageBox.Show("Could not allocate!");
+            IntPtr _;
+            if (!WriteProcessMemory(hProc, loc, Marshal.StringToHGlobalUni(path), (ulong)(path.Length * 2 + 2), out _)) MessageBox.Show("Could not write process memory!");
+            var hThread = CreateRemoteThread(hProc, IntPtr.Zero, 0,
+                GetProcAddress(GetModuleHandle("Kernel32.dll"), "LoadLibraryW"), loc, 0, ref _);
+            if (!IsCustomDll)
+                SetStatusLabel.Completed("Injected Latite Client into Minecraft successfully!");
+            else if (IsCustomDll)
+                SetStatusLabel.Completed($"Injected {CustomDllName} into Minecraft successfully!");
 
-            var allocMemAddress = Api.VirtualAllocEx(procHandle, IntPtr.Zero,
-                (uint)((path.Length + 1) * Marshal.SizeOf(typeof(char))), Api.MEM_COMMIT
-                                                                          | Api.MEM_RESERVE, Api.PAGE_READWRITE);
+            Thread.Sleep(500); // good enough for now
 
-            Api.WriteProcessMemory(procHandle, allocMemAddress, Encoding.Default.GetBytes(path),
-                (uint)((path.Length + 1) * Marshal.SizeOf(typeof(char))), out _);
-            Api.CreateRemoteThread(procHandle, IntPtr.Zero, 0, loadLibraryAddress,
-                allocMemAddress, 0, IntPtr.Zero);
-            
-            SetStatusLabel.Completed("Injected Latite Client into Minecraft successfully!");
-            DiscordPresence.PlayingPresence();
+            VirtualFreeEx(hProc, loc, 0, 0x8000 /*fully release*/);
+
+            if (hThread == IntPtr.Zero)
+            {
+                MessageBox.Show("Could not create remote thread!");
+                return false;
+            }
+
+            CloseHandle(hThread);
+
+            CloseHandle(hProc);
+
+            return true;
         }
-        catch (Exception? e)
-        {
-            SetStatusLabel.Error("Ran into an error while injecting!");
-            Logging.ErrorLogging(e);
-        }
 
-        void ApplyAppPackages(string path)
+        public static async Task WaitForModules()
         {
-            var infoFile = new FileInfo(path);
-            var fSecurity = infoFile.GetAccessControl();
-            fSecurity.AddAccessRule(
-                new FileSystemAccessRule(new SecurityIdentifier("S-1-15-2-1"),
-                    FileSystemRights.FullControl, InheritanceFlags.None,
-                    PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-
-            infoFile.SetAccessControl(fSecurity);
-        }
-    }
-    
-    public static async Task WaitForModules()
-    {
-        await Task.Run(() =>
-        {
+            await Task.Run(() =>
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    SetStatusLabel.Pending("Waiting for Minecraft to finish loading...");
+                });
+                while (true)
+                {
+                    Minecraft?.Refresh();
+                    if (Minecraft is { Modules.Count: > 160 }) break;
+                    Thread.Sleep(4000);
+                }
+            });
             Application.Current.Dispatcher.Invoke(() =>
             {
-                SetStatusLabel.Pending("Waiting for Minecraft to finish loading...");
+                SetStatusLabel.Completed("Minecraft has finished loading!");
             });
-            while (true)
-            {
-                Minecraft?.Refresh();
-                if (Minecraft is { Modules.Count: > 160 }) break;
-                Thread.Sleep(4000);
-            }
-        });
-        Application.Current.Dispatcher.Invoke(() =>
-        {
-            SetStatusLabel.Completed("Minecraft has finished loading!");
-        });
+        }
     }
 }
