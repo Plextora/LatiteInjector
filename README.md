@@ -5,7 +5,7 @@
 # LatiteInjector
 Latite Client's new and improved injector!
 
-![Header](https://media.discordapp.net/attachments/885657616490041418/1073760978082213938/image.png)
+![Header](https://user-images.githubusercontent.com/71889427/226191760-85e3b8c0-4c3e-4744-a3c3-29f44a5f6dbf.png)
 
 #
 
