@@ -29,7 +29,7 @@ public static class DiscordPresence
     public static void PlayingPresence() => DiscordClient.UpdateState(
         IsCustomDll
             ? $"Playing Minecraft {Updater.GetSelectedVersion()} with {CustomDllName}"
-            : $"Playing Minecraft {Updater.GetSelectedVersion()} with Latite");
+            : $"Playing Minecraft {Updater.GetSelectedVersion()}");
     public static void IdlePresence() => DiscordClient.UpdateState("Idling in the injector");
     public static void ChangelogPresence() => DiscordClient.UpdateState("Reading the changelog");
     public static void CreditsPresence() => DiscordClient.UpdateState("Reading the credits");
