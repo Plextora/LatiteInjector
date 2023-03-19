@@ -9,7 +9,7 @@ namespace LatiteInjector.Utils;
 
 public static class Updater
 {
-    public const string InjectorCurrentVersion = "8";
+    public const string InjectorCurrentVersion = "9";
     private const string INJECTOR_VERSION_URL =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/launcher_version";
     private const string DLL_VERSION_URL =
