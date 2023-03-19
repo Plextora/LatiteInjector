@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +16,13 @@ namespace LatiteInjector.Utils
         public static bool Inject(string path, string application)
         {
             SetStatusLabel.Pending($"Injecting {path} into Minecraft!");
+
+            var fileInfo = new FileInfo(path);
+            var accessControl = fileInfo.GetAccessControl();
+            accessControl.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier("S-1-15-2-1"),
+                FileSystemRights.FullControl, InheritanceFlags.None, PropagationFlags.NoPropagateInherit,
+                AccessControlType.Allow));
+            fileInfo.SetAccessControl(accessControl);
 
             var procs = Process.GetProcessesByName(application);
             if (procs.Length == 0)
