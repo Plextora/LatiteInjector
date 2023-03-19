@@ -68,7 +68,7 @@ namespace LatiteInjector.Utils
                 while (true)
                 {
                     Minecraft?.Refresh();
-                    if (Minecraft is { Modules.Count: > 160 }) break;
+                    if (Minecraft is { Modules.Count: > 158 }) break;
                     Thread.Sleep(4000);
                 }
             });
