@@ -42,6 +42,7 @@ public static class Injector
                 allocMemAddress, 0, IntPtr.Zero);
             
             SetStatusLabel.Completed("Injected Latite Client into Minecraft successfully!");
+            DiscordPresence.PlayingPresence();
         }
         catch (Exception? e)
         {
@@ -80,7 +81,6 @@ public static class Injector
         Application.Current.Dispatcher.Invoke(() =>
         {
             SetStatusLabel.Completed("Minecraft has finished loading!");
-            DiscordPresence.PlayingPresence();
         });
     }
 }
