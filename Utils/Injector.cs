@@ -10,7 +10,6 @@ namespace LatiteInjector.Utils
 {
     internal static class Injector
     {
-
         public static bool Inject(string path, string application)
         {
             SetStatusLabel.Pending($"Injecting {path} into Minecraft!");
@@ -39,6 +38,7 @@ namespace LatiteInjector.Utils
                 SetStatusLabel.Completed("Injected Latite Client into Minecraft successfully!");
             else if (IsCustomDll)
                 SetStatusLabel.Completed($"Injected {CustomDllName} into Minecraft successfully!");
+            DiscordPresence.PlayingPresence();
 
             Thread.Sleep(500); // good enough for now
 

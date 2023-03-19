@@ -179,10 +179,9 @@ public partial class MainWindow
         {
             if (IsCustomDll)
                 await Injector.WaitForModules();
-            Injector.Inject(Updater.DownloadDll(), "Minecraft.Windows");
+            if (!Injector.Inject(Updater.DownloadDll(), "Minecraft.Windows"))
+                SetStatusLabel.Error("Injection has failed!");
             IsMinecraftRunning = true;
-
-
             Minecraft.EnableRaisingEvents = true;
             Minecraft.Exited += IfMinecraftExited;
         }
@@ -219,9 +218,9 @@ public partial class MainWindow
 
         IsCustomDll = true;
         await Injector.WaitForModules();
-        Injector.Inject(openFileDialog.FileName, "Minecraft.Windows");
+        if (!Injector.Inject(openFileDialog.FileName, "Minecraft.Windows"))
+            SetStatusLabel.Error("Injection has failed!");
         IsMinecraftRunning = true;
-
         Minecraft.EnableRaisingEvents = true;
         Minecraft.Exited += IfMinecraftExited;
     }
