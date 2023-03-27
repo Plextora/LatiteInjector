@@ -103,6 +103,21 @@ public partial class MainWindow
 
         _notifyIcon.ContextMenu = _contextMenu;
     }
+    
+    private static void OpenGame()
+    {
+	    var process = new Process
+	    {
+		    StartInfo = new ProcessStartInfo
+		    {
+			    WindowStyle = ProcessWindowStyle.Normal,
+			    FileName = "explorer.exe",
+			    Arguments = "shell:appsFolder\\Microsoft.MinecraftUWP_8wekyb3d8bbwe!App"
+		    }
+	    };
+	    
+	    process.Start();
+    }
 
     private void OnStateChanged(object sender, EventArgs args)
     {
@@ -161,7 +176,7 @@ public partial class MainWindow
     {
         if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
 
-        Process.Start("minecraft:");
+        OpenGame();
 
         while (true)
         {
@@ -211,7 +226,7 @@ public partial class MainWindow
 
         if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
 
-        Process.Start("minecraft:");
+        OpenGame();
 
         while (true)
         {
