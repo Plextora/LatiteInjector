@@ -91,6 +91,7 @@ public partial class MainWindow
 
         _notifyIcon.Text = "Latite Client";
         var stream = Application.GetResourceStream(new Uri("pack://application:,,,/Assets/latite.ico"))?.Stream;
+
         if (stream != null)
             _notifyIcon.Icon =
                 new Icon(stream);

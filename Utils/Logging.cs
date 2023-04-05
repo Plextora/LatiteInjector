@@ -20,7 +20,7 @@ public static class Logging
         File.WriteAllText(filePath, error?.ToString());
 
         var result = MessageBox.Show(
-            "An error has occurred! Please report this error to the developers! If you don't know how to report errors, click the \"Yes\" button to visit the #bugs forum in the Discord!",
+            "An error has occurred! Please report this error to the developers!\nClick Yes to go to the Latite Discord.\n\n" + error?.ToString().Substring(0, 500) + "...",
             "An unhandled error has occurred!",
             MessageBoxButton.YesNo,
             MessageBoxImage.Error);
