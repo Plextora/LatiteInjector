@@ -5,12 +5,15 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using LatiteInjector.Utils;
+using Microsoft.Win32;
+using Newtonsoft.Json.Linq;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using Application = System.Windows.Application;
@@ -50,6 +53,21 @@ public partial class MainWindow
                 "It looks like you're running a 32 bit OS/Computer. Sadly, you cannot use Latite Client with a 32 bit OS/Computer. Please do not report this as a bug, make a ticket, or ask how to switch to 64 bit in the Discord, you cannot use Latite Client AT ALl!!!",
                 "32 bit OS/Computer", MessageBoxButton.OK, MessageBoxImage.Error);
             Application.Current.Shutdown();
+        }
+
+        if (!VisualCxxInstalled())
+        {
+            var response = MessageBox.Show(
+                "Looks like you don't have the Microsoft Visual C++ needed for Latite. Do you want to install it?",
+                "Visual C++", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (response == MessageBoxResult.Yes)
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://aka.ms/vs/17/release/vc_redist.x64.exe",
+                    UseShellExecute = true
+                });
+            }
         }
         
         if (!FontManager.IsFontInstalled("Inter"))
@@ -105,6 +123,23 @@ public partial class MainWindow
         _notifyIcon.ContextMenu = _contextMenu;
     }
     
+    private bool VisualCxxInstalled()
+    {
+        // https://stackoverflow.com/questions/908850/get-installed-applications-in-a-system
+        string registryKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
+        using RegistryKey key = Registry.LocalMachine.OpenSubKey(registryKey);
+        foreach (string subkeyName in key.GetSubKeyNames())
+        {
+            using RegistryKey subkey = key.OpenSubKey(subkeyName);
+            var name = subkey.GetValue("DisplayName");
+            if (name != null)
+            {
+                if (Regex.IsMatch(name.ToString(), @"C\+\+.*202.*X64")) return true;
+            }
+        }
+        return false;
+    }
+
     private static void OpenGame()
     {
 	    var process = new Process
