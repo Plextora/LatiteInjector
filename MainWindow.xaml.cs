@@ -208,11 +208,8 @@ public partial class MainWindow
         UnhandledExceptionEventArgs e) =>
         Logging.ErrorLogging(e.ExceptionObject as Exception);
 
-    private void CloseButton_LeftClick(object sender, RoutedEventArgs e) =>
+    private void CloseButton_Click(object sender, RoutedEventArgs e) =>
         WindowState = WindowState.Minimized;
-
-    private void CloseButton_RightClick(object sender, RoutedEventArgs e) =>
-        Application.Current.Shutdown();
 
     private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
 
