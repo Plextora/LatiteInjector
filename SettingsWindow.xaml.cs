@@ -6,13 +6,14 @@ using static LatiteInjector.MainWindow;
 namespace LatiteInjector
 {
     /// <summary>
-    /// Interaction logic for CreditWindow.xaml
+    /// Interaction logic for SettingsWindow.xaml
     /// </summary>
-    public partial class CreditWindow
+    public partial class SettingsWindow : Window
     {
-        public CreditWindow()
+        public SettingsWindow()
         {
             InitializeComponent();
+            IsDiscordPresenceEnabled = (bool)DiscordPresenceCheckBox.IsChecked;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -30,5 +31,14 @@ namespace LatiteInjector
         }
 
         private void Window_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
+
+        private void DiscordPresenceCheckBox_OnClick(object sender, RoutedEventArgs e)
+        {
+            IsDiscordPresenceEnabled = (bool)DiscordPresenceCheckBox.IsChecked;
+            if (IsDiscordPresenceEnabled)
+                DiscordPresence.DefaultPresence();
+            else if (!IsDiscordPresenceEnabled)
+                DiscordPresence.StopPresence();
+        }
     }
 }

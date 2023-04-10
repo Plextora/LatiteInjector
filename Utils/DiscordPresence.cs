@@ -1,4 +1,5 @@
 ﻿using DiscordRPC;
+using System.Threading.Tasks;
 using static LatiteInjector.MainWindow;
 
 namespace LatiteInjector.Utils;
@@ -10,6 +11,12 @@ public static class DiscordPresence
     public static void InitalizePresence()
     {
         DiscordClient.Initialize();
+        DefaultPresence();
+        IsDiscordPresenceEnabled = true;
+    }
+
+    public static void DefaultPresence()
+    {
         DiscordClient.SetPresence(new RichPresence
         {
             State = "Idling in the injector",
@@ -24,6 +31,7 @@ public static class DiscordPresence
                 LargeImageText = "Latite Client Icon"
             }
         });
+        IsDiscordPresenceEnabled = true;
     }
 
     public static void PlayingPresence() => DiscordClient.UpdateState(
@@ -31,6 +39,7 @@ public static class DiscordPresence
             ? $"Playing Minecraft {Updater.GetSelectedVersion()} with {CustomDllName}"
             : $"Playing Minecraft {Updater.GetSelectedVersion()}");
     public static void IdlePresence() => DiscordClient.UpdateState("Idling in the injector");
+    public static void SettingsPresence() => DiscordClient.UpdateState("In settings");
     public static void ChangelogPresence() => DiscordClient.UpdateState("Reading the changelog");
     public static void CreditsPresence() => DiscordClient.UpdateState("Reading the credits");
     public static void MinimizeToTrayPresence()
@@ -45,9 +54,16 @@ public static class DiscordPresence
 
     public static void StopPresence()
     {
+        DiscordClient.ClearPresence();
+        IsDiscordPresenceEnabled = false;
+    }
+
+    public static void ShutdownPresence()
+    {
         if (DiscordClient.IsDisposed) return;
         DiscordClient.ClearPresence();
         DiscordClient.Deinitialize();
         DiscordClient.Dispose();
+        IsDiscordPresenceEnabled = false;
     }
 }

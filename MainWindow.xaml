@@ -201,9 +201,18 @@
                 Cursor="Hand"
                 MouseLeftButtonDown="DiscordIcon_MouseLeftButtonDown"
                 Source="/Assets/Discord Icon.png" />
+            <Image
+                Width="40"
+                Height="39"
+                Margin="588,382,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Cursor="Hand"
+                MouseLeftButtonDown="SettingsButton_MouseLeftButtonDown"
+                Source="/Assets/SettingsIcon.png" />
             <Label
                 x:Name="ChangelogLabel"
-                Margin="479,389,0,0"
+                Margin="435,390,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Content="Changelog"
@@ -214,7 +223,7 @@
                 MouseLeftButtonUp="ChangelogButton_OnClick" />
             <Label
                 x:Name="CreditLabel"
-                Margin="571,389,0,0"
+                Margin="522,390,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Content="Credits"
@@ -285,7 +294,7 @@
                 Foreground="White" />
             <Label
                 x:Name="StatusLabel"
-                Width="420"
+                Width="376"
                 Margin="54,395,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"

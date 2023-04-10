@@ -28,6 +28,7 @@ namespace LatiteInjector;
 public partial class MainWindow
 {
     public static Process? Minecraft;
+    private static readonly SettingsWindow SettingsWindow = new();
     private static readonly ChangelogWindow ChangelogWindow = new();
     private static readonly CreditWindow CreditWindow = new();
     private static readonly WebClient? Client = new WebClient();
@@ -40,6 +41,8 @@ public partial class MainWindow
     private readonly ContextMenu _contextMenu = new();
     private readonly MenuItem _menuItem = new();
     private WindowState _storedWindowState = WindowState.Normal;
+
+    public static bool IsDiscordPresenceEnabled;
 
     public MainWindow()
     {
@@ -87,6 +90,7 @@ public partial class MainWindow
 
         Updater.UpdateInjector();
         DiscordPresence.InitalizePresence();
+        SettingsWindow.Closing += OnClosing;
         ChangelogWindow.Closing += OnClosing;
         CreditWindow.Closing += OnClosing;
         Updater.GetInjectorChangelog();
@@ -160,7 +164,8 @@ public partial class MainWindow
         if (WindowState == WindowState.Minimized)
         {
             Hide();
-            DiscordPresence.MinimizeToTrayPresence();
+            if (IsDiscordPresenceEnabled)
+                DiscordPresence.MinimizeToTrayPresence();
             if (_notifyIcon?.BalloonTipText == null) return;
             _notifyIcon.ShowBalloonTip(2000);
             _notifyIcon.BalloonTipText = null;
@@ -175,10 +180,11 @@ public partial class MainWindow
     private void NotifyIconClick(object sender, EventArgs e)
     {
         Show();
-        if (!IsMinecraftRunning)
-            DiscordPresence.IdlePresence();
-        else if (IsMinecraftRunning)
-            DiscordPresence.PlayingPresence();
+        if (IsDiscordPresenceEnabled)
+            if (!IsMinecraftRunning)
+                DiscordPresence.IdlePresence();
+            else if (IsMinecraftRunning)
+                DiscordPresence.PlayingPresence();
         WindowState = _storedWindowState;
     }
 
@@ -282,7 +288,8 @@ public partial class MainWindow
 
     private static void IfMinecraftExited(object sender, EventArgs e)
     {
-        DiscordPresence.IdlePresence();
+        if (IsDiscordPresenceEnabled)
+            DiscordPresence.IdlePresence();
         Application.Current.Dispatcher.Invoke(SetStatusLabel.Default);
         IsMinecraftRunning = false;
         if (IsCustomDll) IsCustomDll = false;
@@ -291,13 +298,22 @@ public partial class MainWindow
     private void ChangelogButton_OnClick(object sender, RoutedEventArgs e)
     {
         ChangelogWindow.Show();
-        DiscordPresence.ChangelogPresence();
+        if (IsDiscordPresenceEnabled)
+            DiscordPresence.ChangelogPresence();
     }
 
     private void CreditButton_OnClick(object sender, RoutedEventArgs e)
     {
         CreditWindow.Show();
-        DiscordPresence.CreditsPresence();
+        if (IsDiscordPresenceEnabled)
+            DiscordPresence.CreditsPresence();
+    }
+
+    private void SettingsButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        SettingsWindow.Show();
+        if (IsDiscordPresenceEnabled)
+            DiscordPresence.SettingsPresence();
     }
 
     private void DiscordIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -321,7 +337,7 @@ public partial class MainWindow
 
     private void Window_Closing(object sender, CancelEventArgs e)
     {
-        DiscordPresence.StopPresence();
+        DiscordPresence.ShutdownPresence();
         _notifyIcon?.Dispose();
         _notifyIcon = null;
     }

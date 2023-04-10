@@ -19,12 +19,15 @@ namespace LatiteInjector
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Hide();
-            if (!IsMinecraftRunning)
+            if (IsDiscordPresenceEnabled)
             {
-                DiscordPresence.IdlePresence();
-                return;
+                if (!IsMinecraftRunning)
+                {
+                    DiscordPresence.IdlePresence();
+                    return;
+                }
+                DiscordPresence.PlayingPresence();
             }
-            DiscordPresence.PlayingPresence();
         }
 
         private void Window_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
