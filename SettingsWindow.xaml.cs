@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using LatiteInjector.Utils;
 using static LatiteInjector.MainWindow;
@@ -13,9 +14,43 @@ namespace LatiteInjector
         public SettingsWindow()
         {
             InitializeComponent();
-            IsDiscordPresenceEnabled = (bool)DiscordPresenceCheckBox.IsChecked;
-            IsHideToTrayEnabled = (bool)HideToTrayCheckBox.IsChecked;
+            ConfigSetup();
         }
+
+        private void ConfigSetup()
+        {
+            if (!File.Exists("config.txt"))
+            {
+                File.Create("config.txt").Close();
+                string defaultConfigText =
+                    "discordstatus:true\n" +
+                    "hidetotray:true";
+                
+                File.WriteAllText("config.txt", defaultConfigText);
+
+                // set default config values
+                IsDiscordPresenceEnabled = true;
+                IsHideToTrayEnabled = true;
+            }
+            else
+                LoadConfig();
+        }
+
+        private void LoadConfig()
+        {
+            string config = File.ReadAllText("config.txt");
+            IsDiscordPresenceEnabled = GetLine(config, 1) == "discordstatus:true";
+            IsHideToTrayEnabled = GetLine(config, 2) == "hidetotray:true";
+            DiscordPresenceCheckBox.IsChecked = IsDiscordPresenceEnabled;
+            HideToTrayCheckBox.IsChecked = IsHideToTrayEnabled;
+        }
+
+        private void ModifyConfig(string newText, int lineToEdit)
+        {
+            string[] arrLine = File.ReadAllLines("config.txt");
+            arrLine[lineToEdit - 1] = newText;
+            File.WriteAllLines("config.txt", arrLine);
+        } // https://stackoverflow.com/a/35496185
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -37,12 +72,24 @@ namespace LatiteInjector
         {
             IsDiscordPresenceEnabled = (bool)DiscordPresenceCheckBox.IsChecked;
             if (IsDiscordPresenceEnabled)
+            {
                 DiscordPresence.DefaultPresence();
+                ModifyConfig("discordstatus:true", 1);
+            }
             else if (!IsDiscordPresenceEnabled)
+            {
                 DiscordPresence.StopPresence();
+                ModifyConfig("discordstatus:false", 1);
+            }
         }
 
-        private void HideToTrayCheckBox_OnClick(object sender, RoutedEventArgs e) =>
+        private void HideToTrayCheckBox_OnClick(object sender, RoutedEventArgs e)
+        {
             IsHideToTrayEnabled = (bool)HideToTrayCheckBox.IsChecked;
+            if (IsHideToTrayEnabled)
+                ModifyConfig("hidetotray:true", 2);
+            else if (!IsHideToTrayEnabled)
+                ModifyConfig("hidetotray:false", 2);
+        }
     }
 }

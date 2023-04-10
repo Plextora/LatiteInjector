@@ -8,12 +8,7 @@ public static class DiscordPresence
 {
     private static readonly DiscordRpcClient DiscordClient = new("1066896173799047199");
 
-    public static void InitalizePresence()
-    {
-        DiscordClient.Initialize();
-        DefaultPresence();
-        IsDiscordPresenceEnabled = true;
-    }
+    public static void InitializePresence() => DiscordClient.Initialize();
 
     public static void DefaultPresence()
     {

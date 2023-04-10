@@ -90,7 +90,9 @@ public partial class MainWindow
         }
 
         Updater.UpdateInjector();
-        DiscordPresence.InitalizePresence();
+        DiscordPresence.InitializePresence();
+        if (IsDiscordPresenceEnabled)
+            DiscordPresence.DefaultPresence();
         SettingsWindow.Closing += OnClosing;
         ChangelogWindow.Closing += OnClosing;
         CreditWindow.Closing += OnClosing;
