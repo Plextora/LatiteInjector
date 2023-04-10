@@ -43,6 +43,7 @@ public partial class MainWindow
     private WindowState _storedWindowState = WindowState.Normal;
 
     public static bool IsDiscordPresenceEnabled;
+    public static bool IsHideToTrayEnabled;
 
     public MainWindow()
     {
@@ -161,18 +162,23 @@ public partial class MainWindow
 
     private void OnStateChanged(object sender, EventArgs args)
     {
-        if (WindowState == WindowState.Minimized)
+        if (IsHideToTrayEnabled)
         {
-            Hide();
-            if (IsDiscordPresenceEnabled)
-                DiscordPresence.MinimizeToTrayPresence();
-            if (_notifyIcon?.BalloonTipText == null) return;
-            _notifyIcon.ShowBalloonTip(2000);
-            _notifyIcon.BalloonTipText = null;
-            _notifyIcon.BalloonTipTitle = null;
+            if (WindowState == WindowState.Minimized)
+            {
+                Hide();
+                if (IsDiscordPresenceEnabled)
+                    DiscordPresence.MinimizeToTrayPresence();
+                if (_notifyIcon?.BalloonTipText == null) return;
+                _notifyIcon.ShowBalloonTip(2000);
+                _notifyIcon.BalloonTipText = null;
+                _notifyIcon.BalloonTipTitle = null;
+            }
+            else
+                _storedWindowState = WindowState;
         }
-        else
-            _storedWindowState = WindowState;
+        else if (!IsHideToTrayEnabled)
+            Application.Current.Shutdown();
     }
 
     private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs args) => CheckTrayIcon();

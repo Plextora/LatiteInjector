@@ -14,6 +14,7 @@ namespace LatiteInjector
         {
             InitializeComponent();
             IsDiscordPresenceEnabled = (bool)DiscordPresenceCheckBox.IsChecked;
+            IsHideToTrayEnabled = (bool)HideToTrayCheckBox.IsChecked;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -40,5 +41,8 @@ namespace LatiteInjector
             else if (!IsDiscordPresenceEnabled)
                 DiscordPresence.StopPresence();
         }
+
+        private void HideToTrayCheckBox_OnClick(object sender, RoutedEventArgs e) =>
+            IsHideToTrayEnabled = (bool)HideToTrayCheckBox.IsChecked;
     }
 }
