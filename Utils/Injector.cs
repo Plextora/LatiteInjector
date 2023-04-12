@@ -44,6 +44,8 @@ public static class Injector
             SetStatusLabel.Completed("Injected Latite Client into Minecraft successfully!");
             if (IsDiscordPresenceEnabled)
                 DiscordPresence.PlayingPresence();
+            if (IsLoggingEnabled)
+                Logging.LogInjection();
         }
         catch (Exception? e)
         {

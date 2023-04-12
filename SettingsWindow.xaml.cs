@@ -24,13 +24,15 @@ namespace LatiteInjector
                 File.Create("config.txt").Close();
                 string defaultConfigText =
                     "discordstatus:true\n" +
-                    "hidetotray:true";
+                    "hidetotray:true\n" +
+                    "data:true";
                 
                 File.WriteAllText("config.txt", defaultConfigText);
 
                 // set default config values
                 IsDiscordPresenceEnabled = true;
                 IsHideToTrayEnabled = true;
+                IsLoggingEnabled = true;
             }
             else
                 LoadConfig();
@@ -41,8 +43,10 @@ namespace LatiteInjector
             string config = File.ReadAllText("config.txt");
             IsDiscordPresenceEnabled = GetLine(config, 1) == "discordstatus:true";
             IsHideToTrayEnabled = GetLine(config, 2) == "hidetotray:true";
+            IsLoggingEnabled = GetLine(config, 3) == "data:true";
             DiscordPresenceCheckBox.IsChecked = IsDiscordPresenceEnabled;
             HideToTrayCheckBox.IsChecked = IsHideToTrayEnabled;
+            LogInjectionCheckBox.IsChecked = IsLoggingEnabled;
         }
 
         private void ModifyConfig(string newText, int lineToEdit)
@@ -90,6 +94,15 @@ namespace LatiteInjector
                 ModifyConfig("hidetotray:true", 2);
             else if (!IsHideToTrayEnabled)
                 ModifyConfig("hidetotray:false", 2);
+        }
+
+        private void LogInjectionCheckBox_OnClick(object sender, RoutedEventArgs e)
+        {
+            IsLoggingEnabled = (bool)LogInjectionCheckBox.IsChecked;
+            if (IsLoggingEnabled)
+                ModifyConfig("data:true", 3);
+            else if (!IsLoggingEnabled)
+                ModifyConfig("data:false", 3);
         }
     }
 }
