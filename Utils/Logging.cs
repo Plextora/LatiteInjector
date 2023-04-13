@@ -39,7 +39,7 @@ public static class Logging
             else
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = "https://discord.gg/zcJfXxKTA4",
+                    FileName = "https://discord.gg/2ZFsuTsfeX",
                     UseShellExecute = true
                 });
         }
