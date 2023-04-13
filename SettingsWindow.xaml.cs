@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using LatiteInjector.Utils;
@@ -17,18 +18,23 @@ namespace LatiteInjector
             ConfigSetup();
         }
 
+        public static string ConfigFilePath =
+            $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LatiteInjector\\config.txt";
+        private static readonly string LatiteInjectorFolder = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LatiteInjector";
+
         private void ConfigSetup()
         {
-            if (!File.Exists("config.txt"))
+            if (!File.Exists(ConfigFilePath))
             {
-                File.Create("config.txt").Close();
+                Directory.CreateDirectory(LatiteInjectorFolder);
+                File.Create(ConfigFilePath).Close();
                 string defaultConfigText =
                     "discordstatus:true\n" +
                     "hidetotray:true\n" +
                     "data:true\n" +
                     "firstrun:true";
                 
-                File.WriteAllText("config.txt", defaultConfigText);
+                File.WriteAllText(ConfigFilePath, defaultConfigText);
 
                 // set default config values
                 IsDiscordPresenceEnabled = true;
@@ -41,7 +47,7 @@ namespace LatiteInjector
 
         private void LoadConfig()
         {
-            string config = File.ReadAllText("config.txt");
+            string config = File.ReadAllText(ConfigFilePath);
             IsDiscordPresenceEnabled = GetLine(config, 1) == "discordstatus:true";
             IsHideToTrayEnabled = GetLine(config, 2) == "hidetotray:true";
             IsLoggingEnabled = GetLine(config, 3) == "data:true";
@@ -52,9 +58,9 @@ namespace LatiteInjector
 
         public void ModifyConfig(string newText, int lineToEdit)
         {
-            string[] arrLine = File.ReadAllLines("config.txt");
+            string[] arrLine = File.ReadAllLines(ConfigFilePath);
             arrLine[lineToEdit - 1] = newText;
-            File.WriteAllLines("config.txt", arrLine);
+            File.WriteAllLines(ConfigFilePath, arrLine);
         } // https://stackoverflow.com/a/35496185
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

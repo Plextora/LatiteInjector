@@ -102,7 +102,7 @@ public partial class MainWindow
         Updater.FetchVersionList();
 
         _notifyIcon = new NotifyIcon();
-        if (GetLine(File.ReadAllText("config.txt"), 4) == "firstrun:true")
+        if (GetLine(File.ReadAllText(SettingsWindow.ConfigFilePath), 4) == "firstrun:true")
         {
             _notifyIcon.BalloonTipText =
                 "Latite Injector has been minimized. Click the tray icon to bring back the Latite Injector. Right click the tray icon to exit the Latite Injector";
