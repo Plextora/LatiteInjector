@@ -25,7 +25,8 @@ namespace LatiteInjector
                 string defaultConfigText =
                     "discordstatus:true\n" +
                     "hidetotray:true\n" +
-                    "data:true";
+                    "data:true\n" +
+                    "firstrun:true";
                 
                 File.WriteAllText("config.txt", defaultConfigText);
 
@@ -49,7 +50,7 @@ namespace LatiteInjector
             LogInjectionCheckBox.IsChecked = IsLoggingEnabled;
         }
 
-        private void ModifyConfig(string newText, int lineToEdit)
+        public void ModifyConfig(string newText, int lineToEdit)
         {
             string[] arrLine = File.ReadAllLines("config.txt");
             arrLine[lineToEdit - 1] = newText;

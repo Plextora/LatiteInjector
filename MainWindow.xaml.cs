@@ -102,13 +102,15 @@ public partial class MainWindow
         Updater.FetchVersionList();
 
         _notifyIcon = new NotifyIcon();
-        if (!File.Exists("first_run"))
+        if (GetLine(File.ReadAllText("config.txt"), 4) == "firstrun:true")
         {
             _notifyIcon.BalloonTipText =
                 "Latite Injector has been minimized. Click the tray icon to bring back the Latite Injector. Right click the tray icon to exit the Latite Injector";
             _notifyIcon.BalloonTipTitle = "I'm over here!";
-            File.Create("first_run").Close();
-        }
+            SettingsWindow.ModifyConfig("firstrun:false", 4);
+        } /* I really need to find a better way to do this
+           * with this method if you open the config file on the first run, it will say "firstrun:false"
+           * even though it IS the first run. */
         else
         {
             _notifyIcon.BalloonTipText = null;
