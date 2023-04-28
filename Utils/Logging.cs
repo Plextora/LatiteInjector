@@ -15,7 +15,9 @@ public static class Logging
 
     public static void ErrorLogging(Exception? error)
     {
-        var filePath = $@"{RoamingStateDirectory}\Latite\Latite_Injector_Error_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.txt";
+        var folderPath = $@"{RoamingStateDirectory}\Latite\Logs";
+        Directory.CreateDirectory(folderPath); 
+        var filePath = $@"{folderPath}\Latite_Injector_Error_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.txt";
         
         if (File.Exists(filePath))
             File.Create(filePath).Close();
