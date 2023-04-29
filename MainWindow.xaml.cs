@@ -6,16 +6,12 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using LatiteInjector.Utils;
 using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -44,7 +40,6 @@ public partial class MainWindow
 
     public static bool IsDiscordPresenceEnabled;
     public static bool IsHideToTrayEnabled;
-    public static bool IsLoggingEnabled;
 
     public MainWindow()
     {

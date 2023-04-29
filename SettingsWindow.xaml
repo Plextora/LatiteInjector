@@ -217,20 +217,6 @@
                 CornerRadius="20"
                 MouseLeftButtonDown="Window_OnMouseLeftButtonDown"
                 Opacity="0" />
-            <CheckBox
-                x:Name="LogInjectionCheckBox"
-                Margin="18,185,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                x:FieldModifier="public"
-                Background="#202020"
-                Click="LogInjectionCheckBox_OnClick"
-                Content="Anonymous data collection"
-                Cursor="Hand"
-                FontSize="17"
-                Foreground="AliceBlue"
-                IsChecked="True"
-                Style="{StaticResource CheckBox}" />
         </Grid>
     </Border>
 </Window>
