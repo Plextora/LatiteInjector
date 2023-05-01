@@ -229,14 +229,18 @@ public partial class MainWindow
             Minecraft = Process.GetProcessesByName("Minecraft.Windows")[0];
             break;
         }
+
         bool shouldGo = true;
-        var version = Minecraft.MainModule.FileVersionInfo.FileVersion;
-        if (!Updater.IsVersionSimilar(version, Updater.GetSelectedVersion()))
+        string? version = Minecraft.MainModule?.FileVersionInfo.FileVersion;
+        if (version != null && !Updater.IsVersionSimilar(version, Updater.GetSelectedVersion()))
         {
             shouldGo = false;
-            var wih = new WindowInteropHelper(this);
+            WindowInteropHelper wih = new WindowInteropHelper(this);
             Api.SetForegroundWindow(wih.Handle);
-            MessageBox.Show(this, "Your minecraft version is " + version + ", but you are trying to inject Latite for version " + Updater.GetSelectedVersion() + ". Please select the proper version in the version list.", "Version Mismatch", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(this,
+                "Your minecraft version is " + version + ", but you are trying to inject Latite for version " +
+                Updater.GetSelectedVersion() + ". Please select the proper version in the version list.",
+                "Version Mismatch", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         if (shouldGo)
         {
