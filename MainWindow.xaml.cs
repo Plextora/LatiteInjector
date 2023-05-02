@@ -225,33 +225,36 @@ public partial class MainWindow
 
         while (true)
         {
-            if (Process.GetProcessesByName("Minecraft.Windows").Length == 0) continue;
+            if (Process.GetProcessesByName("Minecraft.Windows").Length == 0)
+                continue; // skip this execution of loop if true
             Minecraft = Process.GetProcessesByName("Minecraft.Windows")[0];
+            if (Minecraft.MainModule == null) continue; // skip this execution of loop if true
+            bool shouldGo = true;
+            string? version = Minecraft.MainModule?.FileVersionInfo.FileVersion;
+            if (version != null && !Updater.IsVersionSimilar(version, Updater.GetSelectedVersion()))
+            {
+                shouldGo = false;
+                WindowInteropHelper wih = new(this);
+                Api.SetForegroundWindow(wih.Handle);
+                MessageBox.Show(this,
+                    "Your minecraft version is " + version + ", but you are trying to inject Latite for version " +
+                    Updater.GetSelectedVersion() + ". Please select the proper version in the version list.",
+                    "Version Mismatch", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            if (shouldGo)
+            {
+                if (IsCustomDll)
+                    await Injector.WaitForModules();
+                Injector.Inject(Updater.DownloadDll());
+                IsMinecraftRunning = true;
+
+
+                Minecraft.EnableRaisingEvents = true;
+                Minecraft.Exited += IfMinecraftExited;
+            }
+
             break;
-        }
-
-        bool shouldGo = true;
-        string? version = Minecraft.MainModule?.FileVersionInfo.FileVersion;
-        if (version != null && !Updater.IsVersionSimilar(version, Updater.GetSelectedVersion()))
-        {
-            shouldGo = false;
-            WindowInteropHelper wih = new WindowInteropHelper(this);
-            Api.SetForegroundWindow(wih.Handle);
-            MessageBox.Show(this,
-                "Your minecraft version is " + version + ", but you are trying to inject Latite for version " +
-                Updater.GetSelectedVersion() + ". Please select the proper version in the version list.",
-                "Version Mismatch", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-        if (shouldGo)
-        {
-            if (IsCustomDll)
-                await Injector.WaitForModules();
-            Injector.Inject(Updater.DownloadDll());
-            IsMinecraftRunning = true;
-
-
-            Minecraft.EnableRaisingEvents = true;
-            Minecraft.Exited += IfMinecraftExited;
         }
     }
 
