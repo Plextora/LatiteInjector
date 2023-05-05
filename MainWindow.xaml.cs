@@ -112,23 +112,6 @@ public partial class MainWindow
 
         _notifyIcon.ContextMenu = _contextMenu;
     }
-    
-    private bool VisualCxxInstalled()
-    {
-        // https://stackoverflow.com/questions/908850/get-installed-applications-in-a-system
-        string registryKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
-        using RegistryKey key = Registry.LocalMachine.OpenSubKey(registryKey);
-        foreach (string subkeyName in key.GetSubKeyNames())
-        {
-            using RegistryKey subkey = key.OpenSubKey(subkeyName);
-            var name = subkey.GetValue("DisplayName");
-            if (name != null)
-            {
-                if (Regex.IsMatch(name.ToString(), @"C\+\+.*202.*X64")) return true;
-            }
-        }
-        return false;
-    }
 
     private static void OpenGame()
     {
