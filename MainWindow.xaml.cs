@@ -54,21 +54,6 @@ public partial class MainWindow
                 "32 bit OS/Computer", MessageBoxButton.OK, MessageBoxImage.Error);
             Application.Current.Shutdown();
         }
-
-        if (!VisualCxxInstalled())
-        {
-            var response = MessageBox.Show(
-                "Looks like you don't have the Microsoft Visual C++ needed for Latite. Do you want to install it?",
-                "Visual C++", MessageBoxButton.YesNo, MessageBoxImage.Information);
-            if (response == MessageBoxResult.Yes)
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "https://aka.ms/vs/17/release/vc_redist.x64.exe",
-                    UseShellExecute = true
-                });
-            }
-        }
         
         if (!FontManager.IsFontInstalled("Inter"))
         {
