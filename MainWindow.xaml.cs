@@ -196,9 +196,27 @@ public partial class MainWindow
             if (Process.GetProcessesByName("Minecraft.Windows").Length == 0)
                 continue; // skip this execution of loop if true
             Minecraft = Process.GetProcessesByName("Minecraft.Windows")[0];
-            if (Minecraft.MainModule == null) continue; // skip this execution of loop if true
             bool shouldGo = true;
-            string? version = Minecraft.MainModule?.FileVersionInfo.FileVersion;
+            string? version = null;
+            while (version == null)
+            {
+                int myCount = 0;
+            retry:
+                myCount++;
+                // this is cringe but I have no clue why its being cringe without this
+                try
+                {
+                    version = Minecraft.MainModule?.FileVersionInfo.FileVersion;
+                } catch
+                {
+                    if (myCount > 10)
+                    {
+                        MessageBox.Show("Could not inject. Please try again, or inject while minecraft is already open.");
+                        return;
+                    }
+                    goto retry;
+                }
+            }
             if (version != null && !Updater.IsVersionSimilar(version, Updater.GetSelectedVersion()))
             {
                 shouldGo = false;
