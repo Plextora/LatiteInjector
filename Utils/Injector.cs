@@ -40,8 +40,10 @@ public static class Injector
                 (uint)((path.Length + 1) * Marshal.SizeOf(typeof(char))), out _);
             Api.CreateRemoteThread(procHandle, IntPtr.Zero, 0, loadLibraryAddress,
                 allocMemAddress, 0, IntPtr.Zero);
-            
-            SetStatusLabel.Completed("Injected Latite Client into Minecraft successfully!");
+
+            SetStatusLabel.Completed(IsCustomDll
+                ? $"Injected {CustomDllName} into Minecraft!"
+                : "Injected Latite Client into Minecraft!");
             if (IsDiscordPresenceEnabled)
                 DiscordPresence.PlayingPresence();
         }

@@ -9,7 +9,6 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Interop;
 using LatiteInjector.Utils;
 using Microsoft.Win32;
 using Application = System.Windows.Application;
@@ -217,7 +216,7 @@ public partial class MainWindow
         return lines.Length >= lineNo ? lines[lineNo - 1] : null;
     } // https://stackoverflow.com/a/2606405/20083929
 
-    private async void LaunchButton_OnLeftClick(object sender, RoutedEventArgs e)
+    private void LaunchButton_OnLeftClick(object sender, RoutedEventArgs e)
     {
         if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
 
@@ -225,40 +224,19 @@ public partial class MainWindow
 
         while (true)
         {
-            if (Process.GetProcessesByName("Minecraft.Windows").Length == 0)
-                continue; // skip this execution of loop if true
+            if (Process.GetProcessesByName("Minecraft.Windows").Length == 0) continue;
             Minecraft = Process.GetProcessesByName("Minecraft.Windows")[0];
-            if (Minecraft.MainModule == null) continue; // skip this execution of loop if true
-            bool shouldGo = true;
-            string? version = Minecraft.MainModule?.FileVersionInfo.FileVersion;
-            if (version != null && !Updater.IsVersionSimilar(version, Updater.GetSelectedVersion()))
-            {
-                shouldGo = false;
-                WindowInteropHelper wih = new(this);
-                Api.SetForegroundWindow(wih.Handle);
-                MessageBox.Show(this,
-                    "Your minecraft version is " + version + ", but you are trying to inject Latite for version " +
-                    Updater.GetSelectedVersion() + ". Please select the proper version in the version list.",
-                    "Version Mismatch", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-            if (shouldGo)
-            {
-                if (IsCustomDll)
-                    await Injector.WaitForModules();
-                Injector.Inject(Updater.DownloadDll());
-                IsMinecraftRunning = true;
-
-
-                Minecraft.EnableRaisingEvents = true;
-                Minecraft.Exited += IfMinecraftExited;
-            }
-
             break;
         }
+
+        Injector.Inject(Updater.DownloadDll());
+        IsMinecraftRunning = true;
+
+        Minecraft.EnableRaisingEvents = true;
+        Minecraft.Exited += IfMinecraftExited;
     }
 
-    private async void LaunchButton_OnRightClick(object sender, RoutedEventArgs e)
+    private void LaunchButton_OnRightClick(object sender, RoutedEventArgs e)
     {
         SetStatusLabel.Pending("User is selecting DLL...");
 
@@ -288,7 +266,6 @@ public partial class MainWindow
         }
 
         IsCustomDll = true;
-        await Injector.WaitForModules();
         Injector.Inject(openFileDialog.FileName);
         IsMinecraftRunning = true;
 
