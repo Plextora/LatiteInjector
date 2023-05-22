@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Net;
-using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using LatiteInjector.Utils;
-using Microsoft.Win32;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -46,6 +46,8 @@ public partial class MainWindow
         AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         
         InitializeComponent();
+
+        Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
 
         if (!Environment.Is64BitOperatingSystem)
         {
