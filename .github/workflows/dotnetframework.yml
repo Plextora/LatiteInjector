@@ -1,0 +1,24 @@
+name: .NET Framework
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+    - name: setup-msbuild
+      uses: microsoft/setup-msbuild@v1.1
+    - name: Restore Packages
+      run: nuget restore MySolution.sln
+    - name: Build solution
+      run: msbuild MySolution.sln -t:rebuild -property:Configuration=Release
