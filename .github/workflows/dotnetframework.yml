@@ -19,6 +19,6 @@ jobs:
     - name: setup-msbuild
       uses: microsoft/setup-msbuild@v1.1
     - name: Restore Packages
-      run: nuget restore MySolution.sln
+      run: nuget restore LatiteInjector.sln
     - name: Build solution
-      run: msbuild MySolution.sln -t:rebuild -property:Configuration=Release
+      run: msbuild LatiteInjector.sln -t:rebuild -property:Configuration=Release
