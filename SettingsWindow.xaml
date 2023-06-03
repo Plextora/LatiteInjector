@@ -207,6 +207,7 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Cursor="Hand"
+                Style="{StaticResource HoverEffect}"
                 MouseLeftButtonDown="CloseButton_Click"
                 Source="/Assets/X.png" />
             <Border

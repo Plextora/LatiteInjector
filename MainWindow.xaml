@@ -200,13 +200,15 @@
                 VerticalAlignment="Top"
                 Cursor="Hand"
                 MouseLeftButtonDown="DiscordIcon_MouseLeftButtonDown"
-                Source="/Assets/Discord Icon.png" />
+                Source="/Assets/Discord Icon.png"
+                Style="{StaticResource HoverEffect}"/>
             <Image
                 Width="40"
                 Height="39"
                 Margin="588,382,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
+                Style="{StaticResource HoverEffect}"
                 Cursor="Hand"
                 MouseLeftButtonDown="SettingsButton_MouseLeftButtonDown"
                 Source="/Assets/SettingsIcon.png" />
@@ -218,6 +220,7 @@
                 Content="Changelog"
                 Cursor="Hand"
                 FontFamily="Inter"
+                Style="{StaticResource HoverEffect}"
                 FontSize="15px"
                 Foreground="White"
                 MouseLeftButtonUp="ChangelogButton_OnClick" />
@@ -231,6 +234,7 @@
                 FontFamily="Inter"
                 FontSize="15px"
                 Foreground="White"
+                Style="{StaticResource HoverEffect}"
                 MouseLeftButtonUp="CreditButton_OnClick" />
             <ComboBox
                 x:Name="VersionSelectionComboBox"
@@ -281,6 +285,7 @@
                 VerticalAlignment="Top"
                 Cursor="Hand"
                 MouseLeftButtonUp="CloseButton_Click"
+                Style="{StaticResource HoverEffect}"
                 Source="/Assets/X.png" />
             <Label
                 Width="258"

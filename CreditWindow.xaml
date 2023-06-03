@@ -53,6 +53,7 @@
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
             <Image
+                Style="{StaticResource HoverEffect}"
                 Width="20"
                 Height="20"
                 Margin="338,10,0,0"
