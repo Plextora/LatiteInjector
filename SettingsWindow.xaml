@@ -207,7 +207,6 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Cursor="Hand"
-                Style="{StaticResource HoverEffect}"
                 MouseLeftButtonDown="CloseButton_Click"
                 Source="/Assets/X.png" />
             <Border
@@ -218,6 +217,20 @@
                 CornerRadius="20"
                 MouseLeftButtonDown="Window_OnMouseLeftButtonDown"
                 Opacity="0" />
+            <CheckBox
+                x:Name="CloseAfterInjectedCheckBox"
+                Margin="18,185,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                x:FieldModifier="public"
+                Background="#202020"
+                Click="CloseAfterInjectedCheckBox_OnClick"
+                Content="Close after injected"
+                Cursor="Hand"
+                FontSize="17"
+                Foreground="AliceBlue"
+                IsChecked="False"
+                Style="{StaticResource CheckBox}" />
         </Grid>
     </Border>
 </Window>

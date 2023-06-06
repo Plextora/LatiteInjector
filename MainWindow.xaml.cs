@@ -40,6 +40,7 @@ public partial class MainWindow
 
     public static bool IsDiscordPresenceEnabled;
     public static bool IsHideToTrayEnabled;
+    public static bool IsCloseAfterInjectedEnabled;
 
     public MainWindow()
     {
