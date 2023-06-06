@@ -209,14 +209,17 @@ public partial class MainWindow
                 // this is cringe but I have no clue why its being cringe without this
                 try
                 {
-                    version = Minecraft.MainModule?.FileVersionInfo.FileVersion;
-                } catch
+                    version = FileVersionInfo.GetVersionInfo(Minecraft.MainModule.FileName).FileVersion;
+                }
+                catch
                 {
                     if (myCount > 10)
                     {
-                        MessageBox.Show("Could not inject. Please try again, or inject while minecraft is already open.");
+                        MessageBox.Show(
+                            "Could not inject. Please try again, or inject while minecraft is already open.");
                         return;
                     }
+
                     goto retry;
                 }
             }
