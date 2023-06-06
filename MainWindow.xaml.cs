@@ -225,6 +225,7 @@ public partial class MainWindow
             }
             if (version != null && !Updater.IsVersionSimilar(version, Updater.GetSelectedVersion()))
             {
+                Minecraft.Kill();
                 shouldGo = false;
                 WindowInteropHelper wih = new(this);
                 Api.SetForegroundWindow(wih.Handle);
