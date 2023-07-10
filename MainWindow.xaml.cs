@@ -41,6 +41,10 @@ public partial class MainWindow
     public static bool IsDiscordPresenceEnabled;
     public static bool IsHideToTrayEnabled;
     public static bool IsCloseAfterInjectedEnabled;
+    public static string? SavedPlayTimeString;
+    public static TimeSpan ActualSavedPlayTime;
+
+    private static Stopwatch _timePlayed = new();
 
     public MainWindow()
     {
@@ -84,13 +88,22 @@ public partial class MainWindow
         Updater.GetClientChangelog();
         Updater.FetchVersionList();
 
+        SavedPlayTimeString = GetLine(File.ReadAllText(SettingsWindow.ConfigFilePath), 4);
+        SavedPlayTimeString = SavedPlayTimeString?.Replace("savedplaytime:", "");
+        ActualSavedPlayTime = TimeSpan.FromSeconds(Math.Round(Convert.ToDouble(SavedPlayTimeString)));
+        SavedPlayTimeString = TimeSpan.FromSeconds(Math.Round(Convert.ToDouble(SavedPlayTimeString))).ToString();
+        double playTimeDecimals = ActualSavedPlayTime.TotalHours - Math.Truncate(ActualSavedPlayTime.TotalHours);
+        double playTimeMinutes = playTimeDecimals * 60;
+        SettingsWindow.TimePlayedLabel.Content =
+            $"Total play time with Latite Client: {Math.Truncate(ActualSavedPlayTime.TotalHours)}.{Math.Round(playTimeMinutes)} hour(s)";
+
         _notifyIcon = new NotifyIcon();
         if (GetLine(File.ReadAllText(SettingsWindow.ConfigFilePath), 4) == "firstrun:true")
         {
             _notifyIcon.BalloonTipText =
                 "Latite Injector has been minimized. Click the tray icon to bring back the Latite Injector. Right click the tray icon to exit the Latite Injector";
             _notifyIcon.BalloonTipTitle = "I'm over here!";
-            SettingsWindow.ModifyConfig("firstrun:false", 4);
+            SettingsWindow.ModifyConfig("firstrun:false", 5);
         } /* I really need to find a better way to do this
            * with this method if you open the config file on the first run, it will say "firstrun:false"
            * even though it IS the first run. */
@@ -238,7 +251,7 @@ public partial class MainWindow
                 Injector.Inject(Updater.DownloadDll());
                 IsMinecraftRunning = true;
 
-
+                _timePlayed.Start();
                 Minecraft.EnableRaisingEvents = true;
                 Minecraft.Exited += IfMinecraftExited;
             }
@@ -281,6 +294,7 @@ public partial class MainWindow
         Injector.Inject(openFileDialog.FileName);
         IsMinecraftRunning = true;
 
+        _timePlayed.Start();
         Minecraft.EnableRaisingEvents = true;
         Minecraft.Exited += IfMinecraftExited;
     }
@@ -292,6 +306,27 @@ public partial class MainWindow
         Application.Current.Dispatcher.Invoke(SetStatusLabel.Default);
         IsMinecraftRunning = false;
         if (IsCustomDll) IsCustomDll = false;
+
+        // terrible play time code
+        _timePlayed.Stop();
+        TimeSpan currentTimeSpan = _timePlayed.Elapsed;
+        ActualSavedPlayTime += currentTimeSpan;
+        SaveTimePlayed(ActualSavedPlayTime);
+        Application.Current.Dispatcher.Invoke(() => SettingsWindow.TimePlayedLabel.Content =
+            $"Total play time with Latite Client: {GetTimePlayed(currentTimeSpan)} hour(s)");
+    }
+
+    private static string GetTimePlayed(TimeSpan timePlayed)
+    {
+        double playTimeDecimals = ActualSavedPlayTime.TotalHours - Math.Truncate(ActualSavedPlayTime.TotalHours);
+        double playTimeMinutes = playTimeDecimals * 60;
+        return $"{Math.Truncate(ActualSavedPlayTime.TotalHours)}.{Math.Round(playTimeMinutes)}";
+    }
+
+    private static void SaveTimePlayed(TimeSpan timeSpan)
+    {
+        string textToWrite = Math.Round(timeSpan.TotalSeconds).ToString(CultureInfo.InvariantCulture);
+        SettingsWindow.ModifyConfig($"savedplaytime:{textToWrite}", 4);
     }
 
     private void ChangelogButton_OnClick(object sender, RoutedEventArgs e)

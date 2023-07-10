@@ -207,9 +207,9 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Cursor="Hand"
-                Style="{StaticResource HoverEffect}"
                 MouseLeftButtonDown="CloseButton_Click"
-                Source="/Assets/X.png" />
+                Source="/Assets/X.png"
+                Style="{StaticResource HoverEffect}" />
             <Border
                 Panel.ZIndex="-5"
                 Background="Black"
@@ -232,6 +232,13 @@
                 Foreground="AliceBlue"
                 IsChecked="False"
                 Style="{StaticResource CheckBox}" />
+            <Label
+                x:Name="TimePlayedLabel"
+                Margin="10,276,10,10"
+                x:FieldModifier="public"
+                Content="Total play time with Latite Client: "
+                FontSize="10"
+                Foreground="AliceBlue" />
         </Grid>
     </Border>
 </Window>

@@ -32,6 +32,7 @@ public partial class SettingsWindow : Window
                 "discordstatus:true\n" +
                 "hidetotray:true\n" +
                 "closeafterinjected:false\n" +
+                "savedplaytime:00\n" +
                 "firstrun:true";
 
             File.WriteAllText(ConfigFilePath, defaultConfigText);
@@ -53,6 +54,7 @@ public partial class SettingsWindow : Window
         IsDiscordPresenceEnabled = GetLine(config, 1) == "discordstatus:true";
         IsHideToTrayEnabled = GetLine(config, 2) == "hidetotray:true";
         IsCloseAfterInjectedEnabled = GetLine(config, 3) == "closeafterinjected:true";
+        SavedPlayTimeString = GetLine(config, 4);
         DiscordPresenceCheckBox.IsChecked = IsDiscordPresenceEnabled;
         HideToTrayCheckBox.IsChecked = IsHideToTrayEnabled;
         CloseAfterInjectedCheckBox.IsChecked = IsCloseAfterInjectedEnabled;
