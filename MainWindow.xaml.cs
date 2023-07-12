@@ -96,7 +96,7 @@ public partial class MainWindow
             _notifyIcon.BalloonTipText =
                 "Latite Injector has been minimized. Click the tray icon to bring back the Latite Injector. Right click the tray icon to exit the Latite Injector";
             _notifyIcon.BalloonTipTitle = "I'm over here!";
-            SettingsWindow.ModifyConfig("firstrun:false", 5);
+            SettingsWindow.ModifyConfig("firstrun:false", 4);
         } /* I really need to find a better way to do this
            * with this method if you open the config file on the first run, it will say "firstrun:false"
            * even though it IS the first run. */
@@ -323,7 +323,7 @@ public partial class MainWindow
 
     private static void LoadTimePlayed()
     {
-        SavedPlayTimeString = GetLine(File.ReadAllText(SettingsWindow.ConfigFilePath), 4);
+        SavedPlayTimeString = GetLine(File.ReadAllText(SettingsWindow.ConfigFilePath), 5);
         SavedPlayTimeString = SavedPlayTimeString?.Replace("savedplaytime:", "");
         ActualSavedPlayTime = TimeSpan.FromSeconds(Math.Round(Convert.ToDouble(SavedPlayTimeString)));
         SavedPlayTimeString = TimeSpan.FromSeconds(Math.Round(Convert.ToDouble(SavedPlayTimeString))).ToString();
