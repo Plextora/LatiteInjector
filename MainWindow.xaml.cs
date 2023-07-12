@@ -88,14 +88,7 @@ public partial class MainWindow
         Updater.GetClientChangelog();
         Updater.FetchVersionList();
 
-        SavedPlayTimeString = GetLine(File.ReadAllText(SettingsWindow.ConfigFilePath), 4);
-        SavedPlayTimeString = SavedPlayTimeString?.Replace("savedplaytime:", "");
-        ActualSavedPlayTime = TimeSpan.FromSeconds(Math.Round(Convert.ToDouble(SavedPlayTimeString)));
-        SavedPlayTimeString = TimeSpan.FromSeconds(Math.Round(Convert.ToDouble(SavedPlayTimeString))).ToString();
-        double playTimeDecimals = ActualSavedPlayTime.TotalHours - Math.Truncate(ActualSavedPlayTime.TotalHours);
-        double playTimeMinutes = playTimeDecimals * 60;
-        SettingsWindow.TimePlayedLabel.Content =
-            $"Total play time with Latite Client: {Math.Truncate(ActualSavedPlayTime.TotalHours)}.{Math.Round(playTimeMinutes)} hour(s)";
+        LoadTimePlayed();
 
         _notifyIcon = new NotifyIcon();
         if (GetLine(File.ReadAllText(SettingsWindow.ConfigFilePath), 4) == "firstrun:true")
@@ -312,8 +305,7 @@ public partial class MainWindow
         TimeSpan currentTimeSpan = _timePlayed.Elapsed;
         ActualSavedPlayTime += currentTimeSpan;
         SaveTimePlayed(ActualSavedPlayTime);
-        Application.Current.Dispatcher.Invoke(() => SettingsWindow.TimePlayedLabel.Content =
-            $"Total play time with Latite Client: {GetTimePlayed(currentTimeSpan)} hour(s)");
+        LoadTimePlayed();
     }
 
     private static string GetTimePlayed(TimeSpan timePlayed)
@@ -327,6 +319,18 @@ public partial class MainWindow
     {
         string textToWrite = Math.Round(timeSpan.TotalSeconds).ToString(CultureInfo.InvariantCulture);
         SettingsWindow.ModifyConfig($"savedplaytime:{textToWrite}", 4);
+    }
+
+    private static void LoadTimePlayed()
+    {
+        SavedPlayTimeString = GetLine(File.ReadAllText(SettingsWindow.ConfigFilePath), 4);
+        SavedPlayTimeString = SavedPlayTimeString?.Replace("savedplaytime:", "");
+        ActualSavedPlayTime = TimeSpan.FromSeconds(Math.Round(Convert.ToDouble(SavedPlayTimeString)));
+        SavedPlayTimeString = TimeSpan.FromSeconds(Math.Round(Convert.ToDouble(SavedPlayTimeString))).ToString();
+        double playTimeDecimals = ActualSavedPlayTime.TotalHours - Math.Truncate(ActualSavedPlayTime.TotalHours);
+        double playTimeMinutes = playTimeDecimals * 60;
+        Application.Current.Dispatcher.Invoke(() => SettingsWindow.TimePlayedLabel.Content =
+            $"Total play time with Latite Client: {Math.Truncate(ActualSavedPlayTime.TotalHours)}.{Math.Round(playTimeMinutes)} hour(s)");
     }
 
     private void ChangelogButton_OnClick(object sender, RoutedEventArgs e)
