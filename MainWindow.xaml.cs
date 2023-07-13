@@ -318,7 +318,7 @@ public partial class MainWindow
     private static void SaveTimePlayed(TimeSpan timeSpan)
     {
         string textToWrite = Math.Round(timeSpan.TotalSeconds).ToString(CultureInfo.InvariantCulture);
-        SettingsWindow.ModifyConfig($"savedplaytime:{textToWrite}", 4);
+        SettingsWindow.ModifyConfig($"savedplaytime:{textToWrite}", 5);
     }
 
     private static void LoadTimePlayed()
