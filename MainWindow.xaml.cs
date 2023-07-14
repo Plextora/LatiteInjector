@@ -42,7 +42,7 @@ public partial class MainWindow
     public static bool IsDiscordPresenceEnabled;
     public static bool IsHideToTrayEnabled;
 
-    [DllImport(@"C:\Users\Plextora\Documents\wowdll\Injector.dll")]
+    [DllImport(@"Injector.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
     private static extern unsafe bool DoInject(uint pid, char* location);
 
     public MainWindow()
@@ -280,14 +280,17 @@ public partial class MainWindow
         IsCustomDll = true;
         fixed (char* wow = openFileDialog.FileName)
         {
-            bool crazy = DoInject((uint)Minecraft.Id, wow);
-            Console.Write(crazy);
+            bool isTrue = DoInject((uint)Minecraft.Id, wow);
+            if (isTrue)
+            {
+                IsMinecraftRunning = true;
+
+                Minecraft.EnableRaisingEvents = true;
+                Minecraft.Exited += IfMinecraftExited;
+
+                SetStatusLabel.Completed($"Injected {openFileDialog.SafeFileName} into Minecraft successfully!");
+            }
         }
-
-        IsMinecraftRunning = true;
-
-        Minecraft.EnableRaisingEvents = true;
-        Minecraft.Exited += IfMinecraftExited;
     }
 
     private static void IfMinecraftExited(object sender, EventArgs e)
