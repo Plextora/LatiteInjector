@@ -104,7 +104,7 @@ void Error(const char* msg) {
 	MessageBoxA(NULL, msg, "Latite Injector", MB_ICONERROR | MB_OK);
 }
 
-bool DoInject(DWORD pid, const char* location) {
+bool DoInject(DWORD pid, char* location) {
     // ...
 	std::string myLoc = location;
 	std::wstring ws(myLoc.size(), L' ');

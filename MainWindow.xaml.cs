@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Forms;
@@ -41,10 +42,12 @@ public partial class MainWindow
     public static bool IsDiscordPresenceEnabled;
     public static bool IsHideToTrayEnabled;
 
+    [DllImport(@"C:\Users\Plextora\Documents\wowdll\Injector.dll")]
+    private static extern unsafe bool DoInject(uint pid, char* location);
+
     public MainWindow()
     {
         AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
-        
         InitializeComponent();
 
         if (!Environment.Is64BitOperatingSystem)
@@ -185,7 +188,7 @@ public partial class MainWindow
         return lines.Length >= lineNo ? lines[lineNo - 1] : null;
     } // https://stackoverflow.com/a/2606405/20083929
 
-    private async void LaunchButton_OnLeftClick(object sender, RoutedEventArgs e)
+    private unsafe void LaunchButton_OnLeftClick(object sender, RoutedEventArgs e)
     {
         if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
 
@@ -230,21 +233,22 @@ public partial class MainWindow
 
             if (shouldGo)
             {
-                if (IsCustomDll)
-                    await Injector.WaitForModules();
-                Injector.Inject(Updater.DownloadDll());
-                IsMinecraftRunning = true;
+                bool isTrue = DoInject((uint)Minecraft.Id, Updater.DownloadDll());
+                if (isTrue)
+                {
+                    IsMinecraftRunning = true;
 
-
-                Minecraft.EnableRaisingEvents = true;
-                Minecraft.Exited += IfMinecraftExited;
+                    Minecraft.EnableRaisingEvents = true;
+                    Minecraft.Exited += IfMinecraftExited;
+                    SetStatusLabel.Completed("Injected Latite Client into Minecraft successfully!");
+                }
             }
 
             break;
         }
     }
 
-    private async void LaunchButton_OnRightClick(object sender, RoutedEventArgs e)
+    private unsafe void LaunchButton_OnRightClick(object sender, RoutedEventArgs e)
     {
         SetStatusLabel.Pending("User is selecting DLL...");
 
@@ -274,8 +278,12 @@ public partial class MainWindow
         }
 
         IsCustomDll = true;
-        await Injector.WaitForModules();
-        Injector.Inject(openFileDialog.FileName);
+        fixed (char* wow = openFileDialog.FileName)
+        {
+            bool crazy = DoInject((uint)Minecraft.Id, wow);
+            Console.Write(crazy);
+        }
+
         IsMinecraftRunning = true;
 
         Minecraft.EnableRaisingEvents = true;

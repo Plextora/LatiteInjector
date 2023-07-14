@@ -199,19 +199,29 @@ public static class Updater
         ChangelogForm.ClientChangelogLine4.Content = GetClientChangelogLine(rawChangelog, 4, "4.");
     }
 
-    public static string DownloadDll()
+    public static unsafe char* DownloadDll()
     {
-        var latestVersion = GetLatestDllVersion();
+        string? latestVersion = GetLatestDllVersion();
 
         _selectedVersion = GetSelectedVersion();
-        
-        var dllPath = $"{Path.GetTempPath()}Latite_{latestVersion}_{_selectedVersion}.dll";
-        if (File.Exists(dllPath)) return dllPath;
+
+        string dllPath = $"{Path.GetTempPath()}Latite_{latestVersion}_{_selectedVersion}.dll";
+        if (File.Exists(dllPath))
+        {
+            fixed (char* wow = dllPath)
+            {
+                return wow;
+            }
+        }
+
         SetStatusLabel.Pending($"Downloading Latite's {_selectedVersion} DLL");
         Client?.DownloadFile(
             $"https://github.com/Imrglop/Latite-Releases/releases/download/{latestVersion}/Latite.{_selectedVersion}.dll",
             dllPath);
 
-        return dllPath;
+        fixed (char* wow = dllPath)
+        {
+            return wow;
+        }
     }
 }

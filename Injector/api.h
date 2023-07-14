@@ -6,7 +6,8 @@
 #endif
 
 #include "pch.h"
+#include <windows.h>
 
 extern "C" {
-	LATITE_API bool DoInject(DWORD pid, const char* location);
+LATITE_API bool DoInject(DWORD pid, char* location);
 }

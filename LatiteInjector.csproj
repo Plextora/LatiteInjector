@@ -12,6 +12,7 @@
         <Company>Plextora</Company>
         <Product>Latite Injector</Product>
 	    <GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
+	    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
