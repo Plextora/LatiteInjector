@@ -31,8 +31,8 @@ public static class DiscordPresence
 
     public static void PlayingPresence() => DiscordClient.UpdateState(
         IsCustomDll
-            ? $"Playing Minecraft {Updater.GetSelectedVersion()} with {CustomDllName}"
-            : $"Playing Minecraft {Updater.GetSelectedVersion()}");
+            ? $"Minecraft {Updater.GetSelectedVersion()}"
+            : $"Minecraft {Updater.GetSelectedVersion()}");
     public static void IdlePresence() => DiscordClient.UpdateState("Idling in the injector");
     public static void SettingsPresence() => DiscordClient.UpdateState("Changing settings");
     public static void ChangelogPresence() => DiscordClient.UpdateState("Reading the changelog");
