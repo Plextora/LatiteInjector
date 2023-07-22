@@ -1,6 +1,9 @@
-﻿using DiscordRPC;
-using System.Threading.Tasks;
+﻿#region
+
+using DiscordRPC;
 using static LatiteInjector.MainWindow;
+
+#endregion
 
 namespace LatiteInjector.Utils;
 
@@ -29,11 +32,28 @@ public static class DiscordPresence
         IsDiscordPresenceEnabled = true;
     }
 
-    public static void PlayingPresence() => DiscordClient.UpdateState(
-        IsCustomDll
-            ? $"Playing Minecraft {Updater.GetSelectedVersion()} with {CustomDllName}"
-            : $"Playing Minecraft {Updater.GetSelectedVersion()}");
-    public static void IdlePresence() => DiscordClient.UpdateState("Idling in the injector");
+    public static void PlayingPresence()
+    {
+        if (!IsCustomDll)
+        {
+            DiscordClient.UpdateDetails(
+                $"Playing Minecraft {Updater.GetSelectedVersion()}");
+            DiscordClient.UpdateState("with Latite Client");
+        }
+        else if (IsCustomDll)
+        {
+            DiscordClient.UpdateDetails(
+                $"Playing Minecraft {Updater.GetSelectedVersion()}");
+            DiscordClient.UpdateState($"with {CustomDllName}");
+        }
+    }
+
+    public static void IdlePresence()
+    {
+        DiscordClient.UpdateState("Idling in the injector");
+        DiscordClient.UpdateDetails("");
+    }
+
     public static void SettingsPresence() => DiscordClient.UpdateState("Changing settings");
     public static void ChangelogPresence() => DiscordClient.UpdateState("Reading the changelog");
     public static void CreditsPresence() => DiscordClient.UpdateState("Reading the credits");
