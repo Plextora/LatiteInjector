@@ -10,7 +10,7 @@ You are ***allowed*** to:
 
 You are ***not allowed*** to:
 
-- Distribute, redistribute or sell any of our files in any form of media. (this only includes our files that we made. we are not affiliated with Microsoft or Mojang, so the APPX is an exception, except for the Mod we put into it in the form of a DLL. None of Mojang's copyrightable work belongs to us.)
+- Distribute, redistribute or sell any of our files in any form of media. (this only includes our files that we made. we are not affiliated with Microsoft or Mojang)
 
 - Distribute, redistribute, or sell a modified version of the injector in any form of media.
 - Use the Latite name as a Client in any form of media, as if it's an official Client server, or claiming to be official.
