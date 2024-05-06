@@ -232,13 +232,6 @@
                 Foreground="AliceBlue"
                 IsChecked="False"
                 Style="{StaticResource CheckBox}" />
-            <Label
-                x:Name="TimePlayedLabel"
-                Margin="10,276,10,10"
-                x:FieldModifier="public"
-                Content="Total play time with Latite Client: "
-                FontSize="10"
-                Foreground="AliceBlue" />
         </Grid>
     </Border>
 </Window>
