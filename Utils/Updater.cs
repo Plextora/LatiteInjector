@@ -9,7 +9,7 @@ namespace LatiteInjector.Utils;
 
 public static class Updater
 {
-    public const string InjectorCurrentVersion = "13";
+    public const string InjectorCurrentVersion = "14";
 
     private const string INJECTOR_VERSION_URL =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/launcher_version";
@@ -21,8 +21,6 @@ public static class Updater
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/injector_changelog";
     private const string CLIENT_CHANGELOG_URL =
         "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/client_changelog";
-    private const string GAME_VERSIONS_URL =
-        "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/game_versions";
     private static string? _selectedVersion;
 
     private static readonly WebClient? Client = new WebClient();
@@ -101,36 +99,7 @@ public static class Updater
         Application.Current.Shutdown();
     }
 
-    public static void FetchVersionList()
-    {
-        if (Form != null) {
-            Form.VersionSelectionComboBox.Items.Clear();
-            VersionList.Clear();
-            if (Client != null)
-            {
-                string str = Client.DownloadString(
-                    GAME_VERSIONS_URL);
-                if (str != null)
-                {
-                    str.Replace("\r", ""); // Remove RETURN so the string is clean.
-                    string[] lines = str.Split('\n');
 
-                    foreach (string line in lines)
-                    {
-                        VersionList.Add(line);
-                        string displayStr = "Version " + line;
-                        Form.VersionSelectionComboBox.Items.Add(displayStr);
-                    }
-                }
-            }
-            Form.VersionSelectionComboBox.SelectedIndex = 0;
-        }
-    }
-
-    public static string GetSelectedVersion()
-    {
-        return VersionList[Form.VersionSelectionComboBox.SelectedIndex];
-    }
 
     private static string? GetChangelogLine(string? changelog, int line, string changelogNum)
     {
@@ -204,13 +173,11 @@ public static class Updater
     {
         var latestVersion = GetLatestDllVersion();
 
-        _selectedVersion = GetSelectedVersion();
-        
-        var dllPath = $"{Path.GetTempPath()}Latite_{latestVersion}_{_selectedVersion}.dll";
+        var dllPath = $"{Path.GetTempPath()}Latite_{latestVersion}.dll";
         if (File.Exists(dllPath)) return dllPath;
-        SetStatusLabel.Pending($"Downloading Latite's {_selectedVersion} DLL");
+        SetStatusLabel.Pending($"Downloading Latite DLL");
         Client?.DownloadFile(
-            $"https://github.com/Imrglop/Latite-Releases/releases/download/{latestVersion}/Latite.{_selectedVersion}.dll",
+            $"https://github.com/Imrglop/Latite-Releases/releases/download/{latestVersion}/Latite.dll",
             dllPath);
 
         return dllPath;

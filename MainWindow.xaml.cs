@@ -24,6 +24,7 @@ namespace LatiteInjector;
 public partial class MainWindow
 {
     public static Process? Minecraft;
+    public static string MinecraftVersion = "";
     private static readonly SettingsWindow SettingsWindow = new();
     private static readonly ChangelogWindow ChangelogWindow = new();
     private static readonly CreditWindow CreditWindow = new();
@@ -86,7 +87,6 @@ public partial class MainWindow
         CreditWindow.Closing += OnClosing;
         Updater.GetInjectorChangelog();
         Updater.GetClientChangelog();
-        Updater.FetchVersionList();
 
         LoadTimePlayed();
 
@@ -199,15 +199,14 @@ public partial class MainWindow
         if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
 
         OpenGame();
-
+        
         while (true)
         {
             if (Process.GetProcessesByName("Minecraft.Windows").Length == 0)
                 continue; // skip this execution of loop if true
             Minecraft = Process.GetProcessesByName("Minecraft.Windows")[0];
             bool shouldGo = true;
-            string? version = null;
-            while (version == null)
+            while (MinecraftVersion.Length == 0)
             {
                 int myCount = 0;
             retry:
@@ -215,26 +214,16 @@ public partial class MainWindow
                 // this is cringe but I have no clue why its being cringe without this
                 try
                 {
-                    version = Minecraft.MainModule?.FileVersionInfo.FileVersion;
+                    MinecraftVersion = Minecraft.MainModule?.FileVersionInfo.FileVersion;
                 } catch
                 {
                     if (myCount > 10)
                     {
-                        MessageBox.Show("Could not inject. Please try again, or inject while minecraft is already open.");
+                        MessageBox.Show("Could not inject. Please try again, or inject while Minecraft is already open.");
                         return;
                     }
                     goto retry;
                 }
-            }
-            if (version != null && !Updater.IsVersionSimilar(version, Updater.GetSelectedVersion()))
-            {
-                shouldGo = false;
-                WindowInteropHelper wih = new(this);
-                Api.SetForegroundWindow(wih.Handle);
-                MessageBox.Show(this,
-                    "Your minecraft version is " + version + ", but you are trying to inject Latite for version " +
-                    Updater.GetSelectedVersion() + ". Please select the proper version in the version list.",
-                    "Version Mismatch", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             if (shouldGo)
@@ -249,7 +238,7 @@ public partial class MainWindow
                 Minecraft.Exited += IfMinecraftExited;
             }
 
-            break;
+            return;
         }
     }
 

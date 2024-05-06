@@ -236,18 +236,6 @@
                 Foreground="White"
                 Style="{StaticResource HoverEffect}"
                 MouseLeftButtonUp="CreditButton_OnClick" />
-            <ComboBox
-                x:Name="VersionSelectionComboBox"
-                Width="178"
-                Height="33"
-                Margin="0,277,0,0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                FontFamily="Inter"
-                FontSize="11px"
-                FontWeight="DemiBold"
-                SelectedIndex="0"
-                Style="{StaticResource ComboboxStyle}" />
 
             <Button
                 x:Name="LaunchButton"

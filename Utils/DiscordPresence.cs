@@ -37,13 +37,13 @@ public static class DiscordPresence
         if (!IsCustomDll)
         {
             DiscordClient.UpdateDetails(
-                $"Playing Minecraft {Updater.GetSelectedVersion()}");
+                $"Playing Minecraft {MainWindow.MinecraftVersion}");
             DiscordClient.UpdateState("with Latite Client");
         }
         else if (IsCustomDll)
         {
             DiscordClient.UpdateDetails(
-                $"Playing Minecraft {Updater.GetSelectedVersion()}");
+                $"Playing Minecraft {MainWindow.MinecraftVersion}");
             DiscordClient.UpdateState($"with {CustomDllName}");
         }
     }

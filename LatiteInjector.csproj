@@ -4,6 +4,7 @@
         <OutputType>WinExe</OutputType>
         <TargetFramework>net48</TargetFramework>
         <Nullable>enable</Nullable>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier> 
         <UseWPF>true</UseWPF>
         <Platforms>AnyCPU;x64</Platforms>
         <ApplicationIcon>Assets\latite.ico</ApplicationIcon>
