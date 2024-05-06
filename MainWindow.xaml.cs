@@ -58,7 +58,7 @@ public partial class MainWindow
         if (!Environment.Is64BitOperatingSystem)
         {
             MessageBox.Show(
-                "It looks like you're running a 32 bit OS/Computer. Sadly, you cannot use Latite Client with a 32 bit OS/Computer. Please do not report this as a bug, make a ticket, or ask how to switch to 64 bit in the Discord, you cannot use Latite Client AT ALl!!!",
+                "It looks like you're running a 32 bit OS/Computer. Sadly, you cannot use Latite Client with a 32 bit OS/Computer. Please do not report this as a bug, make a ticket, or ask how to switch to 64 bit in the Discord, you cannot use Latite Client AT ALL!!!",
                 "32 bit OS/Computer", MessageBoxButton.OK, MessageBoxImage.Error);
             Application.Current.Shutdown();
         }
