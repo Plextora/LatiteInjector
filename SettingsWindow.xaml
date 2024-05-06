@@ -198,7 +198,7 @@
                 Cursor="Hand"
                 FontSize="17"
                 Foreground="AliceBlue"
-                IsChecked="True"
+                IsChecked="False"
                 Style="{StaticResource CheckBox}" />
             <Image
                 Width="20"

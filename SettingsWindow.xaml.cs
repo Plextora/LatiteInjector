@@ -30,7 +30,7 @@ public partial class SettingsWindow : Window
             File.Create(ConfigFilePath).Close();
             string defaultConfigText =
                 "discordstatus:true\n" +
-                "hidetotray:true\n" +
+                "hidetotray:false\n" +
                 "closeafterinjected:false\n" +
                 "firstrun:true\n" +
                 "savedplaytime:00\n";
@@ -39,7 +39,7 @@ public partial class SettingsWindow : Window
 
             // set default config values
             IsDiscordPresenceEnabled = true;
-            IsHideToTrayEnabled = true;
+            IsHideToTrayEnabled = false;
             IsCloseAfterInjectedEnabled = false;
         }
         else
