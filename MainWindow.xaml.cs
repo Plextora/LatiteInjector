@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.IO.Packaging;
 using System.Net;
 using System.Threading;
 using System.Windows;
@@ -327,5 +328,12 @@ public partial class MainWindow
         DiscordPresence.ShutdownPresence();
         _notifyIcon?.Dispose();
         _notifyIcon = null;
+    }
+
+    private void OpenLatiteFolderLabel_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        string latiteFolder =
+            $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\LatiteRecode";
+        Process.Start(latiteFolder);
     }
 }

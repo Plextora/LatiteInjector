@@ -213,6 +213,18 @@
                 MouseLeftButtonDown="SettingsButton_MouseLeftButtonDown"
                 Source="/Assets/SettingsIcon.png" />
             <Label
+                x:Name="OpenLatiteFolderLabel"
+                Margin="293,390,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="Open Latite Folder"
+                Cursor="Hand"
+                FontFamily="Inter"
+                Style="{StaticResource HoverEffect}"
+                FontSize="15px"
+                Foreground="White"
+                MouseLeftButtonUp="OpenLatiteFolderLabel_OnMouseLeftButtonUp" />
+            <Label
                 x:Name="ChangelogLabel"
                 Margin="435,390,0,0"
                 HorizontalAlignment="Left"
@@ -286,7 +298,7 @@
                 Foreground="White" />
             <Label
                 x:Name="StatusLabel"
-                Width="376"
+                Width="240"
                 Margin="54,395,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
