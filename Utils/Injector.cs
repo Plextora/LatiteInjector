@@ -41,7 +41,7 @@ public static class Injector
             Api.CreateRemoteThread(procHandle, IntPtr.Zero, 0, loadLibraryAddress,
                 allocMemAddress, 0, IntPtr.Zero);
             
-            SetStatusLabel.Completed("Injected Latite Client into Minecraft successfully!");
+            SetStatusLabel.Completed("Injected Latite Client into Minecraft!");
             if (IsDiscordPresenceEnabled)
                 DiscordPresence.PlayingPresence();
             if (IsCloseAfterInjectedEnabled)
