@@ -31,10 +31,6 @@ public static class DiscordPresence
             new PresenceDetails("Cubecraft Games", "cubecraft", "Cubecraft Games Logo")
         },
         {
-            "mco.lbsg.net",
-            new PresenceDetails("Lifeboat Network", "lifeboat", "Lifeboat Network Logo")
-        },
-        {
             "play.galaxite.net",
             new PresenceDetails("Galaxite Network", "galaxite", "Galaxite Network Logo")
         }
