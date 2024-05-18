@@ -33,6 +33,10 @@ public static class DiscordPresence
         {
             "play.galaxite.net",
             new PresenceDetails("Galaxite Network", "galaxite", "Galaxite Network Logo")
+        },
+        {
+            "zeqa.net",
+            new PresenceDetails("Zeqa Practice", "zeqa", "Zeqa Logo")
         }
     };
 
