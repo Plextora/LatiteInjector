@@ -79,6 +79,7 @@ public static class DiscordPresence
             else if (IsCustomDll)
                 DiscordClient.UpdateState($"with {CustomDllName}");
             DiscordClient.UpdateLargeAsset(presenceDetails.LogoKey, presenceDetails.LogoTooltip);
+            DiscordClient.UpdateSmallAsset("latite", "Latite Client Icon");
         }
         else if (serverIP == "none")
             PlayingPresence();
