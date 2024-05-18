@@ -1,5 +1,8 @@
 ﻿#region
 
+using System.Collections.Generic;
+using System.IO;
+using System.Timers;
 using DiscordRPC;
 using static LatiteInjector.MainWindow;
 
@@ -10,6 +13,20 @@ namespace LatiteInjector.Utils;
 public static class DiscordPresence
 {
     private static readonly DiscordRpcClient DiscordClient = new("1066896173799047199");
+
+    private record PresenceDetails(
+        string Name,
+        string LogoKey,
+        string LogoTooltip
+    );
+
+    private static readonly Dictionary<string, PresenceDetails> SupportedPresenceDict = new()
+    {
+        {
+            "geo.hivebedrock.network",
+            new PresenceDetails("The Hive", "thehive", "The Hive Logo")
+        }
+    };
 
     public static void InitializePresence() => DiscordClient.Initialize();
 
@@ -34,22 +51,42 @@ public static class DiscordPresence
 
     public static void PlayingPresence()
     {
+        DiscordClient.UpdateLargeAsset("latite", "Latite Client Icon");
         if (!IsCustomDll)
         {
             DiscordClient.UpdateDetails(
-                $"Playing Minecraft {MainWindow.MinecraftVersion}");
+                $"Playing Minecraft {MinecraftVersion}");
             DiscordClient.UpdateState("with Latite Client");
         }
         else if (IsCustomDll)
         {
             DiscordClient.UpdateDetails(
-                $"Playing Minecraft {MainWindow.MinecraftVersion}");
+                $"Playing Minecraft {MinecraftVersion}");
             DiscordClient.UpdateState($"with {CustomDllName}");
         }
     }
 
+    public static void DetailedPlayingPresence(object sender, ElapsedEventArgs e)
+    {
+        string serverIP = File.ReadAllText($@"{LatiteFolder}\Logs\serverip.txt");
+
+        if (!IsDiscordPresenceEnabled || !IsMinecraftRunning) return;
+        if (SupportedPresenceDict.TryGetValue(serverIP, out PresenceDetails presenceDetails))
+        {
+            DiscordClient.UpdateDetails($"Playing on {presenceDetails.Name}");
+            if (!IsCustomDll)
+                DiscordClient.UpdateState("with Latite Client");
+            else if (IsCustomDll)
+                DiscordClient.UpdateState($"with {CustomDllName}");
+            DiscordClient.UpdateLargeAsset(presenceDetails.LogoKey, presenceDetails.LogoTooltip);
+        }
+        else if (serverIP == "none")
+            PlayingPresence();
+    }
+
     public static void IdlePresence()
     {
+        DiscordClient.UpdateLargeAsset("latite", "Latite Client Icon");
         DiscordClient.UpdateState("Idling in the injector");
         DiscordClient.UpdateDetails("");
     }
@@ -60,11 +97,10 @@ public static class DiscordPresence
     public static void MinimizeToTrayPresence()
     {
         if (!IsMinecraftRunning)
-        {
             DiscordClient.UpdateState("Minimized to tray");
-            return;
-        }
-        PlayingPresence();
+        else
+            PlayingPresence();
+
     }
 
     public static void StopPresence()

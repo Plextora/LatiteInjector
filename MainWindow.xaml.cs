@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.IO.Packaging;
 using System.Net;
+using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
@@ -26,6 +27,8 @@ public partial class MainWindow
 {
     public static Process? Minecraft;
     public static string MinecraftVersion = "";
+    public static string LatiteFolder =
+        $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\LatiteRecode";
     private static readonly SettingsWindow SettingsWindow = new();
     private static readonly ChangelogWindow ChangelogWindow = new();
     private static readonly CreditWindow CreditWindow = new();
@@ -84,6 +87,12 @@ public partial class MainWindow
         CreditWindow.Closing += OnClosing;
         Updater.GetInjectorChangelog();
         Updater.GetClientChangelog();
+
+        // is this probably a bad practice? yes! do i care? no!
+        System.Timers.Timer detailedPresenceTimer = new(5000);
+        detailedPresenceTimer.AutoReset = true;
+        detailedPresenceTimer.Elapsed += DiscordPresence.DetailedPlayingPresence;
+        detailedPresenceTimer.Start();
 
         _notifyIcon = new NotifyIcon();
         if (GetLine(File.ReadAllText(SettingsWindow.ConfigFilePath), 4) == "firstrun:true")
@@ -297,6 +306,8 @@ public partial class MainWindow
             DiscordPresence.CreditsPresence();
     }
 
+    private void OpenLatiteFolderLabel_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e) => Process.Start(LatiteFolder);
+
     private void SettingsButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         SettingsWindow.Show();
@@ -328,12 +339,5 @@ public partial class MainWindow
         DiscordPresence.ShutdownPresence();
         _notifyIcon?.Dispose();
         _notifyIcon = null;
-    }
-
-    private void OpenLatiteFolderLabel_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-    {
-        string latiteFolder =
-            $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\LatiteRecode";
-        Process.Start(latiteFolder);
     }
 }
