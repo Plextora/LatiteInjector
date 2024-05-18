@@ -25,6 +25,18 @@ public static class DiscordPresence
         {
             "geo.hivebedrock.network",
             new PresenceDetails("The Hive", "thehive", "The Hive Logo")
+        },
+        {
+            "mco.cubecraft.net",
+            new PresenceDetails("Cubecraft Games", "cubecraft", "Cubecraft Games Logo")
+        },
+        {
+            "mco.lbsg.net",
+            new PresenceDetails("Lifeboat Network", "lifeboat", "Lifeboat Network Logo")
+        },
+        {
+            "play.galaxite.net",
+            new PresenceDetails("Galaxite Network", "galaxite", "Galaxite Network Logo")
         }
     };
 
@@ -52,6 +64,7 @@ public static class DiscordPresence
     public static void PlayingPresence()
     {
         DiscordClient.UpdateLargeAsset("latite", "Latite Client Icon");
+        DiscordClient.UpdateSmallAsset();
         if (!IsCustomDll)
         {
             DiscordClient.UpdateDetails(
@@ -88,6 +101,7 @@ public static class DiscordPresence
     public static void IdlePresence()
     {
         DiscordClient.UpdateLargeAsset("latite", "Latite Client Icon");
+        DiscordClient.UpdateSmallAsset();
         DiscordClient.UpdateState("Idling in the injector");
         DiscordClient.UpdateDetails("");
     }
