@@ -13,6 +13,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
+using DiscordRPC;
 using LatiteInjector.Utils;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
@@ -236,6 +237,7 @@ public partial class MainWindow
                     await Injector.WaitForModules();
                 Injector.Inject(Updater.DownloadDll());
                 IsMinecraftRunning = true;
+                DiscordPresence.CurrentTimestamp = Timestamps.Now;
 
                 Minecraft.EnableRaisingEvents = true;
                 Minecraft.Exited += IfMinecraftExited;
@@ -278,6 +280,7 @@ public partial class MainWindow
         await Injector.WaitForModules();
         Injector.Inject(openFileDialog.FileName);
         IsMinecraftRunning = true;
+        DiscordPresence.CurrentTimestamp = Timestamps.Now;
 
         Minecraft.EnableRaisingEvents = true;
         Minecraft.Exited += IfMinecraftExited;
@@ -286,7 +289,10 @@ public partial class MainWindow
     private static void IfMinecraftExited(object sender, EventArgs e)
     {
         if (IsDiscordPresenceEnabled)
+        {
+            DiscordPresence.CurrentTimestamp = Timestamps.Now;
             DiscordPresence.IdlePresence();
+        }
         Application.Current.Dispatcher.Invoke(SetStatusLabel.Default);
         IsMinecraftRunning = false;
         if (IsCustomDll) IsCustomDll = false;

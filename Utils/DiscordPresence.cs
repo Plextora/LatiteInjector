@@ -41,13 +41,14 @@ public static class DiscordPresence
     };
 
     public static void InitializePresence() => DiscordClient.Initialize();
+    public static Timestamps CurrentTimestamp = Timestamps.Now;
 
     public static void DefaultPresence()
     {
         DiscordClient.SetPresence(new RichPresence
         {
             State = "Idling in the injector",
-            Timestamps = Timestamps.Now,
+            Timestamps = CurrentTimestamp,
             Buttons = new[]
             {
                 new Button { Label = "Download Latite Client", Url = "https://discord.gg/zcJfXxKTA4" }
@@ -63,8 +64,19 @@ public static class DiscordPresence
 
     public static void PlayingPresence()
     {
-        DiscordClient.UpdateLargeAsset("latite", "Latite Client Icon");
-        DiscordClient.UpdateSmallAsset();
+        DiscordClient.SetPresence(new RichPresence
+        {
+            Timestamps = CurrentTimestamp,
+            Buttons = new[]
+            {
+                new Button { Label = "Download Latite Client", Url = "https://discord.gg/zcJfXxKTA4" }
+            },
+            Assets = new Assets
+            {
+                LargeImageKey = "latite",
+                LargeImageText = "Latite Client Icon"
+            }
+        }); // this is scuffed but DiscordClient.UpdateSmallAsset() doesn't actually remove small assets so my hands are tied
         if (!IsCustomDll)
         {
             DiscordClient.UpdateDetails(
@@ -100,10 +112,20 @@ public static class DiscordPresence
 
     public static void IdlePresence()
     {
-        DiscordClient.UpdateLargeAsset("latite", "Latite Client Icon");
-        DiscordClient.UpdateSmallAsset();
-        DiscordClient.UpdateState("Idling in the injector");
-        DiscordClient.UpdateDetails("");
+        DiscordClient.SetPresence(new RichPresence
+        {
+            State = "Idling in the injector",
+            Timestamps = CurrentTimestamp,
+            Buttons = new[]
+            {
+                new Button { Label = "Download Latite Client", Url = "https://discord.gg/zcJfXxKTA4" }
+            },
+            Assets = new Assets
+            {
+                LargeImageKey = "latite",
+                LargeImageText = "Latite Client Icon"
+            }
+        });
     }
 
     public static void SettingsPresence() => DiscordClient.UpdateState("Changing settings");
