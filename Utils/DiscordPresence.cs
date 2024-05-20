@@ -37,6 +37,10 @@ public static class DiscordPresence
         {
             "zeqa.net",
             new PresenceDetails("Zeqa Practice", "zeqa", "Zeqa Logo")
+        },
+        {
+            "play.nethergames.org",
+            new PresenceDetails("NetherGames Network", "nethergames", "NetherGames Network Logo")
         }
     };
 
