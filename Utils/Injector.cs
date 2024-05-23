@@ -30,7 +30,7 @@ public static class Injector
                                              Api.PROCESS_VM_OPERATION | Api.PROCESS_VM_WRITE | Api.PROCESS_VM_READ,
                 false, targetProcess.Id);
 
-            var loadLibraryAddress = Api.GetProcAddress(Api.GetModuleHandle("kernel32.dll"), "LoadLibraryA");
+            var loadLibraryAddress = Api.GetProcAddress(Api.GetModuleHandleW("kernel32.dll"), "LoadLibraryA");
 
             var allocMemAddress = Api.VirtualAllocEx(procHandle, IntPtr.Zero,
                 (uint)((path.Length + 1) * Marshal.SizeOf(typeof(char))), Api.MEM_COMMIT

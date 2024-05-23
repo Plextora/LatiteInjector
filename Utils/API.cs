@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace LatiteInjector.Utils;
 
-public static class Api
+public static partial class Api
 {
     public const int WM_NCLBUTTONDOWN = 0xA1;
     public const int HT_CAPTION = 0x2;
@@ -18,33 +18,25 @@ public static class Api
     public const uint MEM_RESERVE = 0x00002000;
     public const uint PAGE_READWRITE = 4;
 
-    [DllImport("user32.dll")]
-    public static extern int SendMessage(nint hWnd, int Msg, int wParam, int lParam);
+    [LibraryImport("kernel32.dll")]
+    public static partial nint OpenProcess(int dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, int dwProcessId);
 
-    [DllImport("user32.dll")]
-    public static extern bool ReleaseCapture();
+    [LibraryImport("kernel32.dll")]
+    public static partial nint GetModuleHandleW([MarshalAs(UnmanagedType.LPWStr)] string lpModuleName);
 
-    [DllImport("kernel32.dll")]
-    public static extern nint OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
+    [LibraryImport("kernel32", SetLastError = true)]
+    public static partial nint GetProcAddress(nint hModule, [MarshalAs(UnmanagedType.LPStr)] string procName);
 
-    [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-    public static extern nint GetModuleHandle(string lpModuleName);
-
-    [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
-    public static extern nint GetProcAddress(nint hModule, string procName);
-
-    [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
-    public static extern nint VirtualAllocEx(nint hProcess, nint lpAddress, uint dwSize,
+    [LibraryImport("kernel32.dll", SetLastError = true)]
+    public static partial nint VirtualAllocEx(nint hProcess, nint lpAddress, uint dwSize,
         uint flAllocationType, uint flProtect);
 
-    [DllImport("kernel32.dll", SetLastError = true)]
-    public static extern bool WriteProcessMemory(nint hProcess, nint lpBaseAddress, byte[] lpBuffer, uint nSize,
+    [LibraryImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool WriteProcessMemory(nint hProcess, nint lpBaseAddress, byte[] lpBuffer, uint nSize,
         out nuint lpNumberOfBytesWritten);
 
-    [DllImport("kernel32.dll")]
-    public static extern nint CreateRemoteThread(nint hProcess, nint lpThreadAttributes, uint dwStackSize,
+    [LibraryImport("kernel32.dll")]
+    public static partial nint CreateRemoteThread(nint hProcess, nint lpThreadAttributes, uint dwStackSize,
         nint lpStartAddress, nint lpParameter, uint dwCreationFlags, nint lpThreadId);
-
-    [DllImport("user32.dll")]
-    public static extern int SetForegroundWindow(IntPtr hWnd);
 }

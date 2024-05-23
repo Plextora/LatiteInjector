@@ -6,6 +6,7 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <UseWPF>true</UseWPF>
     <Platforms>AnyCPU;x64</Platforms>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationIcon>Assets\latite.ico</ApplicationIcon>
     <LangVersion>11</LangVersion>
     <AssemblyName>Latite Injector</AssemblyName>
