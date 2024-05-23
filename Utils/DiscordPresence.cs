@@ -80,7 +80,7 @@ public static class DiscordPresence
         }
     }
 
-    public static void DetailedPlayingPresence(object sender, ElapsedEventArgs e)
+    public static void DetailedPlayingPresence(object? sender, ElapsedEventArgs e)
     {
         string serverIP = File.ReadAllText($@"{LatiteFolder}\Logs\serverip.txt");
 

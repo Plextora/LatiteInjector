@@ -24,8 +24,8 @@ public static class Updater
     private static string? _selectedVersion;
 
     private static readonly WebClient? Client = new WebClient();
-    private static readonly MainWindow? Form = Application.Current.Windows[3] as MainWindow;
-    private static readonly ChangelogWindow? ChangelogForm = Application.Current.Windows[1] as ChangelogWindow;
+    private static readonly MainWindow? Form = Application.Current.Windows[0] as MainWindow;
+    private static readonly ChangelogWindow? ChangelogForm = Application.Current.Windows[2] as ChangelogWindow;
 
     private static string? GetLatestInjectorVersion()
     {

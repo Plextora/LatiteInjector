@@ -7,10 +7,9 @@ using System.Globalization;
 using System.IO;
 using System.IO.Packaging;
 using System.Net;
-using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using System.Windows;
-using System.Windows.Forms;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using DiscordRPC;
@@ -39,9 +38,6 @@ public partial class MainWindow
     public static string? CustomDllName;
     public static readonly List<string> VersionList = new();
 
-    private NotifyIcon? _notifyIcon;
-    private readonly ContextMenu _contextMenu = new();
-    private readonly MenuItem _menuItem = new();
     private WindowState _storedWindowState = WindowState.Normal;
 
     public static bool IsDiscordPresenceEnabled;
@@ -94,37 +90,6 @@ public partial class MainWindow
         detailedPresenceTimer.AutoReset = true;
         detailedPresenceTimer.Elapsed += DiscordPresence.DetailedPlayingPresence;
         detailedPresenceTimer.Start();
-
-        _notifyIcon = new NotifyIcon();
-        if (GetLine(File.ReadAllText(SettingsWindow.ConfigFilePath), 4) == "firstrun:true")
-        {
-            _notifyIcon.BalloonTipText =
-                "Latite Injector has been minimized. Click the tray icon to bring back the Latite Injector. Right click the tray icon to exit the Latite Injector";
-            _notifyIcon.BalloonTipTitle = "I'm over here!";
-            SettingsWindow.ModifyConfig("firstrun:false", 4);
-        } /* I really need to find a better way to do this
-           * with this method if you open the config file on the first run, it will say "firstrun:false"
-           * even though it IS the first run. */
-        else
-        {
-            _notifyIcon.BalloonTipText = null;
-            _notifyIcon.BalloonTipTitle = null;
-        }
-
-        _notifyIcon.Text = "Latite Client";
-        var stream = Application.GetResourceStream(new Uri("pack://application:,,,/Assets/latite.ico"))?.Stream;
-
-        if (stream != null)
-            _notifyIcon.Icon =
-                new Icon(stream);
-        _notifyIcon.Click += NotifyIconClick;
-
-        _contextMenu.MenuItems.AddRange(new[] { _menuItem });
-        _menuItem.Index = 0;
-        _menuItem.Text = "Exit Latite Client";
-        _menuItem.Click += MenuExitItem_Click;
-
-        _notifyIcon.ContextMenu = _contextMenu;
     }
 
     private static void OpenGame()
@@ -142,54 +107,12 @@ public partial class MainWindow
 	    process.Start();
     }
 
-    private void OnStateChanged(object sender, EventArgs args)
-    {
-        if (IsHideToTrayEnabled)
-        {
-            if (WindowState == WindowState.Minimized)
-            {
-                Hide();
-                if (IsDiscordPresenceEnabled)
-                    DiscordPresence.MinimizeToTrayPresence();
-                if (_notifyIcon?.BalloonTipText == null) return;
-                _notifyIcon.ShowBalloonTip(2000);
-                _notifyIcon.BalloonTipText = null;
-                _notifyIcon.BalloonTipTitle = null;
-            }
-            else
-                _storedWindowState = WindowState;
-        }
-        else if (!IsHideToTrayEnabled)
-            Application.Current.Shutdown();
-    }
-
-    private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs args) => CheckTrayIcon();
-
-    private void NotifyIconClick(object sender, EventArgs e)
-    {
-        Show();
-        if (IsDiscordPresenceEnabled)
-            if (!IsMinecraftRunning)
-                DiscordPresence.IdlePresence();
-            else if (IsMinecraftRunning)
-                DiscordPresence.PlayingPresence();
-        WindowState = _storedWindowState;
-    }
-
-    private void CheckTrayIcon() => ShowTrayIcon(!IsVisible);
-
-    private void ShowTrayIcon(bool show)
-    {
-        if (_notifyIcon != null)
-            _notifyIcon.Visible = show;
-    }
-
     private static void OnUnhandledException(object sender,
         UnhandledExceptionEventArgs e) =>
         Logging.ErrorLogging(e.ExceptionObject as Exception);
 
     private void CloseButton_Click(object sender, RoutedEventArgs e) =>
-        WindowState = WindowState.Minimized;
+        Application.Current.Shutdown();
 
     private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
 
@@ -343,7 +266,5 @@ public partial class MainWindow
     private void Window_Closing(object sender, CancelEventArgs e)
     {
         DiscordPresence.ShutdownPresence();
-        _notifyIcon?.Dispose();
-        _notifyIcon = null;
     }
 }

@@ -11,9 +11,7 @@
     Background="Transparent"
     Closing="Window_Closing"
     Icon="Assets/latite.ico"
-    IsVisibleChanged="OnIsVisibleChanged"
     ResizeMode="NoResize"
-    StateChanged="OnStateChanged"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">

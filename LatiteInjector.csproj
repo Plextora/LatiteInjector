@@ -1,88 +1,73 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <OutputType>WinExe</OutputType>
-        <TargetFramework>net48</TargetFramework>
-        <Nullable>enable</Nullable>
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier> 
-        <UseWPF>true</UseWPF>
-        <Platforms>AnyCPU;x64</Platforms>
-        <ApplicationIcon>Assets\latite.ico</ApplicationIcon>
-        <LangVersion>11</LangVersion>
-        <AssemblyName>Latite Injector</AssemblyName>
-        <Company>Plextora</Company>
-        <Product>Latite Injector</Product>
-	    <GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <None Remove="Assets\Background.png" />
-      <None Remove="Assets\Discord Icon.png" />
-      <None Remove="Assets\LatiteIcon.png" />
-      <None Remove="Assets\LatiteText.png" />
-      <None Remove="Assets\SettingsIcon.png" />
-      <None Remove="Assets\X.png" />
-      <None Remove="Background.png" />
-      <None Remove="Discord Icon.png" />
-      <None Remove="latite.png" />
-      <None Remove="LatiteIcon.png" />
-      <None Remove="LatiteText.png" />
-      <None Remove="SettingsIcon.png" />
-      <None Remove="X.png" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Resource Include="Assets\latite.ico" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Resource Include="Assets\Background.png" />
-      <Resource Include="Assets\Discord Icon.png" />
-      <Resource Include="Assets\LatiteIcon.png" />
-      <Resource Include="Assets\LatiteText.png" />
-      <Resource Include="Assets\SettingsIcon.png" />
-      <Resource Include="Assets\X.png" />
-      <Resource Include="latite.png" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Costura.Fody" Version="5.7.0">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="DiscordRichPresence" Version="1.1.3.18" />
-      <PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="System.Windows.Forms" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="Properties\Resources.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>Resources.resx</DependentUpon>
-      </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Update="Properties\Resources.resx">
-        <Generator>PublicResXFileCodeGenerator</Generator>
-        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-    </ItemGroup>
-
-    <ItemGroup>
-      <COMReference Include="Shell32">
-        <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
-        <VersionMajor>1</VersionMajor>
-        <VersionMinor>0</VersionMinor>
-        <Lcid>0</Lcid>
-        <WrapperTool>tlbimp</WrapperTool>
-        <Isolated>False</Isolated>
-        <EmbedInteropTypes>True</EmbedInteropTypes>
-      </COMReference>
-    </ItemGroup>
-
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x64</Platforms>
+    <ApplicationIcon>Assets\latite.ico</ApplicationIcon>
+    <LangVersion>11</LangVersion>
+    <AssemblyName>Latite Injector</AssemblyName>
+    <Company>Plextora</Company>
+    <Product>Latite Injector</Product>
+    <GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
+    <UseWindowsForms>False</UseWindowsForms>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Assets\Background.png" />
+    <None Remove="Assets\Discord Icon.png" />
+    <None Remove="Assets\LatiteIcon.png" />
+    <None Remove="Assets\LatiteText.png" />
+    <None Remove="Assets\SettingsIcon.png" />
+    <None Remove="Assets\X.png" />
+    <None Remove="Background.png" />
+    <None Remove="Discord Icon.png" />
+    <None Remove="latite.png" />
+    <None Remove="LatiteIcon.png" />
+    <None Remove="LatiteText.png" />
+    <None Remove="SettingsIcon.png" />
+    <None Remove="X.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\latite.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Background.png" />
+    <Resource Include="Assets\Discord Icon.png" />
+    <Resource Include="Assets\LatiteIcon.png" />
+    <Resource Include="Assets\LatiteText.png" />
+    <Resource Include="Assets\SettingsIcon.png" />
+    <Resource Include="Assets\X.png" />
+    <Resource Include="latite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DiscordRichPresence" Version="1.1.3.18" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.5" />
+    <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Shell32">
+      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
 </Project>

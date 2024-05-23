@@ -47,7 +47,7 @@ public static class Injector
             if (IsCloseAfterInjectedEnabled)
             {
                 if (IsHideToTrayEnabled)
-                    Application.Current.Windows[3].WindowState = WindowState.Minimized;
+                    Application.Current.Windows[0].WindowState = WindowState.Minimized;
                 else
                     Application.Current.Shutdown();
             }
