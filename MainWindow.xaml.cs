@@ -235,7 +235,8 @@ public partial class MainWindow
             DiscordPresence.CreditsPresence();
     }
 
-    private void OpenLatiteFolderLabel_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e) => Process.Start(LatiteFolder);
+    private void OpenLatiteFolderLabel_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e) =>
+        Process.Start("explorer.exe", LatiteFolder);
 
     private void SettingsButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
