@@ -68,19 +68,8 @@ public static class DiscordPresence
 
     public static void PlayingPresence()
     {
-        DiscordClient.SetPresence(new RichPresence
-        {
-            Timestamps = CurrentTimestamp,
-            Buttons = new[]
-            {
-                new Button { Label = "Download Latite Client", Url = "https://discord.gg/zcJfXxKTA4" }
-            },
-            Assets = new Assets
-            {
-                LargeImageKey = "latite",
-                LargeImageText = "Latite Client Icon"
-            }
-        }); // this is scuffed but DiscordClient.UpdateSmallAsset() doesn't actually remove small assets so my hands are tied
+        DiscordClient.UpdateLargeAsset("minecraft", "Minecraft Bedrock Logo");
+        DiscordClient.UpdateSmallAsset("latite", "Latite Client Icon");
         if (!IsCustomDll)
         {
             DiscordClient.UpdateDetails(
