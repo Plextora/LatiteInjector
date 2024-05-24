@@ -186,20 +186,6 @@
                 FontSize="20px"
                 FontWeight="DemiBold"
                 Foreground="AliceBlue" />
-            <CheckBox
-                x:Name="HideToTrayCheckBox"
-                Margin="18,155,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                x:FieldModifier="public"
-                Background="#202020"
-                Click="HideToTrayCheckBox_OnClick"
-                Content="Hide to system tray on close"
-                Cursor="Hand"
-                FontSize="17"
-                Foreground="AliceBlue"
-                IsChecked="False"
-                Style="{StaticResource CheckBox}" />
             <Image
                 Width="20"
                 Height="20"
@@ -220,7 +206,7 @@
                 Opacity="0" />
             <CheckBox
                 x:Name="CloseAfterInjectedCheckBox"
-                Margin="18,185,0,0"
+                Margin="18,149,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 x:FieldModifier="public"

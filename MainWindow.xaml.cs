@@ -41,7 +41,6 @@ public partial class MainWindow
     private WindowState _storedWindowState = WindowState.Normal;
 
     public static bool IsDiscordPresenceEnabled;
-    public static bool IsHideToTrayEnabled;
     public static bool IsCloseAfterInjectedEnabled;
 
     public MainWindow()
@@ -262,7 +261,6 @@ public partial class MainWindow
     }
 
     private static void OnClosing(object sender, CancelEventArgs e) => e.Cancel = true;
-    private static void MenuExitItem_Click(object sender, EventArgs e) => Application.Current.Shutdown();
 
     private void Window_Closing(object sender, CancelEventArgs e)
     {

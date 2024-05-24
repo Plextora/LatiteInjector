@@ -30,15 +30,12 @@ public partial class SettingsWindow : Window
             File.Create(ConfigFilePath).Close();
             string defaultConfigText =
                 "discordstatus:true\n" +
-                "hidetotray:false\n" +
-                "closeafterinjected:false\n" +
-                "firstrun:true\n";
+                "closeafterinjected:false\n";
 
             File.WriteAllText(ConfigFilePath, defaultConfigText);
 
             // set default config values
             IsDiscordPresenceEnabled = true;
-            IsHideToTrayEnabled = false;
             IsCloseAfterInjectedEnabled = false;
         }
         else
@@ -51,10 +48,8 @@ public partial class SettingsWindow : Window
     {
         string config = File.ReadAllText(ConfigFilePath);
         IsDiscordPresenceEnabled = GetLine(config, 1) == "discordstatus:true";
-        IsHideToTrayEnabled = GetLine(config, 2) == "hidetotray:true";
-        IsCloseAfterInjectedEnabled = GetLine(config, 3) == "closeafterinjected:true";
+        IsCloseAfterInjectedEnabled = GetLine(config, 2) == "closeafterinjected:true";
         DiscordPresenceCheckBox.IsChecked = IsDiscordPresenceEnabled;
-        HideToTrayCheckBox.IsChecked = IsHideToTrayEnabled;
         CloseAfterInjectedCheckBox.IsChecked = IsCloseAfterInjectedEnabled;
     }
 
@@ -94,15 +89,6 @@ public partial class SettingsWindow : Window
             DiscordPresence.StopPresence();
             ModifyConfig("discordstatus:false", 1);
         }
-    }
-
-    private void HideToTrayCheckBox_OnClick(object sender, RoutedEventArgs e)
-    {
-        IsHideToTrayEnabled = (bool)HideToTrayCheckBox.IsChecked;
-        if (IsHideToTrayEnabled)
-            ModifyConfig("hidetotray:true", 2);
-        else if (!IsHideToTrayEnabled)
-            ModifyConfig("hidetotray:false", 2);
     }
 
     private void CloseAfterInjectedCheckBox_OnClick(object sender, RoutedEventArgs e)

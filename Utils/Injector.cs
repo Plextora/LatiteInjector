@@ -45,12 +45,7 @@ public static class Injector
             if (IsDiscordPresenceEnabled)
                 DiscordPresence.PlayingPresence();
             if (IsCloseAfterInjectedEnabled)
-            {
-                if (IsHideToTrayEnabled)
-                    Application.Current.Windows[0].WindowState = WindowState.Minimized;
-                else
-                    Application.Current.Shutdown();
-            }
+                Application.Current.Shutdown();
         }
         catch (Exception? e)
         {
