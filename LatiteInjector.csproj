@@ -14,6 +14,9 @@
     <Product>Latite Injector</Product>
     <GenerateResourceUsePreserializedResources>True</GenerateResourceUsePreserializedResources>
     <UseWindowsForms>False</UseWindowsForms>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <StartupObject>LatiteInjector.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\Background.png" />
