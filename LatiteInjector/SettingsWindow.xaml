@@ -9,6 +9,7 @@
     Width="376"
     Height="324"
     AllowsTransparency="True"
+    RenderOptions.BitmapScalingMode="HighQuality"
     Background="Transparent"
     ResizeMode="NoResize"
     WindowStyle="None"
@@ -159,7 +160,7 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Content="Discord activity status settings"
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="20px"
                 FontWeight="DemiBold"
                 Foreground="AliceBlue" />
@@ -182,7 +183,7 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Content="Misc."
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="20px"
                 FontWeight="DemiBold"
                 Foreground="AliceBlue" />

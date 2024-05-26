@@ -9,6 +9,7 @@
     Width="376"
     Height="324"
     AllowsTransparency="True"
+    RenderOptions.BitmapScalingMode="HighQuality"
     Background="Transparent"
     ResizeMode="NoResize"
     WindowStyle="None"
@@ -21,7 +22,6 @@
         <Border.Background>
             <ImageBrush
                 ImageSource="/Assets/Background.png"
-                Opacity="0.9"
                 Stretch="Fill" />
         </Border.Background>
         <Grid>
@@ -30,7 +30,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Content="Launcher made by Plextora"
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="15px"
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
@@ -39,7 +39,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Content="Latite Client made by JayRSky (Imrglop)"
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="15px"
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
@@ -48,7 +48,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Content="Some injector code made by carlton"
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="15px"
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
@@ -75,7 +75,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Content="Launcher design by CreativeMC"
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="14px"
                 FontWeight="Regular"
                 Foreground="AliceBlue" />

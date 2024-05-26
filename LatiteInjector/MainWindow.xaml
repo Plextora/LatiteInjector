@@ -8,6 +8,7 @@
     Width="650"
     Height="435"
     AllowsTransparency="True"
+    RenderOptions.BitmapScalingMode="HighQuality"
     Background="Transparent"
     Closing="Window_Closing"
     Icon="Assets/latite.ico"
@@ -15,172 +16,35 @@
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
-    <!--  region Control Templates & Styles  -->
+
     <Window.Resources>
         <ControlTemplate x:Key="LaunchButton" TargetType="Button">
             <Border Name="RootElement">
                 <Border
-                    Margin="0,0,0,-11"
-                    BorderBrush="#29552a"
-                    BorderThickness="4,5,4,5"
+                    Name="ButtonBorder"
                     CornerRadius="10">
                     <Border.Background>
-                        <SolidColorBrush x:Name="ButtonBackground" Color="#4eb224" />
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#10a9a8" Offset="0.0" />
+                            <GradientStop Color="#5f65b9" Offset="1.0" />
+                        </LinearGradientBrush>
                     </Border.Background>
+                    <Border.Effect>
+                        <DropShadowEffect
+                            ShadowDepth="2"
+                            Color="#3788b1"
+                            Opacity="1"
+                            BlurRadius="20" />
+                    </Border.Effect>
                     <ContentPresenter
-                        Margin="0,16,0,16"
                         HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Content="LAUNCH" />
                 </Border>
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal">
-                            <Storyboard>
-                                <ColorAnimation
-                                    SpeedRatio="8"
-                                    Storyboard.TargetName="ButtonBackground"
-                                    Storyboard.TargetProperty="Color"
-                                    To="#4eb224" />
-                            </Storyboard>
-                        </VisualState>
-                        <VisualState x:Name="MouseOver">
-                            <Storyboard>
-                                <ColorAnimation
-                                    SpeedRatio="8"
-                                    Storyboard.TargetName="ButtonBackground"
-                                    Storyboard.TargetProperty="Color"
-                                    To="#439121" />
-                            </Storyboard>
-                        </VisualState>
-                        <VisualState x:Name="Pressed">
-                            <Storyboard>
-                                <ColorAnimation
-                                    SpeedRatio="8"
-                                    Storyboard.TargetName="ButtonBackground"
-                                    Storyboard.TargetProperty="Color"
-                                    To="#3d7d20" />
-                            </Storyboard>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
             </Border>
         </ControlTemplate>
-        <Style x:Key="ComboboxButtonStyle" TargetType="{x:Type ToggleButton}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Border
-                            x:Name="border"
-                            Background="#FF2D1F3A"
-                            BorderBrush="#FF201926"
-                            BorderThickness="0,4,4,4"
-                            CornerRadius="0,10,10,0">
-                            <ContentPresenter />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="ComboboxTextBoxStyle" TargetType="{x:Type TextBox}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TextBox}">
-                        <Grid>
-                            <Border
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="#FF201926"
-                                BorderThickness="4,4,0,4"
-                                CornerRadius="10,0,0,10">
-                                <ScrollViewer x:Name="PART_ContentHost" />
-                            </Border>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="ComboboxStyle" TargetType="{x:Type ComboBox}">
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ComboBox}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition MaxWidth="18" />
-                            </Grid.ColumnDefinitions>
-                            <TextBox
-                                Name="PART_EditableTextBox"
-                                Height="{TemplateBinding Height}"
-                                Padding="5,5,0,0"
-                                Background="#FF2D1F3A"
-                                Focusable="False"
-                                FontFamily="Inter"
-                                FontSize="10px"
-                                Foreground="White"
-                                IsEnabled="False"
-                                SelectionBrush="#FFD3BAEB"
-                                Style="{StaticResource ComboboxTextBoxStyle}" />
-                            <ToggleButton
-                                Grid.Column="1"
-                                Height="{TemplateBinding Height}"
-                                Margin="0"
-                                ClickMode="Press"
-                                Cursor="Hand"
-                                Focusable="False"
-                                IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                Style="{StaticResource ComboboxButtonStyle}">
-                                <Path
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Data="M 0 0 L 4 5 L 8 0 Z"
-                                    Fill="White" />
-                            </ToggleButton>
-                            <ContentPresenter
-                                Name="ContentSite"
-                                Grid.Column="0"
-                                Margin="5,0,0,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Content="{TemplateBinding SelectionBoxItem}"
-                                ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" />
-                            <Popup
-                                Name="Popup"
-                                AllowsTransparency="True"
-                                Focusable="False"
-                                IsOpen="{TemplateBinding IsDropDownOpen}"
-                                Placement="Bottom"
-                                PopupAnimation="Fade">
-                                <Border
-                                    BorderBrush="#FF201926"
-                                    BorderThickness="1"
-                                    CornerRadius="10">
-                                    <Grid
-                                        Name="DropDown"
-                                        MinWidth="{TemplateBinding ActualWidth}"
-                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                        Background="#FF2D1F3A"
-                                        SnapsToDevicePixels="True">
-                                        <Border
-                                            x:Name="DropDownBorder"
-                                            BorderBrush="#FF201926"
-                                            BorderThickness="1"
-                                            CornerRadius="10" />
-                                        <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
-                                            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
-                                        </ScrollViewer>
-                                    </Grid>
-                                </Border>
-                            </Popup>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Window.Resources>
+
     <Border
         Padding="2"
         BorderBrush="Transparent"
@@ -212,69 +76,67 @@
                 Source="/Assets/SettingsIcon.png" />
             <Label
                 x:Name="OpenLatiteFolderLabel"
-                Margin="293,390,0,0"
+                Margin="300,390,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Content="Open Latite Folder"
                 Cursor="Hand"
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 Style="{StaticResource HoverEffect}"
                 FontSize="15px"
                 Foreground="White"
                 MouseLeftButtonUp="OpenLatiteFolderLabel_OnMouseLeftButtonUp" />
             <Label
                 x:Name="ChangelogLabel"
-                Margin="435,390,0,0"
+                Margin="438,390,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Content="Changelog"
                 Cursor="Hand"
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 Style="{StaticResource HoverEffect}"
                 FontSize="15px"
                 Foreground="White"
                 MouseLeftButtonUp="ChangelogButton_OnClick" />
             <Label
                 x:Name="CreditLabel"
-                Margin="522,390,0,0"
+                Margin="525,390,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Content="Credits"
                 Cursor="Hand"
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="15px"
                 Foreground="White"
                 Style="{StaticResource HoverEffect}"
                 MouseLeftButtonUp="CreditButton_OnClick" />
-
             <Button
                 x:Name="LaunchButton"
                 Margin="204,163,204,196"
-                Background="#4eb224"
-                BorderBrush="#29552a"
                 BorderThickness="4,5,4,5"
                 Click="LaunchButton_OnLeftClick"
                 Cursor="Hand"
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="30px"
                 FontWeight="Bold"
                 Foreground="White"
                 MouseRightButtonUp="LaunchButton_OnRightClick"
-                Template="{StaticResource LaunchButton}" />
+                Template="{StaticResource LaunchButton}"
+                Style="{StaticResource HoverEffect}"/>
             <Image
                 Width="56"
                 Height="56"
-                Margin="10,10,0,0"
+                Margin="10,11,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Source="/Assets/LatiteIcon.png" />
-            <Image
-                Width="210"
-                Height="60"
-                Margin="71,10,0,0"
+            <Label
                 HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Source="/Assets/LatiteText.png" />
+                Content="Latite Client"
+                FontFamily="Segoe UI"
+                FontSize="35px"
+                FontWeight="Light"
+                Foreground="White" Margin="76,10,0,365" />
             <Image
                 Width="26"
                 Height="26"
@@ -286,23 +148,24 @@
                 Style="{StaticResource HoverEffect}"
                 Source="/Assets/X.png" />
             <Label
-                Width="258"
-                Margin="0,250,0,0"
+                Margin="0,251,0,0"
+                Width="350"
                 HorizontalAlignment="Center"
+                HorizontalContentAlignment="Center"
                 VerticalAlignment="Top"
                 Content="Right click the launch button to inject custom DLLs"
-                FontFamily="Inter"
-                FontSize="10px"
+                FontFamily="Segoe UI"
+                FontSize="15px"
                 Foreground="White" />
             <Label
                 x:Name="StatusLabel"
                 Width="240"
-                Margin="54,395,0,0"
+                Margin="54,390,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Content="Status: Idle"
-                FontFamily="Inter"
-                FontSize="10px"
+                FontFamily="Segoe UI"
+                FontSize="15px"
                 Foreground="White" />
             <Border
                 Panel.ZIndex="-5"

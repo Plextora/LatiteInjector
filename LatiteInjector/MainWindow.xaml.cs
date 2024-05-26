@@ -58,21 +58,6 @@ public partial class MainWindow
                 "32 bit OS/Computer", MessageBoxButton.OK, MessageBoxImage.Error);
             Application.Current.Shutdown();
         }
-        
-        if (!FontManager.IsFontInstalled("Inter"))
-        {
-            var result = MessageBox.Show(
-                "The font that Latite Injector uses (Inter) is not installed. Do you want to install it?",
-                "Install font", MessageBoxButton.YesNo, MessageBoxImage.Information);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                Client?.DownloadFile("https://github.com/Imrglop/Latite-Releases/raw/main/injector/InterFont.ttf",
-                    "Inter.ttf");
-                FontManager.InstallFont($"{Directory.GetCurrentDirectory()}\\Inter.ttf");
-                File.Delete($"{Directory.GetCurrentDirectory()}\\Inter.ttf");
-            }
-        }
 
         Updater.UpdateInjector();
         DiscordPresence.InitializePresence();

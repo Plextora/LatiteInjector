@@ -9,6 +9,7 @@
     Width="390"
     Height="350"
     AllowsTransparency="True"
+    RenderOptions.BitmapScalingMode="HighQuality"
     Background="Transparent"
     ResizeMode="NoResize"
     WindowStyle="None"
@@ -21,7 +22,6 @@
         <Border.Background>
             <ImageBrush
                 ImageSource="/Assets/Background.png"
-                Opacity="0.9"
                 Stretch="UniformToFill" />
         </Border.Background>
         <Grid>
@@ -47,7 +47,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Content="Client"
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="20px"
                 FontWeight="Regular"
                 Foreground="White" />
@@ -56,7 +56,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Content="Injector"
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="20px"
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
@@ -67,7 +67,7 @@
                 VerticalAlignment="Top"
                 x:FieldModifier="public"
                 Content=""
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="10px"
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
@@ -78,7 +78,7 @@
                 VerticalAlignment="Top"
                 x:FieldModifier="public"
                 Content=""
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="10px"
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
@@ -89,7 +89,7 @@
                 VerticalAlignment="Top"
                 x:FieldModifier="public"
                 Content=""
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="10px"
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
@@ -100,7 +100,7 @@
                 VerticalAlignment="Top"
                 x:FieldModifier="public"
                 Content=""
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="10px"
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
@@ -111,7 +111,7 @@
                 VerticalAlignment="Top"
                 x:FieldModifier="public"
                 Content=""
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="10px"
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
@@ -122,7 +122,7 @@
                 VerticalAlignment="Top"
                 x:FieldModifier="public"
                 Content=""
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="10px"
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
@@ -133,7 +133,7 @@
                 VerticalAlignment="Top"
                 x:FieldModifier="public"
                 Content=""
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="10px"
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
@@ -144,7 +144,7 @@
                 VerticalAlignment="Top"
                 x:FieldModifier="public"
                 Content=""
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="10px"
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
@@ -152,7 +152,7 @@
                 Margin="256,311,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="7px"
                 FontWeight="Regular"
                 Foreground="AliceBlue" />
@@ -163,7 +163,7 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Content="Injector version: "
-                FontFamily="Inter"
+                FontFamily="Segoe UI"
                 FontSize="7px"
                 FontWeight="Regular"
                 Foreground="White" />
