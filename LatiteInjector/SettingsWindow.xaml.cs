@@ -95,8 +95,8 @@ public partial class SettingsWindow : Window
     {
         IsCloseAfterInjectedEnabled = (bool)CloseAfterInjectedCheckBox.IsChecked;
         if (IsCloseAfterInjectedEnabled)
-            ModifyConfig("closeafterinjected:true", 3);
+            ModifyConfig("closeafterinjected:true", 2);
         else if (!IsCloseAfterInjectedEnabled)
-            ModifyConfig("closeafterinjected:false", 3);
+            ModifyConfig("closeafterinjected:false", 2);
     }
 }
