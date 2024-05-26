@@ -19,6 +19,12 @@
     <StartupObject>LatiteInjector.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="LatiteInjector\**" />
+    <EmbeddedResource Remove="LatiteInjector\**" />
+    <None Remove="LatiteInjector\**" />
+    <Page Remove="LatiteInjector\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Assets\Background.png" />
     <None Remove="Assets\Discord Icon.png" />
     <None Remove="Assets\LatiteIcon.png" />
