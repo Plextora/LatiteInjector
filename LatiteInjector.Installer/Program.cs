@@ -12,6 +12,12 @@ namespace LatiteInjector.Installer
 
         private static async Task Main(string[] args)
         {
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+
+            static void OnUnhandledException(object sender,
+                UnhandledExceptionEventArgs e) =>
+                Utils.ErrorDump(e.ExceptionObject as Exception);
+
             Console.Title = "Latite Injector Installer";
 
             if (!Environment.Is64BitOperatingSystem)
@@ -50,12 +56,12 @@ namespace LatiteInjector.Installer
                 Process dotnetInstaller = Process.Start(new ProcessStartInfo
                 {
                     FileName = downloadPath,
-                    Arguments = "/q" // run installer quietly
+                    Arguments = "/passive /norestart" // run installer quietly
                 });
 
                 dotnetInstaller?.WaitForExit();
                 File.Delete(downloadPath);
-                if (Utils.IsNet8Installed())
+                if (dotnetInstaller?.ExitCode == 0)
                 {
                     Utils.WriteColor(".NET 8 has been installed!", ConsoleColor.Green);
                     Thread.Sleep(4000);
@@ -71,7 +77,12 @@ namespace LatiteInjector.Installer
             Utils.WriteColor("[2/3] Downloading Latite Injector\n", ConsoleColor.White);
 
             if (Directory.Exists(LatiteInjectorFolder))
-                Utils.WriteColor("The Latite Injector directory already exists, no need to create a new one", ConsoleColor.DarkGray);
+            {
+                Utils.WriteColor("The Latite Injector directory already exists, wiping and recreating directory..", ConsoleColor.DarkGray);
+                Directory.Delete(LatiteInjectorFolder, true);
+                Directory.CreateDirectory(LatiteInjectorFolder);
+                Utils.WriteColor("Created directory!", ConsoleColor.Green);
+            }
             else if (!Directory.Exists(LatiteInjectorFolder))
             {
                 Utils.WriteColor("The Latite Injector directory does not exist. Creating it now..", ConsoleColor.Yellow);
@@ -89,27 +100,26 @@ namespace LatiteInjector.Installer
             Console.Clear();
             Utils.WriteColor("[3/3] Extra", ConsoleColor.White);
 
-            Utils.WriteColor("Do you want to create a shortcut to Latite Injector on your Desktop?", ConsoleColor.White);
-            Utils.WriteColor("For yes, type and enter \"yes\" for no, type and enter \"no\" ", ConsoleColor.White);
-            Console.Write("> ");
+            Utils.WriteColor(
+                "The installer will now create a Desktop shortcut to Latite Injector.\nYou can delete this shortcut off of your Desktop if you don't want it.",
+                ConsoleColor.White);
 
-            if (Console.ReadLine() == "yes")
-            {
-                Utils.CreateShortcut($"{LatiteInjectorFolder}\\Latite Injector.exe",
-                    "Latite Client's new and improved injector!",
-                    "$\"{LatiteInjectorFolder}\\\\Latite Injector.exe",
-                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
-                        "Latite Injector.lnk"));
+            Thread.Sleep(4000);
 
-                Utils.WriteColor("Added shortcut to Desktop!", ConsoleColor.Green);
-            }
+            Utils.CreateShortcut($"{LatiteInjectorFolder}\\Latite Injector.exe",
+                "Latite Client's new and improved injector!",
+                "$\"{LatiteInjectorFolder}\\\\Latite Injector.exe",
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
+                    "Latite Injector.lnk"));
+
+            Utils.WriteColor("Added shortcut to Desktop!", ConsoleColor.Green);
 
             Utils.WriteColor(
                 $"Latite Injector's installation has completed!\nLatite Injector's exe is now located in {LatiteInjectorFolder}.",
                 ConsoleColor.Green);
             Utils.WriteColor("Press any key to close this window.", ConsoleColor.White);
 
-            Console.ReadLine();
+            Console.ReadKey();
         }
     }
 }

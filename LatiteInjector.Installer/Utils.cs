@@ -44,6 +44,16 @@ namespace LatiteInjector.Installer
             void SetPath([MarshalAs(UnmanagedType.LPWStr)] string pszFile);
         }
 
+        public static void ErrorDump(Exception err)
+        {
+            if (!File.Exists("err.txt")) File.Create("err.txt").Close();
+
+            File.WriteAllText("err.txt", err.ToString());
+
+            Console.WriteLine("Wrote error to err.txt! (same directory this exe is in) please report this error to the developers in the Discord server!");
+            Console.ReadKey();
+        }
+
         public static void WriteColor(string message, ConsoleColor color)
         {
             Console.ForegroundColor = color;
@@ -66,12 +76,14 @@ namespace LatiteInjector.Installer
                 FileName = "dotnet",
                 Arguments = "--version",
                 RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 UseShellExecute = false
             });
 
             dotnetVersionProcess?.WaitForExit();
-            string output = dotnetVersionProcess?.StandardOutput.ReadToEnd();
-            if (output != null && output.StartsWith("8."))
+            string stdout = dotnetVersionProcess?.StandardOutput.ReadToEnd();
+            string stderr = dotnetVersionProcess?.StandardError.ReadLine();
+            if (stdout != null && stdout.StartsWith("8."))
                 return true;
             return false;
         }
