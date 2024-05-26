@@ -108,7 +108,7 @@ namespace LatiteInjector.Installer
 
             Utils.CreateShortcut($"{LatiteInjectorFolder}\\Latite Injector.exe",
                 "Latite Client's new and improved injector!",
-                "$\"{LatiteInjectorFolder}\\\\Latite Injector.exe",
+                $"{LatiteInjectorFolder}\\Latite Injector.exe",
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
                     "Latite Injector.lnk"));
 

@@ -95,7 +95,7 @@ namespace LatiteInjector.Installer
             // setup shortcut information
             link.SetPath(shortcutPath);
             link.SetDescription(shortcutDescription);
-            link.SetIconLocation($"{Program.LatiteInjectorFolder}\\Latite Injector.exe", 0);
+            link.SetIconLocation(shortcutIconPath, 0);
 
             // save it
             IPersistFile file = link as IPersistFile;
