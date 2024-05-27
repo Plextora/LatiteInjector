@@ -19,9 +19,9 @@ namespace LatiteInjector
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Hide();
-            if (IsDiscordPresenceEnabled)
+            if (SettingsWindow.IsDiscordPresenceEnabled)
             {
-                if (!IsMinecraftRunning)
+                if (!Injector.IsMinecraftRunning())
                 {
                     DiscordPresence.IdlePresence();
                     return;

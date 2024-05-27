@@ -1,21 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.IO.Packaging;
-using System.Net;
-using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
 using DiscordRPC;
 using LatiteInjector.Utils;
 using Application = System.Windows.Application;
-using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace LatiteInjector;
@@ -25,75 +15,17 @@ namespace LatiteInjector;
 /// </summary>
 public partial class MainWindow
 {
-    public static Process? Minecraft;
-    public static string MinecraftVersion = "";
-    public static string LatiteFolder =
-        $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\LatiteRecode";
-    private static readonly SettingsWindow SettingsWindow = new();
-    private static readonly ChangelogWindow ChangelogWindow = new();
-    private static readonly CreditWindow CreditWindow = new();
-    private static readonly WebClient? Client = new WebClient();
-    public static bool IsMinecraftRunning;
-    public static bool IsCustomDll;
-    public static string? CustomDllName;
-    public static readonly List<string> VersionList = new();
-
-    private WindowState _storedWindowState = WindowState.Normal;
-
-    public static bool IsDiscordPresenceEnabled;
-    public static bool IsCloseAfterInjectedEnabled;
-
     public MainWindow()
     {
-        AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
-        
         InitializeComponent();
-
-        Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
-
-        if (!Environment.Is64BitOperatingSystem)
-        {
-            MessageBox.Show(
-                "It looks like you're running a 32 bit OS/Computer. Sadly, you cannot use Latite Client with a 32 bit OS/Computer. Please do not report this as a bug, make a ticket, or ask how to switch to 64 bit in the Discord, you cannot use Latite Client AT ALL!!!",
-                "32 bit OS/Computer", MessageBoxButton.OK, MessageBoxImage.Error);
-            Application.Current.Shutdown();
-        }
-
-        Updater.UpdateInjector();
-        DiscordPresence.InitializePresence();
-        if (IsDiscordPresenceEnabled)
-            DiscordPresence.DefaultPresence();
-        SettingsWindow.Closing += OnClosing;
-        ChangelogWindow.Closing += OnClosing;
-        CreditWindow.Closing += OnClosing;
-        Updater.GetInjectorChangelog();
-        Updater.GetClientChangelog();
-
-        // is this probably a bad practice? yes! do i care? no!
-        System.Timers.Timer detailedPresenceTimer = new(5000);
-        detailedPresenceTimer.AutoReset = true;
-        detailedPresenceTimer.Elapsed += DiscordPresence.DetailedPlayingPresence;
-        detailedPresenceTimer.Start();
     }
 
-    private static void OpenGame()
+    private async void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
     {
-	    var process = new Process
-	    {
-		    StartInfo = new ProcessStartInfo
-		    {
-			    WindowStyle = ProcessWindowStyle.Normal,
-			    FileName = "explorer.exe",
-			    Arguments = "shell:appsFolder\\Microsoft.MinecraftUWP_8wekyb3d8bbwe!App"
-		    }
-	    };
-	    
-	    process.Start();
+        await Updater.UpdateInjector();
+        await Updater.GetInjectorChangelog();
+        await Updater.GetClientChangelog();
     }
-
-    private static void OnUnhandledException(object sender,
-        UnhandledExceptionEventArgs e) =>
-        Logging.ErrorLogging(e.ExceptionObject as Exception);
 
     private void CloseButton_Click(object sender, RoutedEventArgs e) =>
         Application.Current.Shutdown();
@@ -110,48 +42,16 @@ public partial class MainWindow
     {
         if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
 
-        OpenGame();
-        
-        while (true)
-        {
-            if (Process.GetProcessesByName("Minecraft.Windows").Length == 0)
-                continue; // skip this execution of loop if true
-            Minecraft = Process.GetProcessesByName("Minecraft.Windows")[0];
-            bool shouldGo = true;
-            while (MinecraftVersion.Length == 0)
-            {
-                int myCount = 0;
-            retry:
-                myCount++;
-                // this is cringe but I have no clue why its being cringe without this
-                try
-                {
-                    MinecraftVersion = Minecraft.MainModule?.FileVersionInfo.FileVersion;
-                } catch
-                {
-                    if (myCount > 10)
-                    {
-                        MessageBox.Show("Could not inject. Please try again, or inject while Minecraft is already open.");
-                        return;
-                    }
-                    goto retry;
-                }
-            }
+        Injector.OpenMinecraft();
 
-            if (shouldGo)
-            {
-                if (IsCustomDll)
-                    await Injector.WaitForModules();
-                Injector.Inject(Updater.DownloadDll());
-                IsMinecraftRunning = true;
-                DiscordPresence.CurrentTimestamp = Timestamps.Now;
+        await Injector.InjectionPrep();
 
-                Minecraft.EnableRaisingEvents = true;
-                Minecraft.Exited += IfMinecraftExited;
-            }
+        Injector.Inject(await Updater.DownloadDll());
+        SetStatusLabel.Completed("Injected Latite Client!");
+        DiscordPresence.CurrentTimestamp = Timestamps.Now;
 
-            return;
-        }
+        Injector.Minecraft.EnableRaisingEvents = true;
+        Injector.Minecraft.Exited += IfMinecraftExited;
     }
 
     private async void LaunchButton_OnRightClick(object sender, RoutedEventArgs e)
@@ -170,62 +70,56 @@ public partial class MainWindow
             return;
         }
 
-        CustomDllName = openFileDialog.SafeFileName;
+        Injector.CustomDllName = openFileDialog.SafeFileName;
 
         if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
 
-        OpenGame();
+        Injector.OpenMinecraft();
 
-        while (true)
-        {
-            if (Process.GetProcessesByName("Minecraft.Windows").Length == 0) continue;
-            Minecraft = Process.GetProcessesByName("Minecraft.Windows")[0];
-            break;
-        }
+        await Injector.InjectionPrep();
 
-        IsCustomDll = true;
+        Injector.IsCustomDll = true;
         await Injector.WaitForModules();
         Injector.Inject(openFileDialog.FileName);
-        IsMinecraftRunning = true;
+        SetStatusLabel.Completed("Injected custom DLL!");
         DiscordPresence.CurrentTimestamp = Timestamps.Now;
 
-        Minecraft.EnableRaisingEvents = true;
-        Minecraft.Exited += IfMinecraftExited;
+        Injector.Minecraft.EnableRaisingEvents = true;
+        Injector.Minecraft.Exited += IfMinecraftExited;
     }
 
     private static void IfMinecraftExited(object sender, EventArgs e)
     {
-        if (IsDiscordPresenceEnabled)
+        if (SettingsWindow.IsDiscordPresenceEnabled)
         {
             DiscordPresence.CurrentTimestamp = Timestamps.Now;
             DiscordPresence.IdlePresence();
         }
         Application.Current.Dispatcher.Invoke(SetStatusLabel.Default);
-        IsMinecraftRunning = false;
-        if (IsCustomDll) IsCustomDll = false;
+        if (Injector.IsCustomDll) Injector.IsCustomDll = false;
     }
 
     private void ChangelogButton_OnClick(object sender, RoutedEventArgs e)
     {
-        ChangelogWindow.Show();
-        if (IsDiscordPresenceEnabled)
+        App.ChangelogWindow.Show();
+        if (SettingsWindow.IsDiscordPresenceEnabled)
             DiscordPresence.ChangelogPresence();
     }
 
     private void CreditButton_OnClick(object sender, RoutedEventArgs e)
     {
-        CreditWindow.Show();
-        if (IsDiscordPresenceEnabled)
+        App.CreditWindow.Show();
+        if (SettingsWindow.IsDiscordPresenceEnabled)
             DiscordPresence.CreditsPresence();
     }
 
     private void OpenLatiteFolderLabel_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e) =>
-        Process.Start("explorer.exe", LatiteFolder);
+        Process.Start("explorer.exe", Logging.LatiteFolder);
 
     private void SettingsButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        SettingsWindow.Show();
-        if (IsDiscordPresenceEnabled)
+        App.SettingsWindow.Show();
+        if (SettingsWindow.IsDiscordPresenceEnabled)
             DiscordPresence.SettingsPresence();
     }
 
@@ -245,10 +139,5 @@ public partial class MainWindow
             });
     }
 
-    private static void OnClosing(object sender, CancelEventArgs e) => e.Cancel = true;
-
-    private void Window_Closing(object sender, CancelEventArgs e)
-    {
-        DiscordPresence.ShutdownPresence();
-    }
+    private void Window_Closing(object sender, CancelEventArgs e) => DiscordPresence.ShutdownPresence();
 }

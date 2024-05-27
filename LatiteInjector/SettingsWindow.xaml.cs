@@ -3,7 +3,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using LatiteInjector.Utils;
-using static LatiteInjector.MainWindow;
 
 namespace LatiteInjector;
 
@@ -15,14 +14,16 @@ public partial class SettingsWindow : Window
     public SettingsWindow()
     {
         InitializeComponent();
-        ConfigSetup();
     }
 
     public static string ConfigFilePath =
         $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LatiteInjector\\config.txt";
     private static readonly string LatiteInjectorFolder = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LatiteInjector";
 
-    private void ConfigSetup()
+    public static bool IsCloseAfterInjectedEnabled;
+    public static bool IsDiscordPresenceEnabled;
+
+    public void ConfigSetup()
     {
         if (!File.Exists(ConfigFilePath))
         {
@@ -47,8 +48,8 @@ public partial class SettingsWindow : Window
     private void LoadConfig()
     {
         string config = File.ReadAllText(ConfigFilePath);
-        IsDiscordPresenceEnabled = GetLine(config, 1) == "discordstatus:true";
-        IsCloseAfterInjectedEnabled = GetLine(config, 2) == "closeafterinjected:true";
+        IsDiscordPresenceEnabled = MainWindow.GetLine(config, 1) == "discordstatus:true";
+        IsCloseAfterInjectedEnabled = MainWindow.GetLine(config, 2) == "closeafterinjected:true";
         DiscordPresenceCheckBox.IsChecked = IsDiscordPresenceEnabled;
         CloseAfterInjectedCheckBox.IsChecked = IsCloseAfterInjectedEnabled;
     }
@@ -65,7 +66,7 @@ public partial class SettingsWindow : Window
         Hide();
         if (IsDiscordPresenceEnabled)
         {
-            if (!IsMinecraftRunning)
+            if (!Injector.IsMinecraftRunning())
             {
                 DiscordPresence.IdlePresence();
                 return;

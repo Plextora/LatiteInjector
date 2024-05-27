@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
+using System.Net.Http;
+using System.Security.Policy;
+using System.Threading.Tasks;
 using System.Windows;
 using static LatiteInjector.MainWindow;
 
@@ -11,69 +13,58 @@ public static class Updater
 {
     public const string InjectorCurrentVersion = "15";
 
-    private const string INJECTOR_VERSION_URL =
-        "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/launcher_version";
-    private const string DLL_VERSION_URL =
-        "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/latest_version.txt";
-    private const string INJECTOR_EXECUTABLE_URL =
-        "https://github.com/Imrglop/Latite-Releases/raw/main/injector/Injector.exe";
-    private const string INJECTOR_CHANGELOG_URL =
-        "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/injector_changelog";
-    private const string CLIENT_CHANGELOG_URL =
-        "https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/client_changelog";
-    private static string? _selectedVersion;
+    private static readonly Uri InjectorVersionUrl =
+        new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/launcher_version");
+    /*
+    private static readonly Uri DllVersionUrl =
+        new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/latest_version.txt");
+    */
+    private static readonly Uri InjectorExecutableUrl =
+        new("https://github.com/Imrglop/Latite-Releases/raw/main/injector/Injector.exe");
+    private static readonly Uri InjectorChangelogUrl =
+        new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/injector_changelog");
+    private static readonly Uri ClientChangelogUrl =
+        new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/client_changelog");
 
-    private static readonly WebClient? Client = new WebClient();
-    private static readonly MainWindow? Form = Application.Current.Windows[0] as MainWindow;
-    private static readonly ChangelogWindow? ChangelogForm = Application.Current.Windows[2] as ChangelogWindow;
+    private static readonly HttpClient Client = new();
+    private static readonly ChangelogWindow? ChangelogForm = Application.Current.Windows[1] as ChangelogWindow;
 
-    private static string? GetLatestInjectorVersion()
+    private static async Task DownloadFile(Uri uri, string fileName)
     {
-        try
-        {
-            var latestVersion = Client?.DownloadString(
-                INJECTOR_VERSION_URL);
-            latestVersion = latestVersion?.Replace("\n", "");
-            return latestVersion;
-        }
-        catch
-        {
-            SetStatusLabel.Error("Failed to check latest version of injector. Are you connected to the internet?");
-            throw new Exception("Cannot get latest injector version!");
-        }
+        await using Stream asyncStream = await Client.GetStreamAsync(uri);
+        await using FileStream fs = new(fileName, FileMode.CreateNew);
+        await asyncStream.CopyToAsync(fs);
     }
 
-    private static string? GetLatestDllVersion()
+    private static async Task<string> DownloadString(Uri uri) => await Client.GetStringAsync(uri);
+
+    private static async Task<string> GetLatestInjectorVersion()
+    {
+            string latestVersion = await DownloadString(InjectorVersionUrl);
+            latestVersion = latestVersion.Replace("\n", "");
+            return latestVersion;
+    }
+
+    /*
+    private static string GetLatestDllVersion()
     {
         try
         {
-            var latestVersion = Client?.DownloadString(
-                DLL_VERSION_URL);
-            latestVersion = latestVersion?.Replace("\n", "");
+            string latestVersion = DownloadString(DllVersionUrl);
+            latestVersion = latestVersion.Replace("\n", "");
             return latestVersion;
         }
         catch
         {
-            SetStatusLabel.Error("Failed to check latest version of dll. Are you connected to the internet?");
+            SetStatusLabel.Error("Failed to check latest version of DLL. Are you connected to the internet?");
             throw new Exception("Cannot get latest DLL!");
         }
     }
-
-    public static bool IsVersionSimilar(string version1, string version2)
-    {
-        // version1: 1.19.63
-        // version2: 1.19.63.01
-        var split1 = version1.Split('.');
-        var split2 = version2.Split('.');
-
-        if (split1.Length != split2.Length + 1) return false;
-
-        return (split1[0] == split2[0] && split1[1] == split1[1] && split1[2][0] == split2[2][0]);
-    }
+    */
     
-    public static void UpdateInjector()
+    public static async Task UpdateInjector()
     {
-        var latestVersion = GetLatestInjectorVersion();
+        string latestVersion = await GetLatestInjectorVersion();
         
         try
         {
@@ -84,7 +75,7 @@ public static class Updater
             throw new Exception("Failed to convert injector current version or latest injector version");
         }
 
-        var result =
+        MessageBoxResult result =
             MessageBox.Show("The injector is outdated! Do you want to download the newest version?",
                 "Injector outdated!", MessageBoxButton.YesNo, MessageBoxImage.Error);
         
@@ -94,7 +85,7 @@ public static class Updater
         var path = $"./{fileName}";
         if (File.Exists(path))
             File.Delete(path);
-        Client?.DownloadFile(INJECTOR_EXECUTABLE_URL, path);
+        await DownloadFile(InjectorExecutableUrl, path);
         Process.Start(fileName);
         Application.Current.Shutdown();
     }
@@ -115,14 +106,14 @@ public static class Updater
         return "";
     } // temporary function until imrglop actually add more to the changelog
 
-    public static void GetInjectorChangelog()
+    public static async Task GetInjectorChangelog()
     {
         string? rawChangelog = null;
         
         try
         {
-            rawChangelog = Client?.DownloadString(
-                INJECTOR_CHANGELOG_URL);
+            rawChangelog = await DownloadString(
+                InjectorChangelogUrl);
         }
         catch
         {
@@ -142,14 +133,14 @@ public static class Updater
         ChangelogForm.InjectorChangelogLine4.Content = GetChangelogLine(rawChangelog, 4, "4.");
     }
     
-    public static void GetClientChangelog()
+    public static async Task GetClientChangelog()
     {
         string? rawChangelog = null;
         
         try
         {
-            rawChangelog = Client?.DownloadString(
-                CLIENT_CHANGELOG_URL);
+            rawChangelog = await DownloadString(
+                ClientChangelogUrl);
         }
         catch
         {
@@ -169,15 +160,20 @@ public static class Updater
         ChangelogForm.ClientChangelogLine4.Content = GetClientChangelogLine(rawChangelog, 4, "4.");
     }
 
-    public static string DownloadDll()
+    public static async Task<string> DownloadDll()
     {
-        var latestVersion = GetLatestDllVersion();
+        /*
+        string latestVersion = GetLatestDllVersion();
 
-        var dllPath = $"{Path.GetTempPath()}Latite_{latestVersion}.dll";
+        string dllPath = $"{Path.GetTempPath()}Latite_{latestVersion}.dll";
         if (File.Exists(dllPath)) return dllPath;
-        SetStatusLabel.Pending($"Downloading Latite DLL");
-        Client?.DownloadFile(
-            $"https://github.com/Imrglop/Latite-Releases/releases/download/{latestVersion}/Latite.dll",
+        */
+
+        string dllPath = $"{Path.GetTempPath()}Latite V2.dll";
+        if (File.Exists(dllPath)) return dllPath;
+        SetStatusLabel.Pending("Downloading Latite DLL");
+        await DownloadFile(
+            new Uri("https://github.com/Imrglop/Latite-Releases/releases/latest/download/Latite.dll"),
             dllPath);
 
         return dllPath;

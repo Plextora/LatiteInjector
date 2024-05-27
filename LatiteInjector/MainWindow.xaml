@@ -13,6 +13,7 @@
     Closing="Window_Closing"
     Icon="Assets/latite.ico"
     ResizeMode="NoResize"
+    Loaded="MainWindow_OnLoaded"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
@@ -31,7 +32,7 @@
                     </Border.Background>
                     <Border.Effect>
                         <DropShadowEffect
-                            ShadowDepth="2"
+                            ShadowDepth="0"
                             Color="#3788b1"
                             Opacity="1"
                             BlurRadius="20" />
@@ -39,7 +40,7 @@
                     <ContentPresenter
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Content="LAUNCH" />
+                        Content="Launch" />
                 </Border>
             </Border>
         </ControlTemplate>
@@ -153,7 +154,7 @@
                 HorizontalAlignment="Center"
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Top"
-                Content="Right click the launch button to inject custom DLLs"
+                Content="Right click the Launch button to inject custom DLLs"
                 FontFamily="Segoe UI"
                 FontSize="15px"
                 Foreground="White" />

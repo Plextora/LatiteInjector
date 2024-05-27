@@ -44,6 +44,8 @@ namespace LatiteInjector.Installer
             void SetPath([MarshalAs(UnmanagedType.LPWStr)] string pszFile);
         }
 
+        private static HttpClient _client = new();
+
         public static void ErrorDump(Exception err)
         {
             if (!File.Exists("err.txt")) File.Create("err.txt").Close();
@@ -63,8 +65,7 @@ namespace LatiteInjector.Installer
 
         public static async Task DownloadFile(Uri uri, string fileName)
         {
-            using HttpClient client = new();
-            using Stream asyncStream = await client.GetStreamAsync(uri);
+            using Stream asyncStream = await _client.GetStreamAsync(uri);
             using FileStream fs = new(fileName, FileMode.CreateNew);
             await asyncStream.CopyToAsync(fs);
         }
