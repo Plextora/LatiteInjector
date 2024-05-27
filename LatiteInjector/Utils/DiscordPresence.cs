@@ -22,6 +22,10 @@ public static class DiscordPresence
     private static readonly Dictionary<string, PresenceDetails> SupportedPresenceDict = new()
     {
         {
+            "geo.hivebedrock.network",
+            new PresenceDetails("The Hive", "thehive", "The Hive Logo")
+        },
+        {
             "mco.cubecraft.net",
             new PresenceDetails("Cubecraft Games", "cubecraft", "Cubecraft Games Logo")
         },
