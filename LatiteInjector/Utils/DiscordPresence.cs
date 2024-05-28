@@ -85,11 +85,12 @@ public static class DiscordPresence
 
     public static void DetailedPlayingPresence(object? sender, ElapsedEventArgs e)
     {
+        if (!SettingsWindow.IsDiscordPresenceEnabled || !Injector.IsMinecraftRunning()) return;
+
         string serverIP = "none";
         if (File.Exists($@"{Logging.LatiteFolder}\Logs\serverip.txt"))
             serverIP = File.ReadAllText($@"{Logging.LatiteFolder}\Logs\serverip.txt");
 
-        if (!SettingsWindow.IsDiscordPresenceEnabled || !Injector.IsMinecraftRunning()) return;
         if (SupportedPresenceDict.TryGetValue(serverIP, out PresenceDetails presenceDetails))
         {
             DiscordClient.UpdateDetails($"Playing on {presenceDetails.Name}");
