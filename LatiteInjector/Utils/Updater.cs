@@ -81,8 +81,8 @@ public static class Updater
         
         if (result != MessageBoxResult.Yes) return;
 
-        var fileName = $"Injector_{latestVersion}.exe";
-        var path = $"./{fileName}";
+        string fileName = $"Injector_{latestVersion}.exe";
+        string path = $"./{fileName}";
         if (File.Exists(path))
             File.Delete(path);
         await DownloadFile(InjectorExecutableUrl, path);
