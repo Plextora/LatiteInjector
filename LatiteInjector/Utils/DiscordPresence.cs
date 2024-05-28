@@ -87,7 +87,7 @@ public static class DiscordPresence
     {
         string serverIP = "none";
         if (File.Exists($@"{Logging.LatiteFolder}\Logs\serverip.txt"))
-            File.ReadAllText($@"{Logging.LatiteFolder}\Logs\serverip.txt");
+            serverIP = File.ReadAllText($@"{Logging.LatiteFolder}\Logs\serverip.txt");
 
         if (!SettingsWindow.IsDiscordPresenceEnabled || !Injector.IsMinecraftRunning()) return;
         if (SupportedPresenceDict.TryGetValue(serverIP, out PresenceDetails presenceDetails))
