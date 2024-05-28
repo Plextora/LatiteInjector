@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -65,6 +66,8 @@ namespace LatiteInjector.Installer
 
         public static async Task DownloadFile(Uri uri, string fileName)
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
+                                                   SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             using Stream asyncStream = await _client.GetStreamAsync(uri);
             using FileStream fs = new(fileName, FileMode.CreateNew);
             await asyncStream.CopyToAsync(fs);
