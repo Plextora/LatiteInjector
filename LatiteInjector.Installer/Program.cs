@@ -90,7 +90,7 @@ namespace LatiteInjector.Installer
                 Utils.WriteColor("Created directory!", ConsoleColor.Green);
             }
 
-            Uri latiteInjectorLink = new("https://plextora.is-from.space/r/Latite_Injector.exe"); // tixte link is temporary
+            Uri latiteInjectorLink = new("https://github.com/Imrglop/Latite-Releases/raw/main/injector/Injector.exe"); // tixte link is temporary
             Utils.WriteColor("Downloading Latite Injector..", ConsoleColor.Yellow);
             await Utils.DownloadFile(latiteInjectorLink, $"{LatiteInjectorFolder}\\Latite Injector.exe");
             Utils.WriteColor($"Downloaded Latite Injector to directory {LatiteInjectorFolder}!", ConsoleColor.Green);
