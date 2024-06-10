@@ -49,6 +49,11 @@ namespace LatiteInjector.Installer
                 string downloadURL =
                     "https://download.visualstudio.microsoft.com/download/pr/0ff148e7-bbf6-48ed-bdb6-367f4c8ea14f/bd35d787171a1f0de7da6b57cc900ef5/windowsdesktop-runtime-8.0.5-win-x64.exe";
                 string downloadPath = Path.Combine(Path.GetTempPath(), "dotnet8.exe");
+                if (File.Exists(downloadPath))
+                {
+                    Utils.WriteColor("The .NET 8 installer file already exists (possibly from a previous failed install), deleting and redownloading file...", ConsoleColor.DarkGray);
+                    File.Delete(downloadPath);
+                }
                 Utils.WriteColor("Downloading the .NET 8 installer..", ConsoleColor.Yellow);
                 await Utils.DownloadFile(new Uri(downloadURL), downloadPath);
                 Utils.WriteColor("Downloaded .NET 8 installer!", ConsoleColor.Green);
