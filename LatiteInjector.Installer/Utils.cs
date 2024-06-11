@@ -75,14 +75,25 @@ namespace LatiteInjector.Installer
 
         public static bool IsNet8Installed()
         {
-            Process dotnetVersionProcess = Process.Start(new ProcessStartInfo
+            ProcessStartInfo dotnetVersionProcessInfo = new()
             {
                 FileName = "dotnet",
                 Arguments = "--version",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false
-            });
+            };
+
+            Process dotnetVersionProcess;
+
+            try
+            {
+                dotnetVersionProcess = Process.Start(dotnetVersionProcessInfo);
+            }
+            catch
+            {
+                return false;
+            }
 
             dotnetVersionProcess?.WaitForExit();
             string stdout = dotnetVersionProcess?.StandardOutput.ReadToEnd();
