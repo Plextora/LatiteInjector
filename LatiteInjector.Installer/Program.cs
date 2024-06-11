@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace LatiteInjector.Installer
         private static async Task Main(string[] args)
         {
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US", false);
 
             static void OnUnhandledException(object sender,
                 UnhandledExceptionEventArgs e) =>
