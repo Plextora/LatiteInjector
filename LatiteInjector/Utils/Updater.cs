@@ -170,7 +170,7 @@ public static class Updater
         */
 
         string dllPath = $"{Path.GetTempPath()}Latite V2.dll";
-        if (File.Exists(dllPath)) return dllPath;
+        if (File.Exists(dllPath)) File.Delete(dllPath);
         SetStatusLabel.Pending("Downloading Latite DLL");
         await DownloadFile(
             new Uri("https://github.com/Imrglop/Latite-Releases/releases/latest/download/Latite.dll"),
