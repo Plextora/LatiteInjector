@@ -75,31 +75,36 @@ namespace LatiteInjector.Installer
 
         public static bool IsNet8Installed()
         {
-            ProcessStartInfo dotnetVersionProcessInfo = new()
+            if (Environment.GetEnvironmentVariable("PATH")?.Contains("dotnet") ?? false)
             {
-                FileName = "dotnet",
-                Arguments = "--version",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false
-            };
+                ProcessStartInfo dotnetVersionProcessInfo = new()
+                {
+                    FileName = "dotnet",
+                    Arguments = "--version",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false
+                };
 
-            Process dotnetVersionProcess;
+                Process dotnetVersionProcess;
 
-            try
-            {
-                dotnetVersionProcess = Process.Start(dotnetVersionProcessInfo);
-            }
-            catch
-            {
+                try
+                {
+                    dotnetVersionProcess = Process.Start(dotnetVersionProcessInfo);
+                }
+                catch
+                {
+                    return false;
+                }
+
+                dotnetVersionProcess?.WaitForExit();
+                string stdout = dotnetVersionProcess?.StandardOutput.ReadToEnd();
+                string stderr = dotnetVersionProcess?.StandardError.ReadLine();
+                if (stdout != null && stdout.StartsWith("8."))
+                    return true;
                 return false;
             }
 
-            dotnetVersionProcess?.WaitForExit();
-            string stdout = dotnetVersionProcess?.StandardOutput.ReadToEnd();
-            string stderr = dotnetVersionProcess?.StandardError.ReadLine();
-            if (stdout != null && stdout.StartsWith("8."))
-                return true;
             return false;
         }
 
