@@ -19,26 +19,50 @@ public static class DiscordPresence
         string LogoTooltip
     );
 
-    private static readonly Dictionary<string, PresenceDetails> SupportedPresenceDict = new()
+    private static readonly Dictionary<List<string>, PresenceDetails> SupportedPresenceDict = new()
     {
         {
-            "geo.hivebedrock.network",
+            new List<string>
+            {
+                "geo.hivebedrock.network",
+                "ca.hivebedrock.network",
+                "fr.hivebedrock.network",
+                "sg.hivebedrock.network",
+                "au.hivebedrock.network"
+            },
             new PresenceDetails("The Hive", "thehive", "The Hive Logo")
         },
         {
-            "mco.cubecraft.net",
+            // apparently cubecraft's region switching doesn't change
+            // server ip (at least with how latite detects server ip)
+            new List<string> { "mco.cubecraft.net" },
             new PresenceDetails("Cubecraft Games", "cubecraft", "Cubecraft Games Logo")
         },
         {
-            "play.galaxite.net",
+            new List<string> { "us.play.galaxite.net", "eu.play.galaxite.net", "play.galaxite.net" },
             new PresenceDetails("Galaxite Network", "galaxite", "Galaxite Network Logo")
         },
         {
-            "zeqa.net",
+            new List<string>
+            {
+                "zeqa.net",
+                "na.zeqa.net",
+                "au.zeqa.net",
+                "me.zeqa.net",
+                "za.zeqa.net",
+                "as.zeqa.net"
+            },
             new PresenceDetails("Zeqa Practice", "zeqa", "Zeqa Logo")
         },
         {
-            "play.nethergames.org",
+            new List<string>
+            {
+                "play.nethergames.org",
+                "ind.nethergames.org",
+                "us.nethergames.org",
+                "ap.nethergames.org",
+                "eu.nethergames.org"
+            },
             new PresenceDetails("NetherGames Network", "nethergames", "NetherGames Network Logo")
         }
     };
@@ -90,18 +114,20 @@ public static class DiscordPresence
         string serverIP = "none";
         if (File.Exists($@"{Logging.LatiteFolder}\serverip.txt"))
             serverIP = File.ReadAllText($@"{Logging.LatiteFolder}\serverip.txt");
-
-        if (SupportedPresenceDict.TryGetValue(serverIP, out PresenceDetails presenceDetails))
+        foreach (KeyValuePair<List<string>, PresenceDetails> server in SupportedPresenceDict)
         {
-            DiscordClient.UpdateDetails($"Playing on {presenceDetails.Name}");
+            // if server ip not in list, skip this foreach execution
+            if (!server.Key.Contains(serverIP)) continue;
+
+            DiscordClient.UpdateDetails($"Playing on {server.Value.Name}");
             if (!Injector.IsCustomDll)
                 DiscordClient.UpdateState("with Latite Client");
             else if (Injector.IsCustomDll)
                 DiscordClient.UpdateState($"with {Injector.CustomDllName}");
-            DiscordClient.UpdateLargeAsset(presenceDetails.LogoKey, presenceDetails.LogoTooltip);
+            DiscordClient.UpdateLargeAsset(server.Value.LogoKey, server.Value.LogoTooltip);
             DiscordClient.UpdateSmallAsset("latite", "Latite Client Icon");
         }
-        else if (serverIP == "none")
+        if (serverIP == "none")
             PlayingPresence();
     }
 
