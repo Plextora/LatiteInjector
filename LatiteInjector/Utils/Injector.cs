@@ -94,8 +94,15 @@ public static class Injector
 
         if (!isCompatible)
         {
-            Logging.WarnLogging(
-                $"Minecraft version {MinecraftVersion} is not in the supported versions list for Latite Client.\nThe supported versions are:\n{supportedVersionsString}");
+            string warningMessageThatNobodyWillReadBecauseReadingIsForCasualsIGuess =
+                $"Minecraft version {MinecraftVersion} is not in the supported versions list for Latite Client.\nThe supported versions are:\n{supportedVersionsString}";
+
+            Logging.WarnLogging(warningMessageThatNobodyWillReadBecauseReadingIsForCasualsIGuess);
+            MessageBox.Show(
+                warningMessageThatNobodyWillReadBecauseReadingIsForCasualsIGuess,
+                "An unhandled error has occurred!",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
         }
     }
 
