@@ -169,8 +169,16 @@ public static class Updater
         if (File.Exists(dllPath)) return dllPath;
         */
 
-        string dllPath = $"{Path.GetTempPath()}Latite V2.dll";
-        if (File.Exists(dllPath)) File.Delete(dllPath);
+        string dllPath = $"{Path.GetTempPath()}Latite.dll";
+        try
+        {
+            if (File.Exists(dllPath)) File.Delete(dllPath);
+        }
+        catch (Exception ex)
+        {
+            Logging.WarnLogging($"The injector ran into an error downloading the latest Latite DLL. The error is as follows: {ex.Message}");
+        }
+
         SetStatusLabel.Pending("Downloading Latite DLL");
         await DownloadFile(
             new Uri("https://github.com/Imrglop/Latite-Releases/releases/latest/download/Latite.dll"),
