@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -78,6 +79,24 @@ public static class Injector
                 await Task.Delay(500);
             }
         });
+    }
+
+    public static async Task CheckVersionCompatibility()
+    {
+        string[] supportedVersions = await Updater.GetSupportedVersionList();
+        string supportedVersionsString = string.Join("\n", supportedVersions).Replace("\n\n", "");
+
+        // Partially check if MinecraftVersion matches currently supported versions list
+        bool isCompatible =
+            supportedVersionsString.Contains(MinecraftVersion.Substring(0,
+                MinecraftVersion.LastIndexOf(".",
+                    StringComparison.Ordinal)));
+
+        if (!isCompatible)
+        {
+            Logging.WarnLogging(
+                $"Minecraft version {MinecraftVersion} is not in the supported versions list for Latite Client.\nThe supported versions are:\n{supportedVersionsString}");
+        }
     }
 
     public static bool Inject(string path)

@@ -25,6 +25,8 @@ public static class Updater
         new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/injector_changelog");
     private static readonly Uri ClientChangelogUrl =
         new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/client_changelog");
+    private static readonly Uri SupportedVersionList =
+        new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/supported_versions");
 
     private static readonly HttpClient Client = new();
     private static readonly ChangelogWindow? ChangelogForm = Application.Current.Windows[1] as ChangelogWindow;
@@ -37,6 +39,13 @@ public static class Updater
     }
 
     private static async Task<string> DownloadString(Uri uri) => await Client.GetStringAsync(uri);
+
+    public static async Task<string[]> GetSupportedVersionList()
+    {
+        string rawSupportedVersions = await DownloadString(SupportedVersionList);
+        string[] supportedVersionList = rawSupportedVersions.Split('\n');
+        return supportedVersionList;
+    }
 
     private static async Task<string> GetLatestInjectorVersion()
     {

@@ -45,6 +45,7 @@ public partial class MainWindow
         Injector.OpenMinecraft();
 
         await Injector.InjectionPrep();
+        await Injector.CheckVersionCompatibility();
 
         Injector.Inject(await Updater.DownloadDll());
         SetStatusLabel.Completed("Injected Latite Client!");
