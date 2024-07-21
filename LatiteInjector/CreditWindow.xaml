@@ -47,7 +47,7 @@
                 Margin="0,208,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Content="Some injector code made by carlton"
+                Content="Some injector code made by phase"
                 FontFamily="Segoe UI"
                 FontSize="15px"
                 FontWeight="Regular"
