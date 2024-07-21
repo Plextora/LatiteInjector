@@ -108,7 +108,7 @@ public static class Injector
     public static bool Inject(string path)
     {
         // a lot of this is from https://github.com/JiayiSoftware/JiayiLauncher/blob/master/JiayiLauncher/Features/Launch/Injector.cs
-        // we <3 jiayi and carlton
+        // we <3 jiayi and phase
 
         try
         {
