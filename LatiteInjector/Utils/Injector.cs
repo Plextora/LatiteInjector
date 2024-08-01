@@ -99,7 +99,7 @@ public static class Injector
             Logging.WarnLogging(warningMessageThatNobodyWillReadBecauseReadingIsForCasualsIGuess);
             MessageBox.Show(
                 warningMessageThatNobodyWillReadBecauseReadingIsForCasualsIGuess,
-                "An unhandled error has occurred!",
+                "Minecraft version not supported!!",
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);
         }
