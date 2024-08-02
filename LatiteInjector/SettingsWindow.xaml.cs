@@ -22,6 +22,7 @@ public partial class SettingsWindow : Window
 
     public static bool IsCloseAfterInjectedEnabled;
     public static bool IsDiscordPresenceEnabled;
+    public static bool IsDisableAppSuspensionEnabled;
 
     public void ConfigSetup()
     {
@@ -31,13 +32,15 @@ public partial class SettingsWindow : Window
             File.Create(ConfigFilePath).Close();
             string defaultConfigText =
                 "discordstatus:true\n" +
-                "closeafterinjected:false\n";
+                "closeafterinjected:false\n" +
+                "disableappsuspension:true\n";
 
             File.WriteAllText(ConfigFilePath, defaultConfigText);
 
             // set default config values
             IsDiscordPresenceEnabled = true;
             IsCloseAfterInjectedEnabled = false;
+            IsDisableAppSuspensionEnabled = true;
         }
         else
         {
@@ -50,8 +53,10 @@ public partial class SettingsWindow : Window
         string config = File.ReadAllText(ConfigFilePath);
         IsDiscordPresenceEnabled = MainWindow.GetLine(config, 1) == "discordstatus:true";
         IsCloseAfterInjectedEnabled = MainWindow.GetLine(config, 2) == "closeafterinjected:true";
+        IsDisableAppSuspensionEnabled = MainWindow.GetLine(config, 3) == "disableappsuspension:true";
         DiscordPresenceCheckBox.IsChecked = IsDiscordPresenceEnabled;
         CloseAfterInjectedCheckBox.IsChecked = IsCloseAfterInjectedEnabled;
+        DisableAppSuspensionCheckBox.IsChecked = IsDisableAppSuspensionEnabled;
     }
 
     public void ModifyConfig(string newText, int lineToEdit)
@@ -99,5 +104,14 @@ public partial class SettingsWindow : Window
             ModifyConfig("closeafterinjected:true", 2);
         else if (!IsCloseAfterInjectedEnabled)
             ModifyConfig("closeafterinjected:false", 2);
+    }
+
+    private void DisableAppSuspensionCheckBox_OnClick(object sender, RoutedEventArgs e)
+    {
+        IsDisableAppSuspensionEnabled = (bool)DisableAppSuspensionCheckBox.IsChecked;
+        if (IsDisableAppSuspensionEnabled)
+            ModifyConfig("disableappsuspension:true", 3);
+        else if (!IsDisableAppSuspensionEnabled)
+            ModifyConfig("disableappsuspension:false", 3);
     }
 }

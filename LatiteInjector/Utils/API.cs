@@ -39,4 +39,21 @@ public static partial class Api
     [LibraryImport("kernel32.dll")]
     public static partial nint CreateRemoteThread(nint hProcess, nint lpThreadAttributes, uint dwStackSize,
         nint lpStartAddress, nint lpParameter, uint dwCreationFlags, nint lpThreadId);
+
+    [LibraryImport("kernel32.dll")]
+    public static partial long GetPackagesByPackageFamily([MarshalAs(UnmanagedType.LPWStr)] string packageFamilyName,
+        ref uint count, IntPtr packageFullNames, ref uint bufferLength, IntPtr buffer);
+
+    [ComImport]
+    [Guid("f27c3930-8029-4ad1-94e3-3dba417810c1")]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    public interface IPackageDebugSettings
+    {
+        long EnableDebugging(
+            [MarshalAs(UnmanagedType.LPWStr)] string packageFullName,
+            [MarshalAs(UnmanagedType.LPWStr)] string debuggerCommandLine,
+            [MarshalAs(UnmanagedType.LPWStr)] string environment);
+    }
+
+
 }

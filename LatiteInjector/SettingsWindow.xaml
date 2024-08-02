@@ -194,6 +194,20 @@
                 Foreground="AliceBlue"
                 IsChecked="False"
                 Style="{StaticResource CheckBox}" />
+            <CheckBox
+                x:Name="DisableAppSuspensionCheckBox"
+                Margin="18,186,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                x:FieldModifier="public"
+                Background="#202020"
+                Click="DisableAppSuspensionCheckBox_OnClick"
+                Content="Disable app suspension"
+                Cursor="Hand"
+                FontSize="17"
+                Foreground="AliceBlue"
+                IsChecked="True"
+                Style="{StaticResource CheckBox}" />
         </Grid>
     </Border>
 </Window>

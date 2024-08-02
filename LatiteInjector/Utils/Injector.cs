@@ -105,13 +105,46 @@ public static class Injector
         }
     }
 
+    // App suspension code made by  (https://github.com/flarialmc/launcher/pull/7/commits/cf11941c79fe5fe64625e3e7731c7ec51dc7ed50)
+    // They also have very good material on this process on their own project (https://github.com/Aetopia/AppLifecycleOptOut)
+    private static void PreventAppSuspension()
+    {
+        if (IsMinecraftRunning())
+        {
+            Api.IPackageDebugSettings pPackageDebugSettings = (Api.IPackageDebugSettings)Activator.CreateInstance(
+                Type.GetTypeFromCLSID(new Guid(0xb1aec16f, 0x2383, 0x4852, 0xb0, 0xe9, 0x8f, 0x0b, 0x1d, 0xc6, 0x6b,
+                    0x4d)));
+            uint count = 0, bufferLength = 0;
+            Api.GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", ref count, IntPtr.Zero, ref bufferLength,
+                IntPtr.Zero);
+            IntPtr packageFullNames = Marshal.AllocHGlobal((int)(count * IntPtr.Size)),
+                buffer = Marshal.AllocHGlobal((int)(bufferLength * 2));
+            Api.GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", ref count, packageFullNames,
+                ref bufferLength, buffer);
+            for (int i = 0; i < count; i++)
+            {
+                pPackageDebugSettings.EnableDebugging(Marshal.PtrToStringUni(Marshal.ReadIntPtr(packageFullNames)),
+                    null, null);
+                packageFullNames += IntPtr.Size;
+            }
+
+            Marshal.FreeHGlobal(packageFullNames);
+            Marshal.FreeHGlobal(buffer);
+
+            Logging.WarnLogging("Disable app suspension has been enabled.");
+        }
+    }
+
     public static bool Inject(string path)
     {
-        // a lot of this is from https://github.com/JiayiSoftware/JiayiLauncher/blob/master/JiayiLauncher/Features/Launch/Injector.cs
-        // we <3 jiayi and phase
+        if (SettingsWindow.IsDisableAppSuspensionEnabled)
+            PreventAppSuspension();
 
         try
         {
+            // a lot of this is from https://github.com/JiayiSoftware/JiayiLauncher/blob/master/JiayiLauncher/Features/Launch/Injector.cs
+            // we <3 jiayi and phase
+
             ApplyAppPackages(path);
 
             IntPtr procHandle = Api.OpenProcess(
