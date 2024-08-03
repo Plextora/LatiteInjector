@@ -55,7 +55,10 @@ public static class Logging
         string filePath = $@"{LoggingFolder}\Latite_Injector_Log_{DateTime.Now:yyyy_MM_dd}.txt";
 
         if (!File.Exists(filePath))
+        {
+            Directory.CreateDirectory(LoggingFolder);
             File.Create(filePath).Close();
+        }
 
         File.AppendAllLines(filePath, new[] { $"{timestamp} | ERROR: {log}" });
     }
@@ -66,7 +69,10 @@ public static class Logging
         string filePath = $@"{LoggingFolder}\Latite_Injector_Log_{DateTime.Now:yyyy_MM_dd}.txt";
 
         if (!File.Exists(filePath))
+        {
+            Directory.CreateDirectory(LoggingFolder);
             File.Create(filePath).Close();
+        }
 
         File.AppendAllLines(filePath, new[] { $"{timestamp} | WARN: {log}" });
     }
@@ -77,7 +83,10 @@ public static class Logging
         string filePath = $@"{LoggingFolder}\Latite_Injector_Log_{DateTime.Now:yyyy_MM_dd}.txt";
 
         if (!File.Exists(filePath))
+        {
+            Directory.CreateDirectory(LoggingFolder);
             File.Create(filePath).Close();
+        }
 
         File.AppendAllLines(filePath, new[] { $"{timestamp} | INFO: {log}" });
     }
