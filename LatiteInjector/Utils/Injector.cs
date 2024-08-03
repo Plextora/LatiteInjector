@@ -97,7 +97,9 @@ public static class Injector
                 $"Your Minecraft version, {MinecraftVersion}, is not in the supported versions list for Latite Client.\nThe supported versions are:\n{supportedVersionsString}";
 
             Logging.WarnLogging(warningMessageThatNobodyWillReadBecauseReadingIsForCasualsIGuess);
+
             MessageBox.Show(
+                Application.Current.MainWindow, // put messagebox on top of the main window
                 warningMessageThatNobodyWillReadBecauseReadingIsForCasualsIGuess,
                 "Minecraft version not supported!!",
                 MessageBoxButton.OK,
