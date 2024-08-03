@@ -110,7 +110,7 @@ public static class Injector
     }
 
     // App suspension code made by  (https://github.com/flarialmc/launcher/pull/7/commits/cf11941c79fe5fe64625e3e7731c7ec51dc7ed50)
-    // They also have very good material on this process on their own project (https://github.com/Aetopia/AppLifecycleOptOut)
+    // They also have very good material on how this works and the reasoning behind it on their own project's README (https://github.com/Aetopia/AppLifecycleOptOut)
     private static void PreventAppSuspension()
     {
         if (IsMinecraftRunning())
