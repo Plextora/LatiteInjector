@@ -94,7 +94,9 @@ public static class Injector
         if (!isCompatible)
         {
             string warningMessageThatNobodyWillReadBecauseReadingIsForCasualsIGuess =
-                $"Your Minecraft version, {MinecraftVersion}, is not in the supported versions list for Latite Client.\nThe supported versions are:\n{supportedVersionsString}";
+                $"Your Minecraft version, {MinecraftVersion}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! " +
+                $"The supported versions are:\n{supportedVersionsString}\n\n" +
+                "Look at the #announcements channel in the Discord for directions on how to change your Minecraft version to a compatible one.";
 
             Logging.WarnLogging(warningMessageThatNobodyWillReadBecauseReadingIsForCasualsIGuess);
 
@@ -195,7 +197,7 @@ public static class Injector
                 Logging.ErrorLogging("Failed to create remote thread");
                 return false;
             }
-            
+
             if (SettingsWindow.IsDiscordPresenceEnabled)
                 DiscordPresence.PlayingPresence();
             if (SettingsWindow.IsCloseAfterInjectedEnabled)
