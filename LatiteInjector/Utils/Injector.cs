@@ -115,15 +115,15 @@ public static class Injector
     {
         if (IsMinecraftRunning())
         {
-            Api.IPackageDebugSettings pPackageDebugSettings = (Api.IPackageDebugSettings)Activator.CreateInstance(
+            WinAPI.IPackageDebugSettings pPackageDebugSettings = (WinAPI.IPackageDebugSettings)Activator.CreateInstance(
                 Type.GetTypeFromCLSID(new Guid(0xb1aec16f, 0x2383, 0x4852, 0xb0, 0xe9, 0x8f, 0x0b, 0x1d, 0xc6, 0x6b,
                     0x4d)));
             uint count = 0, bufferLength = 0;
-            Api.GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", ref count, IntPtr.Zero, ref bufferLength,
+            WinAPI.GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", ref count, IntPtr.Zero, ref bufferLength,
                 IntPtr.Zero);
             IntPtr packageFullNames = Marshal.AllocHGlobal((int)(count * IntPtr.Size)),
                 buffer = Marshal.AllocHGlobal((int)(bufferLength * 2));
-            Api.GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", ref count, packageFullNames,
+            WinAPI.GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", ref count, packageFullNames,
                 ref bufferLength, buffer);
             for (int i = 0; i < count; i++)
             {
@@ -151,12 +151,12 @@ public static class Injector
 
             ApplyAppPackages(path);
 
-            IntPtr procHandle = Api.OpenProcess(
-                Api.PROCESS_CREATE_THREAD |
-                Api.PROCESS_QUERY_INFORMATION |
-                Api.PROCESS_VM_OPERATION |
-                Api.PROCESS_VM_WRITE |
-                Api.PROCESS_VM_READ,
+            IntPtr procHandle = WinAPI.OpenProcess(
+                WinAPI.PROCESS_CREATE_THREAD |
+                WinAPI.PROCESS_QUERY_INFORMATION |
+                WinAPI.PROCESS_VM_OPERATION |
+                WinAPI.PROCESS_VM_WRITE |
+                WinAPI.PROCESS_VM_READ,
                 false, Minecraft.Id);
             if (procHandle == IntPtr.Zero)
             {
@@ -164,25 +164,25 @@ public static class Injector
                 return false;
             }
 
-            IntPtr loadLibraryAddress = Api.GetProcAddress(Api.GetModuleHandleW("kernel32.dll"), "LoadLibraryA");
+            IntPtr loadLibraryAddress = WinAPI.GetProcAddress(WinAPI.GetModuleHandleW("kernel32.dll"), "LoadLibraryA");
             if (loadLibraryAddress == IntPtr.Zero)
             {
                 Logging.ErrorLogging("Couldn't get LoadLibraryA address, try disabling antivirus");
                 return false;
             }
 
-            IntPtr allocMemAddress = Api.VirtualAllocEx(procHandle,
+            IntPtr allocMemAddress = WinAPI.VirtualAllocEx(procHandle,
                 IntPtr.Zero,
                 (uint)((path.Length + 1) * Marshal.SizeOf(typeof(char))),
-                Api.MEM_COMMIT | Api.MEM_RESERVE,
-                Api.PAGE_READWRITE);
+                WinAPI.MEM_COMMIT | WinAPI.MEM_RESERVE,
+                WinAPI.PAGE_READWRITE);
             if (allocMemAddress == IntPtr.Zero)
             {
                 Logging.ErrorLogging("Failed to allocate DLL memory");
                 return false;
             }
 
-            bool result = Api.WriteProcessMemory(procHandle, allocMemAddress, Encoding.Default.GetBytes(path),
+            bool result = WinAPI.WriteProcessMemory(procHandle, allocMemAddress, Encoding.Default.GetBytes(path),
                 (uint)((path.Length + 1) * Marshal.SizeOf(typeof(char))), out _);
             if (!result)
             {
@@ -190,7 +190,7 @@ public static class Injector
                 return false;
             }
 
-            IntPtr thread = Api.CreateRemoteThread(procHandle, IntPtr.Zero, 0, loadLibraryAddress,
+            IntPtr thread = WinAPI.CreateRemoteThread(procHandle, IntPtr.Zero, 0, loadLibraryAddress,
                 allocMemAddress, 0, IntPtr.Zero);
             if (thread == IntPtr.Zero)
             {

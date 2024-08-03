@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace LatiteInjector.Utils;
 
-public static partial class Api
+public static partial class WinAPI
 {
     public const int WM_NCLBUTTONDOWN = 0xA1;
     public const int HT_CAPTION = 0x2;
