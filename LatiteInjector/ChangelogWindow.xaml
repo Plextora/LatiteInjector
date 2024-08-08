@@ -32,7 +32,7 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Cursor="Hand"
-                MouseLeftButtonDown="CloseButton_Click"
+                MouseLeftButtonUp="CloseButton_Click"
                 Source="/Assets/X.png"
                 Style="{StaticResource HoverEffect}"/>
             <Rectangle
