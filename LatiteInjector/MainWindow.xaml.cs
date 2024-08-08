@@ -30,6 +30,9 @@ public partial class MainWindow
     private void CloseButton_Click(object sender, RoutedEventArgs e) =>
         Application.Current.Shutdown();
 
+    private void MinimizeButton_OnClick(object sender, MouseButtonEventArgs e) =>
+        WindowState = WindowState.Minimized;
+
     private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
 
     public static string? GetLine(string? text, int lineNo)

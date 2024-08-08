@@ -29,6 +29,7 @@
     <None Remove="Assets\Discord Icon.png" />
     <None Remove="Assets\LatiteIcon.png" />
     <None Remove="Assets\LatiteText.png" />
+    <None Remove="Assets\Minimize.png" />
     <None Remove="Assets\SettingsIcon.png" />
     <None Remove="Assets\X.png" />
     <None Remove="Background.png" />
@@ -47,6 +48,7 @@
     <Resource Include="Assets\Discord Icon.png" />
     <Resource Include="Assets\LatiteIcon.png" />
     <Resource Include="Assets\LatiteText.png" />
+    <Resource Include="Assets\Minimize.png" />
     <Resource Include="Assets\SettingsIcon.png" />
     <Resource Include="Assets\X.png" />
     <Resource Include="latite.png" />

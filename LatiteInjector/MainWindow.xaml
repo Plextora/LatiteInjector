@@ -148,6 +148,16 @@
                 MouseLeftButtonUp="CloseButton_Click"
                 Style="{StaticResource HoverEffect}"
                 Source="/Assets/X.png" />
+            <Image
+                Width="30"
+                Height="30"
+                Margin="553,23,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Cursor="Hand"
+                MouseLeftButtonUp="MinimizeButton_OnClick"
+                Style="{StaticResource HoverEffect}"
+                Source="/Assets/Minimize.png" />
             <Label
                 Margin="0,251,0,0"
                 Width="350"
