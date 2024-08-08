@@ -49,9 +49,9 @@ public static class Updater
 
     private static async Task<string> GetLatestInjectorVersion()
     {
-            string latestVersion = await DownloadString(InjectorVersionUrl);
-            latestVersion = latestVersion.Replace("\n", "");
-            return latestVersion;
+        string latestVersion = await DownloadString(InjectorVersionUrl);
+        latestVersion = latestVersion.Replace("\n", "");
+        return latestVersion;
     }
 
     /*
