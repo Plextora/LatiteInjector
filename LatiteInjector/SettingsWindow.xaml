@@ -202,7 +202,7 @@
                 x:FieldModifier="public"
                 Background="#202020"
                 Click="DisableAppSuspensionCheckBox_OnClick"
-                Content="Disable app suspension"
+                Content="Minimize fix"
                 Cursor="Hand"
                 FontSize="17"
                 Foreground="AliceBlue"
