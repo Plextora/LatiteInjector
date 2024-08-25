@@ -9,7 +9,12 @@ namespace LatiteInjector.Installer
 {
     internal class Program
     {
-        public static readonly string LatiteInjectorFolder = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LatiteInjector";
+        private static readonly string LatiteInjectorDataFolder =
+            $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LatiteInjector";
+        private static readonly string LatiteInjectorExeFolder =
+            $"{Environment.ExpandEnvironmentVariables("%ProgramW6432%")}\\Latite Injector";
+        private static readonly string LatiteInjectorExePath =
+            $@"{Environment.ExpandEnvironmentVariables("%ProgramW6432%")}\Latite Injector\Latite Injector.exe";
 
         private static async Task Main(string[] args)
         {
@@ -84,24 +89,30 @@ namespace LatiteInjector.Installer
             Console.Clear();
             Utils.WriteColor("[2/3] Downloading Latite Injector\n", ConsoleColor.White);
 
-            if (Directory.Exists(LatiteInjectorFolder))
+            if (!Directory.Exists(LatiteInjectorDataFolder))
             {
-                Utils.WriteColor("The Latite Injector directory already exists, wiping and recreating directory..", ConsoleColor.DarkGray);
-                Directory.Delete(LatiteInjectorFolder, true);
-                Directory.CreateDirectory(LatiteInjectorFolder);
+                Utils.WriteColor("The Latite Injector config/logging directory does not exist. Creating it now..",
+                    ConsoleColor.Yellow);
+                Directory.CreateDirectory(LatiteInjectorDataFolder);
                 Utils.WriteColor("Created directory!", ConsoleColor.Green);
             }
-            else if (!Directory.Exists(LatiteInjectorFolder))
+
+            if (Directory.Exists(LatiteInjectorExeFolder) && File.Exists(LatiteInjectorExePath))
             {
-                Utils.WriteColor("The Latite Injector directory does not exist. Creating it now..", ConsoleColor.Yellow);
-                Directory.CreateDirectory(LatiteInjectorFolder);
+                Utils.WriteColor("Latite Injector is already downloaded, deleting Latite Injector file and downloading latest version..", ConsoleColor.DarkGray);
+                File.Delete(LatiteInjectorExePath);
+            }
+            else if (!Directory.Exists(LatiteInjectorExeFolder))
+            {
+                Utils.WriteColor("The Latite Injector .exe directory does not exist. Creating it now..", ConsoleColor.Yellow);
+                Directory.CreateDirectory(LatiteInjectorExeFolder);
                 Utils.WriteColor("Created directory!", ConsoleColor.Green);
             }
 
             Uri latiteInjectorLink = new("https://github.com/Imrglop/Latite-Releases/raw/main/injector/Injector.exe");
             Utils.WriteColor("Downloading Latite Injector..", ConsoleColor.Yellow);
-            await Utils.DownloadFile(latiteInjectorLink, $"{LatiteInjectorFolder}\\Latite Injector.exe");
-            Utils.WriteColor($"Downloaded Latite Injector to directory {LatiteInjectorFolder}!", ConsoleColor.Green);
+            await Utils.DownloadFile(latiteInjectorLink, LatiteInjectorExePath);
+            Utils.WriteColor($"Downloaded Latite Injector to directory {LatiteInjectorExeFolder}!", ConsoleColor.Green);
 
             Thread.Sleep(4000);
 
@@ -114,16 +125,16 @@ namespace LatiteInjector.Installer
 
             Thread.Sleep(4000);
 
-            Utils.CreateShortcut($"{LatiteInjectorFolder}\\Latite Injector.exe",
+            Utils.CreateShortcut(LatiteInjectorExePath,
                 "Latite Client's new and improved injector!",
-                $"{LatiteInjectorFolder}\\Latite Injector.exe",
+                LatiteInjectorExePath,
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
                     "Latite Injector.lnk"));
 
             Utils.WriteColor("Added shortcut to Desktop!", ConsoleColor.Green);
 
             Utils.WriteColor(
-                $"Latite Injector's installation has completed!\nLatite Injector's exe is now located in {LatiteInjectorFolder}.",
+                $"Latite Injector's installation has completed!\nLatite Injector's .exe is now located in {LatiteInjectorExePath}.",
                 ConsoleColor.Green);
             Utils.WriteColor("Press any key to close this window.", ConsoleColor.White);
 
