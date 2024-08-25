@@ -50,7 +50,7 @@ namespace LatiteInjector.Installer
                     "It looks like .NET 8, which Latite Injector needs to run, isn't installed on your system. Installing .NET 8 now..",
                     ConsoleColor.Red);
                 string downloadURL =
-                    "https://download.visualstudio.microsoft.com/download/pr/0ff148e7-bbf6-48ed-bdb6-367f4c8ea14f/bd35d787171a1f0de7da6b57cc900ef5/windowsdesktop-runtime-8.0.5-win-x64.exe";
+                    "https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe";
                 string downloadPath = Path.Combine(Path.GetTempPath(), "dotnet8.exe");
                 if (File.Exists(downloadPath))
                 {
