@@ -13,6 +13,9 @@ public static class Updater
 {
     public const string InjectorCurrentVersion = "20";
 
+    private static readonly string LatiteInjectorDataFolder =
+        $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LatiteInjector";
+
     private static readonly Uri InjectorVersionUrl =
         new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/launcher_version");
     /*
@@ -178,14 +181,14 @@ public static class Updater
         if (File.Exists(dllPath)) return dllPath;
         */
 
-        string dllPath = $"{Path.GetTempPath()}Latite.dll";
+        string dllPath = $"{LatiteInjectorDataFolder}\\Latite.dll";
         try
         {
             if (File.Exists(dllPath)) File.Delete(dllPath);
         }
         catch (Exception ex)
         {
-            Logging.WarnLogging($"The injector ran into an error downloading the latest Latite DLL. The error is as follows: {ex.Message}");
+            Logging.ErrorLogging($"The injector ran into an error downloading the latest Latite DLL. The error is as follows: {ex.Message}");
         }
 
         SetStatusLabel.Pending("Downloading Latite DLL");
