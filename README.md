@@ -1,7 +1,7 @@
 # LatiteInjector
 Latite Client's new and improved injector!
 
-![Header](https://github.com/Plextora/LatiteInjector/assets/71889427/2719d8f1-9df4-4074-9cec-fafbce9b679e)
+![Header](https://github.com/user-attachments/assets/c9de1892-ab51-40e6-86be-2eeeb9dd1088)
 
 ## What is Latite Client?
 
