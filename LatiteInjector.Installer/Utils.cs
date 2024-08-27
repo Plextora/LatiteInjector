@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace LatiteInjector.Installer
@@ -57,6 +58,52 @@ namespace LatiteInjector.Installer
             Console.ReadKey();
         }
 
+        public static async Task InjectorAutoUpdate(string[] args)
+        {
+            foreach (string arg in args)
+            {
+                if (!arg.Contains("--injectorAutoUpdate")) continue;
+
+                Uri latiteInjectorLink =
+                    new("https://github.com/Imrglop/Latite-Releases/raw/main/injector/Injector.exe");
+                Uri latiteInjectorVersion =
+                    new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/launcher_version");
+
+                string versionNumber = await Utils.DownloadString(latiteInjectorVersion);
+                versionNumber = versionNumber.Replace("\n", "");
+
+                Utils.WriteColor("The Latite Injector update will begin in 5 seconds...", ConsoleColor.White);
+                Thread.Sleep(5000);
+
+                if (Directory.Exists(Program.LatiteInjectorExeFolder) && File.Exists(Program.LatiteInjectorExePath))
+                {
+                    Utils.WriteColor(
+                        $"Deleting current Latite Injector version..",
+                        ConsoleColor.Yellow);
+                    File.Delete(Program.LatiteInjectorExePath);
+                }
+                else
+                {
+                    Utils.WriteColor(
+                        "For some reason you don't have Latite Injector downloaded?? (at least not in the path it should be)\n" + 
+                        "Cancelling auto-update and proceeding with regular install process", ConsoleColor.Red);
+                    return;
+                }
+
+                Utils.WriteColor($"Downloading Latite Injector (version {versionNumber})..", ConsoleColor.Yellow);
+                await Utils.DownloadFile(latiteInjectorLink, Program.LatiteInjectorExePath);
+                Utils.WriteColor($"Downloaded Latite Injector to directory {Program.LatiteInjectorExeFolder}!",
+                    ConsoleColor.Green);
+
+                Utils.WriteColor($"Latite Injector has been successfully updated to version {versionNumber}!", ConsoleColor.Green);
+                Utils.WriteColor("Press any key to open Latite Injector.", ConsoleColor.White);
+
+                Console.ReadKey();
+                Process.Start(Program.LatiteInjectorExePath);
+                Environment.Exit(0);
+            }
+        }
+
         public static void WriteColor(string message, ConsoleColor color)
         {
             Console.ForegroundColor = color;
@@ -67,10 +114,19 @@ namespace LatiteInjector.Installer
         public static async Task DownloadFile(Uri uri, string fileName)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
-                                                   SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                                                   SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 |
+                                                   SecurityProtocolType.Tls13;
             using Stream asyncStream = await _client.GetStreamAsync(uri);
             using FileStream fs = new(fileName, FileMode.CreateNew);
             await asyncStream.CopyToAsync(fs);
+        }
+
+        private static async Task<string> DownloadString(Uri uri)
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
+                                                   SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 |
+                                                   SecurityProtocolType.Tls13;
+            return await _client.GetStringAsync(uri);
         }
 
         public static bool IsNet8Installed()

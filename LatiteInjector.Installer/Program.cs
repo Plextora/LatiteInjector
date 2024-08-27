@@ -9,11 +9,11 @@ namespace LatiteInjector.Installer
 {
     internal class Program
     {
-        private static readonly string LatiteInjectorDataFolder =
+        public static readonly string LatiteInjectorDataFolder =
             $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LatiteInjector";
-        private static readonly string LatiteInjectorExeFolder =
+        public static readonly string LatiteInjectorExeFolder =
             $"{Environment.ExpandEnvironmentVariables("%ProgramW6432%")}\\Latite Injector";
-        private static readonly string LatiteInjectorExePath =
+        public static readonly string LatiteInjectorExePath =
             $@"{Environment.ExpandEnvironmentVariables("%ProgramW6432%")}\Latite Injector\Latite Injector.exe";
 
         private static async Task Main(string[] args)
@@ -36,6 +36,8 @@ namespace LatiteInjector.Installer
                 Console.ReadLine();
                 Environment.Exit(1);
             }
+
+            await Utils.InjectorAutoUpdate(args);
 
             Utils.WriteColor("Welcome to the Latite Injector Installer!", ConsoleColor.White);
             Utils.WriteColor("The installer will now start..", ConsoleColor.White);

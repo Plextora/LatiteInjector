@@ -11,7 +11,7 @@ namespace LatiteInjector.Utils;
 
 public static class Updater
 {
-    public const string InjectorCurrentVersion = "21";
+    public const string InjectorCurrentVersion = "22";
 
     private static readonly string LatiteInjectorDataFolder =
         $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LatiteInjector";
@@ -21,9 +21,11 @@ public static class Updater
     /*
     private static readonly Uri DllVersionUrl =
         new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/latest_version.txt");
-    */
     private static readonly Uri InjectorExecutableUrl =
         new("https://github.com/Imrglop/Latite-Releases/raw/main/injector/Injector.exe");
+    */
+    private static readonly Uri InstallerExecutableUrl =
+        new("https://github.com/Imrglop/Latite-Releases/raw/main/injector/Installer.exe");
     private static readonly Uri InjectorChangelogUrl =
         new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/injector_changelog");
     private static readonly Uri ClientChangelogUrl =
@@ -93,12 +95,16 @@ public static class Updater
         
         if (result != MessageBoxResult.Yes) return;
 
-        string fileName = $"Injector_{latestVersion}.exe";
-        string path = $"./{fileName}";
+        string fileName = $"LatiteInstaller_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.exe";
+        string path = $"{Path.GetTempPath()}{fileName}";
         if (File.Exists(path))
             File.Delete(path);
-        await DownloadFile(InjectorExecutableUrl, path);
-        Process.Start(fileName);
+        await DownloadFile(InstallerExecutableUrl, path);
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = path,
+            Arguments = "--injectorAutoUpdate"
+        });
         Application.Current.Shutdown();
     }
 
