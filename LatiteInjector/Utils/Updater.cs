@@ -84,7 +84,7 @@ public static class Updater
         }
         catch
         {
-            throw new Exception("Failed to convert injector current version or latest injector version");
+            Logging.ErrorLogging("Failed to convert injector current version or latest injector version when attempting to update.");
         }
 
         MessageBoxResult result =
