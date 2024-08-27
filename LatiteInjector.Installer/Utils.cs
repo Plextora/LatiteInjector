@@ -53,7 +53,7 @@ namespace LatiteInjector.Installer
 
             File.WriteAllText("err.txt", err.ToString());
 
-            Console.WriteLine("Wrote error to err.txt! (same directory this exe is in) please report this error to the developers in the Discord server!");
+            Console.WriteLine("Wrote error to err.txt! (same directory this exe is in) please report this error to the developers in the Discord server!\nMAKE SURE TO SEND THE err.txt FILE WHEN REPORTING!!!!!!!!!!!!!!!!");
             Console.ReadKey();
         }
 
