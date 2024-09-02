@@ -13,27 +13,27 @@ public static class SetStatusLabel
     {
         if (StatusLabel == null) return;
         StatusLabel.Foreground = Brushes.White;
-        StatusLabel.Content = "Status: Idle";
+        StatusLabel.Content = App.GetTranslation("Status: Idle");
     }
 
     public static void Pending(string statusText)
     {
         if (StatusLabel == null) return;
         StatusLabel.Foreground = Brushes.Khaki;
-        StatusLabel.Content = $"Status: {statusText}";
+        StatusLabel.Content = App.GetTranslation("Status: {0}", [statusText]);
     }
 
     public static void Completed(string statusText)
     {
         if (StatusLabel == null) return;
         StatusLabel.Foreground = Brushes.LightGreen;
-        StatusLabel.Content = $"Status: {statusText}";
+        StatusLabel.Content = App.GetTranslation("Status: {0}", [statusText]);
     }
 
     public static void Error(string statusText)
     {
         if (StatusLabel == null) return;
         StatusLabel.Foreground = Brushes.Crimson;
-        StatusLabel.Content = $"Status: {statusText}";
+        StatusLabel.Content = App.GetTranslation("Status: {0}", [statusText]);
     }
 }

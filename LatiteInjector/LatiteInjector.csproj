@@ -8,7 +8,7 @@
     <Platforms>AnyCPU;x64</Platforms>
 	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <ApplicationIcon>Assets\latite.ico</ApplicationIcon>
-    <LangVersion>11</LangVersion>
+    <LangVersion>preview</LangVersion>
     <AssemblyName>Latite Injector</AssemblyName>
     <Company>Plextora</Company>
     <Product>Latite Injector</Product>
@@ -23,6 +23,16 @@
     <EmbeddedResource Remove="LatiteInjector\**" />
     <None Remove="LatiteInjector\**" />
     <Page Remove="LatiteInjector\**" />
+    <Page Update="LanguageWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Translations\Test.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Background.png" />

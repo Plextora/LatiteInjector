@@ -13,7 +13,7 @@ namespace LatiteInjector
         public ChangelogWindow()
         {
             InitializeComponent();
-            InjectorVersionLabel.Content = $"Injector version: {Updater.InjectorCurrentVersion}";
+            InjectorVersionLabel.Content = App.GetTranslation("Injector version: {0}", [Updater.InjectorCurrentVersion]);
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
