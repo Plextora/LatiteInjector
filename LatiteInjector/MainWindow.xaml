@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Latite Injector"
+    Title="{DynamicResource 'Latite Injector'}"
     Width="650"
     Height="435"
     AllowsTransparency="True"
@@ -40,7 +40,7 @@
                     <ContentPresenter
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Content="Launch" />
+                        Content="{DynamicResource Launch}" />
                 </Border>
             </Border>
         </ControlTemplate>
@@ -76,11 +76,21 @@
                 MouseLeftButtonDown="SettingsButton_MouseLeftButtonDown"
                 Source="/Assets/SettingsIcon.png" />
             <Label
+                x:Name="StatusLabel"
+                Width="240"
+                Margin="54,390,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="{DynamicResource 'Status: Idle'}"
+                FontFamily="Segoe UI"
+                FontSize="15px"
+                Foreground="White" />
+            <Label
                 x:Name="OpenLatiteFolderLabel"
                 Margin="300,390,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Content="Open Latite Folder"
+                Content="{DynamicResource 'Open Latite Folder'}"
                 Cursor="Hand"
                 FontFamily="Segoe UI"
                 Style="{StaticResource HoverEffect}"
@@ -92,7 +102,7 @@
                 Margin="438,390,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Content="Changelog"
+                Content="{DynamicResource Changelog}"
                 Cursor="Hand"
                 FontFamily="Segoe UI"
                 Style="{StaticResource HoverEffect}"
@@ -104,13 +114,25 @@
                 Margin="525,390,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Content="Credits"
+                Content="{DynamicResource Credits}"
                 Cursor="Hand"
                 FontFamily="Segoe UI"
                 FontSize="15px"
                 Foreground="White"
                 Style="{StaticResource HoverEffect}"
                 MouseLeftButtonUp="CreditButton_OnClick" />
+            <Label
+                x:Name="LanguageLabel"
+                Margin="220,390,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Content="{DynamicResource Language}"
+                Cursor="Hand"
+                FontFamily="Segoe UI"
+                FontSize="15px"
+                Foreground="White"
+                Style="{StaticResource HoverEffect}"
+                MouseLeftButtonUp="LanguageButton_OnClick" />
             <Button
                 x:Name="LaunchButton"
                 Margin="204,163,204,196"
@@ -133,7 +155,7 @@
                 Source="/Assets/LatiteIcon.png" />
             <Label
                 HorizontalAlignment="Left"
-                Content="Latite Client"
+                Content="{DynamicResource 'Latite Client'}"
                 FontFamily="Segoe UI"
                 FontSize="35px"
                 FontWeight="Light"
@@ -164,17 +186,7 @@
                 HorizontalAlignment="Center"
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Top"
-                Content="Right click the Launch button to inject custom DLLs"
-                FontFamily="Segoe UI"
-                FontSize="15px"
-                Foreground="White" />
-            <Label
-                x:Name="StatusLabel"
-                Width="240"
-                Margin="54,390,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Content="Status: Idle"
+                Content="{DynamicResource 'Right click the Launch button to inject custom DLLs'}"
                 FontFamily="Segoe UI"
                 FontSize="15px"
                 Foreground="White" />

@@ -15,6 +15,7 @@ public partial class App
     public static readonly SettingsWindow SettingsWindow = new();
     public static readonly ChangelogWindow ChangelogWindow = new();
     public static readonly CreditWindow CreditWindow = new();
+    public static readonly LanguageWindow LanguageWindow = new();
 
     private void App_OnStartup(object sender, StartupEventArgs startupEventArgs)
     {
@@ -45,11 +46,40 @@ public partial class App
         SettingsWindow.Closing += OnClosing;
         ChangelogWindow.Closing += OnClosing;
         CreditWindow.Closing += OnClosing;
+        LanguageWindow.Closing += OnClosing;
 
+        ChangeLanguage(new Uri(SettingsWindow.SelectedLanguage, UriKind.Absolute));
+        
         MainWindow = new MainWindow();
         MainWindow.Show();
     }
 
+    public static void ChangeLanguage(Uri uri) => Current.Resources.MergedDictionaries[0].Source = uri;
+
+    public static string GetTranslation(string input, string[]? args = null)
+    {
+        try
+        {
+            if (args is not null)
+            {
+                var temp = (string)Current.TryFindResource(input);
+                for (var i = 0; i < args.Length; i++)
+                {
+                    temp = temp.Replace($"{{{i}}}", args[i]);
+                }
+                return temp;
+            }
+            var result = Current.TryFindResource(input);
+            if (result is not null)
+                return (string)result;
+            return input;
+        }
+        catch (Exception)
+        {
+            return input;
+        }
+    }
+    
     private static void OnUnhandledException(object sender,
         UnhandledExceptionEventArgs ex) =>
         Logging.ExceptionLogging(ex.ExceptionObject as Exception);

@@ -1,26 +1,27 @@
 ﻿<Window
-    x:Class="LatiteInjector.SettingsWindow"
+    x:Class="LatiteInjector.LanguageWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:LatiteInjector"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="{DynamicResource 'Latite Client Settings'}"
+    Title="{DynamicResource 'Latite Client Languages'}"
     Width="376"
     Height="324"
     AllowsTransparency="True"
+    Loaded="LanguageWindow_OnLoaded"
     RenderOptions.BitmapScalingMode="HighQuality"
     Background="Transparent"
     ResizeMode="NoResize"
     WindowStyle="None"
     mc:Ignorable="d">
     <Window.Resources>
-        <Style x:Key="CheckBox" TargetType="{x:Type CheckBox}">
+        <Style TargetType="{x:Type RadioButton}">
             <Setter Property="SnapsToDevicePixels" Value="true" />
             <Setter Property="OverridesDefaultStyle" Value="true" />
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
                         <BulletDecorator Background="Transparent">
                             <BulletDecorator.Bullet>
                                 <Border
@@ -73,11 +74,12 @@
                                     </Grid>
                                 </Border>
                             </BulletDecorator.Bullet>
-                            <ContentPresenter
+                            <TextBlock
                                 Margin="4,0,0,0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
-                                RecognizesAccessKey="True" />
+                                TextWrapping="Wrap"
+                                Text="{TemplateBinding Content}" />
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CheckStates">
                                     <VisualState x:Name="Checked">
@@ -130,39 +132,8 @@
                 Stretch="Fill" />
         </Border.Background>
         <Grid>
-            <Label
-                Margin="10,41,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Content="{DynamicResource 'Discord activity status settings'}"
-                FontFamily="Segoe UI"
-                FontSize="20px"
-                FontWeight="DemiBold"
-                Foreground="AliceBlue" />
-            <CheckBox
-                x:Name="DiscordPresenceCheckBox"
-                Margin="18,80,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                x:FieldModifier="public"
-                Background="#202020"
-                Click="DiscordPresenceCheckBox_OnClick"
-                Content="{DynamicResource 'Turn on Discord activity status?'}"
-                Cursor="Hand"
-                FontSize="17"
-                Foreground="AliceBlue"
-                IsChecked="True"
-                Style="{StaticResource CheckBox}" />
-            <Label
-                Margin="10,110,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Content="{DynamicResource Misc.}"
-                FontFamily="Segoe UI"
-                FontSize="20px"
-                FontWeight="DemiBold"
-                Foreground="AliceBlue" />
             <Image
+                Style="{StaticResource HoverEffect}"
                 Width="20"
                 Height="20"
                 Margin="338,10,0,0"
@@ -170,8 +141,7 @@
                 VerticalAlignment="Top"
                 Cursor="Hand"
                 MouseLeftButtonUp="CloseButton_Click"
-                Source="/Assets/X.png"
-                Style="{StaticResource HoverEffect}" />
+                Source="/Assets/X.png" />
             <Border
                 Panel.ZIndex="-5"
                 Background="Black"
@@ -180,34 +150,36 @@
                 CornerRadius="20"
                 MouseLeftButtonDown="Window_OnMouseLeftButtonDown"
                 Opacity="0" />
-            <CheckBox
-                x:Name="CloseAfterInjectedCheckBox"
-                Margin="18,149,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                x:FieldModifier="public"
-                Background="#202020"
-                Click="CloseAfterInjectedCheckBox_OnClick"
-                Content="{DynamicResource 'Close after injected'}"
-                Cursor="Hand"
-                FontSize="17"
-                Foreground="AliceBlue"
-                IsChecked="False"
-                Style="{StaticResource CheckBox}" />
-            <CheckBox
-                x:Name="DisableAppSuspensionCheckBox"
-                Margin="18,186,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                x:FieldModifier="public"
-                Background="#202020"
-                Click="DisableAppSuspensionCheckBox_OnClick"
-                Content="{DynamicResource 'Minimize fix'}"
-                Cursor="Hand"
-                FontSize="17"
-                Foreground="AliceBlue"
-                IsChecked="True"
-                Style="{StaticResource CheckBox}" />
+            <StackPanel Name="LanguagesStackPanel" Margin="25,40,25,25">
+                <TextBlock
+                    Margin="0,0,0,0"
+                    TextWrapping="Wrap"
+                    Text="{DynamicResource 'Select a language listed below or choose a custom one (see discord for info)'}"
+                    FontFamily="Segoe UI"
+                    FontSize="16px"
+                    FontWeight="DemiBold"
+                    Foreground="AliceBlue" />
+                <RadioButton Margin="0,0,0,5"
+                             Background="#202020"
+                             Content="English"
+                             Cursor="Hand"
+                             FontSize="17"
+                             Foreground="AliceBlue" Checked="ToggleButton_OnChecked"/>
+                <RadioButton Margin="0,0,0,5"
+                             Background="#202020"
+                             Content="Test"
+                             Cursor="Hand"
+                             FontSize="17"
+                             Foreground="AliceBlue" Checked="ToggleButton_OnChecked"/>
+                <RadioButton Margin="0,0,0,5"
+                             Name="CustomLanguageRadioButton"
+                             Background="#202020"
+                             Content="{DynamicResource Custom}"
+                             Cursor="Hand"
+                             FontSize="17"
+                             Foreground="AliceBlue"
+                             Click="ButtonBase_OnClick"/>
+            </StackPanel>
         </Grid>
     </Border>
 </Window>

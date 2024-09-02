@@ -90,8 +90,8 @@ public static class Updater
         }
 
         MessageBoxResult result =
-            MessageBox.Show("The injector is outdated! Do you want to download the newest version?",
-                "Injector outdated!", MessageBoxButton.YesNo, MessageBoxImage.Error);
+            MessageBox.Show(App.GetTranslation("The injector is outdated! Do you want to download the newest version?"),
+                App.GetTranslation("Injector outdated!"), MessageBoxButton.YesNo, MessageBoxImage.Error);
         
         if (result != MessageBoxResult.Yes) return;
 
@@ -114,7 +114,7 @@ public static class Updater
     {
         if (changelog != null && GetLine(changelog, line).StartsWith($"{changelogNum} "))
             return GetLine(changelog, line)?.Replace($"{changelogNum} ", "");
-        return "Couldn't get changelog line";
+        return App.GetTranslation("Couldn't get changelog line");
     }
     
     private static string? GetClientChangelogLine(string? changelog, int line, string changelogNum)
@@ -135,12 +135,12 @@ public static class Updater
         }
         catch
         {
-            SetStatusLabel.Error("Failed to obtain injector changelog. Are you connected to the internet?");
+            SetStatusLabel.Error(App.GetTranslation("Failed to obtain injector changelog. Are you connected to the internet?"));
         }
         
         if (rawChangelog == "\n")
         {
-            SetStatusLabel.Error("Failed to obtain client changelog. Please report error to devs");
+            SetStatusLabel.Error(App.GetTranslation("Failed to obtain client changelog. Please report error to devs"));
             throw new Exception("The injector changelog on Latite-Releases is (probably) empty");
         }
 
@@ -162,12 +162,12 @@ public static class Updater
         }
         catch
         {
-            SetStatusLabel.Error("Failed to obtain client changelog. Are you connected to the internet?");
+            SetStatusLabel.Error(App.GetTranslation("Failed to obtain client changelog. Are you connected to the internet?"));
         }
 
         if (rawChangelog == "\n")
         {
-            SetStatusLabel.Error("Failed to obtain client changelog. Please report error to devs");
+            SetStatusLabel.Error(App.GetTranslation("Failed to obtain client changelog. Please report error to devs"));
             throw new Exception("The client changelog on Latite-Releases is (probably) empty");
         }
 

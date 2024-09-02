@@ -97,13 +97,12 @@ public static class Injector
                 $"Your Minecraft version, {MinecraftVersion}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! " +
                 $"The supported versions are:\n{supportedVersionsString}\n\n" +
                 "Look at the #announcements channel in the Discord for directions on how to change your Minecraft version to a compatible one.";
-
             Logging.WarnLogging(warningMessageThatNobodyWillReadBecauseReadingIsForCasualsIGuess);
 
             MessageBox.Show(
                 Application.Current.MainWindow, // put messagebox on top of the main window
-                warningMessageThatNobodyWillReadBecauseReadingIsForCasualsIGuess,
-                "Minecraft version not supported!!",
+                App.GetTranslation("Your Minecraft version, {0}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! The supported versions are:\n{1}\n\nLook at the #announcements channel in the Discord for directions on how to change your Minecraft version to a compatible one.", [MinecraftVersion, supportedVersionsString]),
+                App.GetTranslation("Minecraft version not supported!!"),
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);
         }
@@ -205,7 +204,7 @@ public static class Injector
         }
         catch (Exception? ex)
         {
-            SetStatusLabel.Error("Ran into error on inject!");
+            SetStatusLabel.Error(App.GetTranslation("Ran into error on inject!"));
             Logging.ExceptionLogging(ex);
         }
 
@@ -214,7 +213,7 @@ public static class Injector
 
     public static async Task WaitForModules()
     {
-        Application.Current.Dispatcher.Invoke(() => { SetStatusLabel.Pending("Waiting for Minecraft..."); });
+        Application.Current.Dispatcher.Invoke(() => { SetStatusLabel.Pending(App.GetTranslation("Waiting for Minecraft...")); });
         await Task.Run(() =>
         {
             while (true)
@@ -239,6 +238,6 @@ public static class Injector
                 Task.Delay(500);
             }
         });
-        Application.Current.Dispatcher.Invoke(() => { SetStatusLabel.Completed("Minecraft has finished loading!"); });
+        Application.Current.Dispatcher.Invoke(() => { SetStatusLabel.Completed(App.GetTranslation("Minecraft has finished loading!")); });
     }
 }

@@ -23,6 +23,7 @@ public partial class SettingsWindow : Window
     public static bool IsCloseAfterInjectedEnabled;
     public static bool IsDiscordPresenceEnabled;
     public static bool IsDisableAppSuspensionEnabled;
+    public static string SelectedLanguage = string.Empty;
 
     public void ConfigSetup()
     {
@@ -33,7 +34,8 @@ public partial class SettingsWindow : Window
             string defaultConfigText =
                 "discordstatus:true\n" +
                 "closeafterinjected:false\n" +
-                "disableappsuspension:true\n";
+                "disableappsuspension:true\n" +
+                "selectedlanguage:pack://application:,,,/Latite Injector;component//Translations/English.xaml";
 
             File.WriteAllText(ConfigFilePath, defaultConfigText);
 
@@ -41,6 +43,7 @@ public partial class SettingsWindow : Window
             IsDiscordPresenceEnabled = true;
             IsCloseAfterInjectedEnabled = false;
             IsDisableAppSuspensionEnabled = true;
+            SelectedLanguage = "pack://application:,,,/Latite Injector;component//Translations/English.xaml";
         }
         else
         {
@@ -50,16 +53,39 @@ public partial class SettingsWindow : Window
 
     private void LoadConfig()
     {
-        string config = File.ReadAllText(ConfigFilePath);
-        IsDiscordPresenceEnabled = MainWindow.GetLine(config, 1) == "discordstatus:true";
-        IsCloseAfterInjectedEnabled = MainWindow.GetLine(config, 2) == "closeafterinjected:true";
-        IsDisableAppSuspensionEnabled = MainWindow.GetLine(config, 3) == "disableappsuspension:true";
-        DiscordPresenceCheckBox.IsChecked = IsDiscordPresenceEnabled;
-        CloseAfterInjectedCheckBox.IsChecked = IsCloseAfterInjectedEnabled;
-        DisableAppSuspensionCheckBox.IsChecked = IsDisableAppSuspensionEnabled;
+        try
+        {
+            string config = File.ReadAllText(ConfigFilePath);
+            IsDiscordPresenceEnabled = MainWindow.GetLine(config, 1) == "discordstatus:true";
+            IsCloseAfterInjectedEnabled = MainWindow.GetLine(config, 2) == "closeafterinjected:true";
+            IsDisableAppSuspensionEnabled = MainWindow.GetLine(config, 3) == "disableappsuspension:true";
+            SelectedLanguage = MainWindow.GetLine(config, 4)?.Replace("selectedlanguage:", "") ??
+                               "pack://application:,,,/Latite Injector;component//Translations/English.xaml";
+            DiscordPresenceCheckBox.IsChecked = IsDiscordPresenceEnabled;
+            CloseAfterInjectedCheckBox.IsChecked = IsCloseAfterInjectedEnabled;
+            DisableAppSuspensionCheckBox.IsChecked = IsDisableAppSuspensionEnabled;
+        }
+        catch (Exception)
+        {
+            Directory.CreateDirectory(LatiteInjectorFolder);
+            File.Create(ConfigFilePath).Close();
+            string defaultConfigText =
+                "discordstatus:true\n" +
+                "closeafterinjected:false\n" +
+                "disableappsuspension:true\n" +
+                "selectedlanguage:pack://application:,,,/Latite Injector;component//Translations/English.xaml";
+
+            File.WriteAllText(ConfigFilePath, defaultConfigText);
+
+            // set default config values
+            IsDiscordPresenceEnabled = true;
+            IsCloseAfterInjectedEnabled = false;
+            IsDisableAppSuspensionEnabled = true;
+            SelectedLanguage = "pack://application:,,,/Latite Injector;component//Translations/English.xaml";
+        }
     }
 
-    public void ModifyConfig(string newText, int lineToEdit)
+    public static void ModifyConfig(string newText, int lineToEdit)
     {
         string[] arrLine = File.ReadAllLines(ConfigFilePath);
         arrLine[lineToEdit - 1] = newText;

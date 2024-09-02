@@ -51,7 +51,7 @@ public partial class MainWindow
         await Injector.CheckVersionCompatibility();
 
         Injector.Inject(await Updater.DownloadDll());
-        SetStatusLabel.Completed("Injected Latite Client!");
+        SetStatusLabel.Completed(App.GetTranslation("Injected Latite Client!"));
         DiscordPresence.CurrentTimestamp = Timestamps.Now;
 
         Injector.Minecraft.EnableRaisingEvents = true;
@@ -60,7 +60,7 @@ public partial class MainWindow
 
     private async void LaunchButton_OnRightClick(object sender, RoutedEventArgs e)
     {
-        SetStatusLabel.Pending("User is selecting DLL...");
+        SetStatusLabel.Pending(App.GetTranslation("User is selecting DLL..."));
 
         OpenFileDialog openFileDialog = new()
         {
@@ -85,7 +85,7 @@ public partial class MainWindow
         Injector.IsCustomDll = true;
         await Injector.WaitForModules();
         Injector.Inject(openFileDialog.FileName);
-        SetStatusLabel.Completed("Injected custom DLL!");
+        SetStatusLabel.Completed(App.GetTranslation("Injected custom DLL!"));
         DiscordPresence.CurrentTimestamp = Timestamps.Now;
 
         Injector.Minecraft.EnableRaisingEvents = true;
@@ -115,6 +115,13 @@ public partial class MainWindow
         App.CreditWindow.Show();
         if (SettingsWindow.IsDiscordPresenceEnabled)
             DiscordPresence.CreditsPresence();
+    }
+    
+    private void LanguageButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        App.LanguageWindow.Show();
+        if (SettingsWindow.IsDiscordPresenceEnabled)
+            DiscordPresence.LanguagesPresence();
     }
 
     private void OpenLatiteFolderLabel_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e) =>
