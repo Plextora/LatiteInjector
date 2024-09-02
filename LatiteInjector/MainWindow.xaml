@@ -121,18 +121,6 @@
                 Foreground="White"
                 Style="{StaticResource HoverEffect}"
                 MouseLeftButtonUp="CreditButton_OnClick" />
-            <Label
-                x:Name="LanguageLabel"
-                Margin="220,390,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Content="{DynamicResource Language}"
-                Cursor="Hand"
-                FontFamily="Segoe UI"
-                FontSize="15px"
-                Foreground="White"
-                Style="{StaticResource HoverEffect}"
-                MouseLeftButtonUp="LanguageButton_OnClick" />
             <Button
                 x:Name="LaunchButton"
                 Margin="204,163,204,196"

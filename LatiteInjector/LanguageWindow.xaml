@@ -152,33 +152,29 @@
                 Opacity="0" />
             <StackPanel Name="LanguagesStackPanel" Margin="25,40,25,25">
                 <TextBlock
-                    Margin="0,0,0,0"
+                    Margin="0, 0, 0, 10"
                     TextWrapping="Wrap"
-                    Text="{DynamicResource 'Select a language listed below or choose a custom one (see discord for info)'}"
+                    Text="{DynamicResource Select a language listed below or choose a custom one (see discord for info)}"
                     FontFamily="Segoe UI"
                     FontSize="16px"
                     FontWeight="DemiBold"
                     Foreground="AliceBlue" />
-                <RadioButton Margin="0,0,0,5"
-                             Background="#202020"
-                             Content="English"
-                             Cursor="Hand"
-                             FontSize="17"
-                             Foreground="AliceBlue" Checked="ToggleButton_OnChecked"/>
-                <RadioButton Margin="0,0,0,5"
-                             Background="#202020"
-                             Content="Test"
-                             Cursor="Hand"
-                             FontSize="17"
-                             Foreground="AliceBlue" Checked="ToggleButton_OnChecked"/>
-                <RadioButton Margin="0,0,0,5"
-                             Name="CustomLanguageRadioButton"
-                             Background="#202020"
-                             Content="{DynamicResource Custom}"
-                             Cursor="Hand"
-                             FontSize="17"
-                             Foreground="AliceBlue"
-                             Click="ButtonBase_OnClick"/>
+                <RadioButton
+                    Margin="0,0,0,5"
+                    Background="#202020"
+                    Content="English"
+                    Cursor="Hand"
+                    FontSize="17"
+                    Foreground="AliceBlue"
+                    Checked="ToggleButton_OnChecked"/>
+                <RadioButton
+                    x:Name="CustomLanguageRadioButton"
+                    Background="#202020"
+                    Content="{DynamicResource Custom}"
+                    Cursor="Hand"
+                    FontSize="17"
+                    Foreground="AliceBlue"
+                    Click="CustomLanguageRadioButton_OnClick"/>
             </StackPanel>
         </Grid>
     </Border>

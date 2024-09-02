@@ -208,6 +208,17 @@
                 Foreground="AliceBlue"
                 IsChecked="True"
                 Style="{StaticResource CheckBox}" />
+            <Button
+                x:Name="SwitchLanguageButton"
+                Margin="18,221,192,65"
+                Background="#202020"
+                Cursor="Hand"
+                FontSize="17"
+                Foreground="AliceBlue"
+                Content="{DynamicResource 'Switch language'}"
+                Style="{StaticResource HoverEffectButton}"
+                Click="SwitchLanguageButton_OnClick">
+            </Button>
         </Grid>
     </Border>
 </Window>

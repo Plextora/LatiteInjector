@@ -33,7 +33,7 @@ namespace LatiteInjector
 
         private RadioButton _languageSelected = new();
         
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private void CustomLanguageRadioButton_OnClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new()
             {
@@ -50,20 +50,20 @@ namespace LatiteInjector
             try
             {
                 App.ChangeLanguage(new Uri(openFileDialog.FileName, UriKind.Absolute));
-                SettingsWindow.ModifyConfig(openFileDialog.FileName, 4);
+                SettingsWindow.ModifyConfig($"selectedlanguage:{openFileDialog.FileName}", 4);
             }
             catch (Exception)
             {
-                App.ChangeLanguage(new Uri("pack://application:,,,/Latite Injector;component//Translations/English.xaml", UriKind.Absolute));
-                SettingsWindow.ModifyConfig("pack://application:,,,/Latite Injector;component//Translations/English.xaml", 4);
+                App.ChangeLanguage(new Uri("pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml", UriKind.Absolute));
+                SettingsWindow.ModifyConfig("selectedlanguage:pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml", 4);
             }
         }
 
         private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
         {
             _languageSelected = (RadioButton)sender;
-            App.ChangeLanguage(new Uri($"pack://application:,,,/Latite Injector;component//Translations/{((RadioButton)sender).Content}.xaml"));
-            SettingsWindow.ModifyConfig($"pack://application:,,,/Latite Injector;component//Translations/{((RadioButton)sender).Content}.xaml", 4);
+            App.ChangeLanguage(new Uri($"pack://application:,,,/Latite Injector;component//Assets/Translations/{((RadioButton)sender).Content}.xaml"));
+            SettingsWindow.ModifyConfig($"selectedlanguage:pack://application:,,,/Latite Injector;component//Assets/Translations/{((RadioButton)sender).Content}.xaml", 4);
         }
 
         private void LanguageWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -72,7 +72,7 @@ namespace LatiteInjector
             {
                 if (uiElement is not RadioButton radioButton) continue;
                 if ((string)radioButton.Content != SettingsWindow.SelectedLanguage
-                        .Replace("pack://application:,,,/Latite Injector;component//Translations/", "")
+                        .Replace("pack://application:,,,/Latite Injector;component//Assets/Translations/", "")
                         .Replace(".xaml", "")) continue;
                 radioButton.IsChecked = true;
                 return;
