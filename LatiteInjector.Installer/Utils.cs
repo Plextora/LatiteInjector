@@ -78,7 +78,7 @@ namespace LatiteInjector.Installer
                 if (Directory.Exists(Program.LatiteInjectorExeFolder) && File.Exists(Program.LatiteInjectorExePath))
                 {
                     Utils.WriteColor(
-                        $"Deleting current Latite Injector version..",
+                        "Deleting current Latite Injector version..",
                         ConsoleColor.Yellow);
                     File.Delete(Program.LatiteInjectorExePath);
                 }
