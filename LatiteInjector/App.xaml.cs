@@ -21,8 +21,6 @@ public partial class App
     {
         AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
-        Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US", false);
-
         if (!Environment.Is64BitOperatingSystem)
         {
             MessageBox.Show(
