@@ -54,18 +54,22 @@ public partial class App
 
     public static void ChangeLanguage(Uri uri) => Current.Resources.MergedDictionaries[0].Source = uri;
 
+    // this function is hot dogshit that is in desperate need of a refactor
+    // actually the entire translation system is probably in need of a complete rewrite from scratch.
     public static string GetTranslation(string input, string[]? args = null)
     {
         try
         {
             if (args is not null)
             {
-                var temp = (string)Current.TryFindResource(input);
+                string? temp = (string)Current.TryFindResource(input);
                 for (var i = 0; i < args.Length; i++)
                 {
                     temp = temp.Replace($"{{{i}}}", args[i]);
                 }
-                return temp;
+                // the replace is needed here since stuff like unhandled exception message
+                // have their newlines escaped by default
+                return temp.Replace("\\n", "\n");
             }
             var result = Current.TryFindResource(input);
             if (result is not null)

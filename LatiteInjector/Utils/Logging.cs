@@ -27,7 +27,9 @@ public static class Logging
         File.WriteAllText(filePath, ex?.ToString());
 
         MessageBoxResult result = MessageBox.Show(
-            App.GetTranslation("", [ex?.ToString()[..500]!]),
+            App.GetTranslation(
+                @"An error has occurred! Please report this error to the developers!\nClick Yes to go to the Latite Discord.\n\n{0}...",
+                [ex?.ToString().Substring(0, 500)]),
             "An unhandled error has occurred!",
             MessageBoxButton.YesNo,
             MessageBoxImage.Error);
