@@ -13,7 +13,6 @@ namespace LatiteInjector;
 public partial class App
 {
     public static readonly SettingsWindow SettingsWindow = new();
-    public static readonly ChangelogWindow ChangelogWindow = new();
     public static readonly CreditWindow CreditWindow = new();
     public static readonly LanguageWindow LanguageWindow = new();
 
@@ -42,7 +41,6 @@ public partial class App
         detailedPresenceTimer.Start();
 
         SettingsWindow.Closing += OnClosing;
-        ChangelogWindow.Closing += OnClosing;
         CreditWindow.Closing += OnClosing;
         LanguageWindow.Closing += OnClosing;
 

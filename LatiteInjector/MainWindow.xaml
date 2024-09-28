@@ -87,7 +87,7 @@
                 Foreground="White" />
             <Label
                 x:Name="OpenLatiteFolderLabel"
-                Margin="300,390,0,0"
+                Margin="356,390,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Content="{DynamicResource 'Open Latite Folder'}"
@@ -98,20 +98,8 @@
                 Foreground="White"
                 MouseLeftButtonUp="OpenLatiteFolderLabel_OnMouseLeftButtonUp" />
             <Label
-                x:Name="ChangelogLabel"
-                Margin="438,390,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Content="{DynamicResource Changelog}"
-                Cursor="Hand"
-                FontFamily="Segoe UI"
-                Style="{StaticResource HoverEffect}"
-                FontSize="15px"
-                Foreground="White"
-                MouseLeftButtonUp="ChangelogButton_OnClick" />
-            <Label
                 x:Name="CreditLabel"
-                Margin="525,390,0,0"
+                Margin="512,390,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Content="{DynamicResource Credits}"

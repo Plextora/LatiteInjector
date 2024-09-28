@@ -26,15 +26,10 @@ public static class Updater
     */
     private static readonly Uri InstallerExecutableUrl =
         new("https://github.com/Imrglop/Latite-Releases/raw/main/injector/Installer.exe");
-    private static readonly Uri InjectorChangelogUrl =
-        new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/injector_changelog");
-    private static readonly Uri ClientChangelogUrl =
-        new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/client_changelog");
     private static readonly Uri SupportedVersionList =
         new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/supported_versions");
 
     private static readonly HttpClient Client = new();
-    private static readonly ChangelogWindow? ChangelogForm = Application.Current.Windows[1] as ChangelogWindow;
 
     private static async Task DownloadFile(Uri uri, string fileName)
     {
@@ -106,76 +101,6 @@ public static class Updater
             Arguments = "--injectorAutoUpdate"
         });
         Application.Current.Shutdown();
-    }
-
-
-
-    private static string? GetChangelogLine(string? changelog, int line, string changelogNum)
-    {
-        if (changelog != null && GetLine(changelog, line).StartsWith($"{changelogNum} "))
-            return GetLine(changelog, line)?.Replace($"{changelogNum} ", "");
-        return App.GetTranslation("Couldn't get changelog line");
-    }
-    
-    private static string? GetClientChangelogLine(string? changelog, int line, string changelogNum)
-    {
-        if (changelog != null && GetLine(changelog, line).StartsWith($"{changelogNum} "))
-            return GetLine(changelog, line)?.Replace($"{changelogNum} ", "");
-        return "";
-    } // temporary function until imrglop actually add more to the changelog
-
-    public static async Task GetInjectorChangelog()
-    {
-        string? rawChangelog = null;
-        
-        try
-        {
-            rawChangelog = await DownloadString(
-                InjectorChangelogUrl);
-        }
-        catch
-        {
-            SetStatusLabel.Error(App.GetTranslation("Failed to obtain injector changelog. Are you connected to the internet?"));
-        }
-        
-        if (rawChangelog == "\n")
-        {
-            SetStatusLabel.Error(App.GetTranslation("Failed to obtain client changelog. Please report error to devs"));
-            throw new Exception("The injector changelog on Latite-Releases is (probably) empty");
-        }
-
-        if (ChangelogForm == null) return;
-        ChangelogForm.InjectorChangelogLine1.Content = GetChangelogLine(rawChangelog, 1, "1.");
-        ChangelogForm.InjectorChangelogLine2.Content = GetChangelogLine(rawChangelog, 2, "2.");
-        ChangelogForm.InjectorChangelogLine3.Content = GetChangelogLine(rawChangelog, 3, "3.");
-        ChangelogForm.InjectorChangelogLine4.Content = GetChangelogLine(rawChangelog, 4, "4.");
-    }
-    
-    public static async Task GetClientChangelog()
-    {
-        string? rawChangelog = null;
-        
-        try
-        {
-            rawChangelog = await DownloadString(
-                ClientChangelogUrl);
-        }
-        catch
-        {
-            SetStatusLabel.Error(App.GetTranslation("Failed to obtain client changelog. Are you connected to the internet?"));
-        }
-
-        if (rawChangelog == "\n")
-        {
-            SetStatusLabel.Error(App.GetTranslation("Failed to obtain client changelog. Please report error to devs"));
-            throw new Exception("The client changelog on Latite-Releases is (probably) empty");
-        }
-
-        if (ChangelogForm == null) return;
-        ChangelogForm.ClientChangelogLine1.Content = GetClientChangelogLine(rawChangelog, 1, "1.");
-        ChangelogForm.ClientChangelogLine2.Content = GetClientChangelogLine(rawChangelog, 2, "2.");
-        ChangelogForm.ClientChangelogLine3.Content = GetClientChangelogLine(rawChangelog, 3, "3.");
-        ChangelogForm.ClientChangelogLine4.Content = GetClientChangelogLine(rawChangelog, 4, "4.");
     }
 
     public static async Task<string> DownloadDll()

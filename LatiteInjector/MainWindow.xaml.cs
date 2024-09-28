@@ -20,12 +20,7 @@ public partial class MainWindow
         InitializeComponent();
     }
 
-    private async void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
-    {
-        await Updater.UpdateInjector();
-        await Updater.GetInjectorChangelog();
-        await Updater.GetClientChangelog();
-    }
+    private async void MainWindow_OnLoaded(object sender, RoutedEventArgs e) => await Updater.UpdateInjector();
 
     private void CloseButton_Click(object sender, RoutedEventArgs e) =>
         Application.Current.Shutdown();
@@ -101,13 +96,6 @@ public partial class MainWindow
         }
         Application.Current.Dispatcher.Invoke(SetStatusLabel.Default);
         if (Injector.IsCustomDll) Injector.IsCustomDll = false;
-    }
-
-    private void ChangelogButton_OnClick(object sender, RoutedEventArgs e)
-    {
-        App.ChangelogWindow.Show();
-        if (SettingsWindow.IsDiscordPresenceEnabled)
-            DiscordPresence.ChangelogPresence();
     }
 
     private void CreditButton_OnClick(object sender, RoutedEventArgs e)

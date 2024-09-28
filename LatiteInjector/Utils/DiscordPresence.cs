@@ -150,7 +150,6 @@ public static class DiscordPresence
     }
 
     public static void SettingsPresence() => DiscordClient.UpdateState("Changing settings");
-    public static void ChangelogPresence() => DiscordClient.UpdateState("Reading the changelog");
     public static void CreditsPresence() => DiscordClient.UpdateState("Reading the credits");
     public static void LanguagesPresence() => DiscordClient.UpdateState("Changing language");
 
