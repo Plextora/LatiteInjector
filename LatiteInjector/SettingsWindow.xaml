@@ -130,11 +130,12 @@
                 Stretch="Fill" />
         </Border.Background>
         <Grid>
-            <Label
-                Margin="10,41,0,0"
+            <TextBlock
+                Margin="18,20,0,0"
+                TextWrapping="Wrap"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Content="{DynamicResource 'Discord activity status settings'}"
+                Text="{DynamicResource 'Discord activity status settings'}"
                 FontFamily="Segoe UI"
                 FontSize="20px"
                 FontWeight="DemiBold"
