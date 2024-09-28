@@ -77,7 +77,7 @@
                 Source="/Assets/SettingsIcon.png" />
             <Label
                 x:Name="StatusLabel"
-                Width="240"
+                Width="297"
                 Margin="54,390,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
