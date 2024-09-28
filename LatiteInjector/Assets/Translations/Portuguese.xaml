@@ -1,0 +1,52 @@
+﻿<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <!--Main Window-->
+    <s:String x:Key="Latite Injector">Latite Injector</s:String>
+    <s:String x:Key="Launch">Abrir</s:String>
+    <s:String x:Key="Open Latite Folder">Abrir pasta de Latite</s:String>
+    <s:String x:Key="Changelog">Registo de Mudanças</s:String>
+    <s:String x:Key="Credits">Créditos</s:String>
+    <s:String x:Key="Latite Client">Latite Client</s:String>
+    <s:String x:Key="Right click the Launch button to inject custom DLLs">Clica com o botão direito no botão de Abrir para injetar DLLs personalizadas</s:String>
+    <s:String x:Key="Status: Idle">Estado: Inativo</s:String>
+    <s:String x:Key="Injected Latite Client!">Latite Client injetado!</s:String>
+    <s:String x:Key="User is selecting DLL...">Utilizador está a selecionar a DLL...</s:String>
+    <s:String x:Key="Injected custom DLL!">DLL personalizada injetada!</s:String>
+    <s:String x:Key="Status: {0}">Estado: {0}</s:String>
+    <s:String x:Key="Ran into error on inject!">Ocorreu um erro ao injetar!</s:String>
+    <s:String x:Key="Waiting for Minecraft...">À espera do Minecraft...</s:String>
+    <s:String x:Key="Minecraft has finished loading!">Minecraft acabou de carregar!</s:String>
+    <!--Settings Window-->
+    <s:String x:Key="Latite Client Settings">Definições do Latite Client</s:String>
+    <s:String x:Key="Discord activity status settings">Definições do estado da atividade do Discord</s:String>
+    <s:String x:Key="Turn on Discord activity status?">Ativar estado da atividade do Discord?</s:String>
+    <s:String x:Key="Misc.">Misc.</s:String>
+    <s:String x:Key="Close after injected">Fechar após injetar</s:String>
+    <s:String x:Key="Minimize fix">Correção de Minimização</s:String>
+    <s:String x:Key="Switch language">Mudar de idioma</s:String>
+    <!--Changelog Window-->
+    <s:String x:Key="Latite Client Changelog">Registo de Mudanças do Latite Client</s:String>
+    <s:String x:Key="Client">Client</s:String>
+    <s:String x:Key="Injector">Injetor</s:String>
+    <s:String x:Key="Injector version: {0}">Versão de Injetor: {0}</s:String>
+    <s:String x:Key="Couldn't get changelog line">Não foi possível obter registo de mudanças</s:String>
+    <s:String x:Key="Failed to obtain injector changelog. Are you connected to the internet?">Falha ao obter registo de mudanças do injetor. Está ligado à Internet?</s:String>
+    <s:String x:Key="Failed to obtain client changelog. Please report error to devs">Falha ao obter registo de mudanças do Client. Por favor, reporte o erro aos programadores</s:String>
+    <s:String x:Key="Failed to obtain client changelog. Are you connected to the internet?">Falha ao obter registo de mudanças do Client. Está conectado à internet?</s:String>
+    <!--Credit Window-->
+    <s:String x:Key="Latite Client Credits">Créditos do Latite Client</s:String>
+    <s:String x:Key="Launcher made by Plextora">Launcher feito por Plextora</s:String>
+    <s:String x:Key="Latite Client made by JayRSky (Imrglop)">Latite Client feito por JayRSky (Imrglop)</s:String>
+    <s:String x:Key="Some injector code made by phase">Algum código do injetor feito por phase</s:String>
+    <s:String x:Key="Launcher design by CreativeMC">Design do launcher feito por CreativeMC</s:String>
+    <!--Language Window-->
+    <s:String x:Key="Latite Client Languages">Línguas do Latite Client</s:String>
+    <s:String x:Key="Select a language listed below or choose a custom one (see discord for info)">Seleciona uma língua da lista abaixo ou escolhe uma língua personalizada (Consultar Discord para mais informações)</s:String>
+    <s:String x:Key="Custom">Personalizada</s:String>
+    <!--Message Boxes-->
+    <s:String x:Key="The injector is outdated! Do you want to download the newest version?">O injetor está desatualizado! Quer transferir a versão mais recente?</s:String>
+    <s:String x:Key="Injector outdated!">Injetor desatualizado!</s:String>
+    <s:String x:Key="An error has occurred! Please report this error to the developers!\nClick Yes to go to the Latite Discord.\n\n{0}...">Ocorreu um erro! Por favor, comunica este erro aos programadores!\nClique em Sim para ir para o Discord do Latite.\n\n{0}...</s:String>
+    <s:String x:Key="Your Minecraft version, {0}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! The supported versions are:\n{1}\n\nLook at the #announcements channel in the Discord for directions on how to change your Minecraft version to a compatible one.">A tua versão do Minecraft, {0}, não está na lista de versões suportadas pelo Latite Client. É MUITO provável que vás ter problemas de crashes ou outros tipos de bugs! As versões suportadas são:\n{1}\n\nVeja o canal #announcements no Discord para obter instruções sobre como mudar a tua versão do Minecraft para uma compatível.</s:String>
+    <s:String x:Key="Minecraft version not supported!!">Versão do Minecraft não suportada!!</s:String>
+</ResourceDictionary>
