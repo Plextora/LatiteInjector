@@ -46,13 +46,25 @@ public partial class App
         CreditWindow.Closing += OnClosing;
         LanguageWindow.Closing += OnClosing;
 
-        ChangeLanguage(new Uri(SettingsWindow.SelectedLanguage, UriKind.Absolute));
-        
         MainWindow = new MainWindow();
+        ChangeLanguage(new Uri(SettingsWindow.SelectedLanguage, UriKind.Absolute));
         MainWindow.Show();
     }
 
-    public static void ChangeLanguage(Uri uri) => Current.Resources.MergedDictionaries[0].Source = uri;
+    // oh my fucking god so scuffed, i really hope i just never have to touch this code ever again
+    // after im finished with this stuff
+    public static void ChangeLanguage(Uri uri)
+    {
+        ResourceDictionary lang = new();
+        lang.Source = uri;
+
+        Current.Resources.MergedDictionaries[0].Source = uri;
+        Current.Resources.MergedDictionaries[0] = lang;
+
+        // StatusLabel, if content changed via code, doesn't switch language automatically
+        // so im calling it again here (this is kinda bad but honestly i give zero fucks right now)
+        SetStatusLabel.Default();
+    }
 
     // this function is hot dogshit that is in desperate need of a refactor
     // actually the entire translation system is probably in need of a complete rewrite from scratch.
@@ -62,7 +74,7 @@ public partial class App
         {
             if (args is not null)
             {
-                string? temp = (string)Current.TryFindResource(input);
+                string temp = (string)Current.TryFindResource(input);
                 for (var i = 0; i < args.Length; i++)
                 {
                     temp = temp.Replace($"{{{i}}}", args[i]);

@@ -101,7 +101,7 @@ public static class Injector
 
             MessageBox.Show(
                 Application.Current.MainWindow, // put messagebox on top of the main window
-                App.GetTranslation("Your Minecraft version, {0}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! The supported versions are:\n{1}\n\nLook at the #announcements channel in the Discord for directions on how to change your Minecraft version to a compatible one.", [MinecraftVersion, supportedVersionsString]),
+                App.GetTranslation("Your Minecraft version, {0}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! The supported versions are:\\n{1}\\n\\nLook at the #announcements channel in the Discord for directions on how to change your Minecraft version to a compatible one.", [MinecraftVersion, supportedVersionsString]),
                 App.GetTranslation("Minecraft version not supported!!"),
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);

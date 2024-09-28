@@ -23,6 +23,9 @@
     <EmbeddedResource Remove="LatiteInjector\**" />
     <None Remove="LatiteInjector\**" />
     <Page Remove="LatiteInjector\**" />
+    <Page Update="Assets\Translations\Japanese.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="LanguageWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>

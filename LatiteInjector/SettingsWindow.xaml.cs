@@ -53,7 +53,7 @@ public partial class SettingsWindow : Window
 
     private void LoadConfig()
     {
-        if (File.ReadAllLines(ConfigFilePath).Length < 5)
+        if (File.ReadAllLines(ConfigFilePath).Length != 4)
         {
             string defaultConfigText =
                 "discordstatus:true\n" +

@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Assets/Translations/English.xaml"/>
+                <ResourceDictionary Source="Assets/Translations/English.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="HoverEffect">
