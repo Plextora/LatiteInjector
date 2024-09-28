@@ -45,7 +45,7 @@ public partial class App
         LanguageWindow.Closing += OnClosing;
 
         MainWindow = new MainWindow();
-        ChangeLanguage(new Uri(SettingsWindow.SelectedLanguage, UriKind.Absolute));
+        LanguageOnStartup();
         MainWindow.Show();
     }
 
@@ -89,6 +89,57 @@ public partial class App
         catch (Exception)
         {
             return input;
+        }
+    }
+
+    private static void LanguageOnStartup()
+    {
+        if (SettingsWindow.SelectedLanguage !=
+            "pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml")
+            ChangeLanguage(new Uri(SettingsWindow.SelectedLanguage, UriKind.Absolute));
+
+        string? lang = CultureInfo.CurrentCulture.Name switch
+        {
+            "ar-SA" => "Arabic",
+            "cs-CZ" => "Czech",
+            "fr-FR" => "French",
+            "hi-IN" => "Hindi",
+            "ja" => "Japanese",
+            "ja-JP" => "Japanese",
+            "pt" => "Portuguese",
+            "pt-BR" => "Portuguese, Brazillian",
+            "pt-PT" => "Portuguese",
+            "es" => "Spanish",
+            "es-AR" => "Spanish",
+            "es-BO" => "Spanish",
+            "es-CL" => "Spanish",
+            "es-CR" => "Spanish",
+            "es-DO" => "Spanish",
+            "es-EC" => "Spanish",
+            "es-ES" => "Spanish",
+            "es-GT" => "Spanish",
+            "es-HN" => "Spanish",
+            "es-MX" => "Spanish",
+            "es-NI" => "Spanish",
+            "es-PA" => "Spanish",
+            "es-PE" => "Spanish",
+            "es-PR" => "Spanish",
+            "es-PY" => "Spanish",
+            "es-SV" => "Spanish",
+            "es-UY" => "Spanish",
+            "es-VE" => "Spanish",
+            "zh-CN" => "Chinese (Simplified)",
+            _ => null
+        };
+
+        if (lang != null)
+        {
+            string langUri = $"pack://application:,,,/Latite Injector;component//Assets/Translations/{lang}.xaml";
+            SettingsWindow.SelectedLanguage = langUri;
+            ChangeLanguage(new Uri(langUri, UriKind.Absolute));
+            SettingsWindow.ModifyConfig(
+                $"selectedlanguage:{langUri}",
+                4);
         }
     }
     
