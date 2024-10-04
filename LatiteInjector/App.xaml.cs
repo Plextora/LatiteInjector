@@ -129,6 +129,9 @@ public partial class App
             "es-UY" => "Spanish",
             "es-VE" => "Spanish",
             "zh-CN" => "Chinese (Simplified)",
+            "zh-HK" => "Chinese (Traditional)",
+            "zh-MO" => "Chinese (Traditional",
+            "zh-TW" => "Chinese (Traditional)",
             _ => null
         };
 
