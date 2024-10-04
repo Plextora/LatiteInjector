@@ -58,6 +58,7 @@ public partial class App
 
         Current.Resources.MergedDictionaries[0].Source = uri;
         Current.Resources.MergedDictionaries[0] = lang;
+        SettingsWindow.SelectedLanguage = uri.OriginalString;
 
         // StatusLabel, if content changed via code, doesn't switch language automatically
         // so im calling it again here (this is kinda bad but honestly i give zero fucks right now)
