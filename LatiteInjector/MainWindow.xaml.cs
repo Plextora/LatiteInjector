@@ -55,6 +55,10 @@ public partial class MainWindow
 
     private async void LaunchButton_OnRightClick(object sender, RoutedEventArgs e)
     {
+        // The Spanish translation is SO long for some fucking reason so
+        // this is a special case to try to make the text fit into the StatusLabel
+        if (SettingsWindow.SelectedLanguage == "pack://application:,,,/Latite Injector;component//Assets/Translations/Spanish.xaml")
+            StatusLabel.FontSize = 12;
         SetStatusLabel.Pending(App.GetTranslation("User is selecting DLL..."));
 
         OpenFileDialog openFileDialog = new()
@@ -66,6 +70,9 @@ public partial class MainWindow
         if (openFileDialog.ShowDialog() != true)
         {
             SetStatusLabel.Default();
+            if (SettingsWindow.SelectedLanguage ==
+                "pack://application:,,,/Latite Injector;component//Assets/Translations/Spanish.xaml")
+                StatusLabel.FontSize = 15;
             return;
         }
 
@@ -74,6 +81,9 @@ public partial class MainWindow
         if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
 
         Injector.OpenMinecraft();
+        if (SettingsWindow.SelectedLanguage ==
+            "pack://application:,,,/Latite Injector;component//Assets/Translations/Spanish.xaml")
+            StatusLabel.FontSize = 15;
 
         await Injector.InjectionPrep();
 
