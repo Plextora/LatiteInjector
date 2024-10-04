@@ -112,14 +112,26 @@ public static class Updater
         if (File.Exists(dllPath)) return dllPath;
         */
 
+        // I fucking hate Windows
         string dllPath = $"{LatiteInjectorDataFolder}\\Latite.dll";
         try
         {
-            if (File.Exists(dllPath)) File.Delete(dllPath);
+            if (File.Exists(dllPath))
+                File.Delete(dllPath);
+
+            while (File.Exists(dllPath))
+                File.Delete(dllPath);
+
+            if (File.Exists(dllPath))
+            {
+                Logging.ErrorLogging($"Failed to delete file: '{dllPath}'.");
+                dllPath = $"{LatiteInjectorDataFolder}\\Latite_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
+            }
         }
         catch (Exception ex)
         {
             Logging.ErrorLogging($"The injector ran into an error downloading the latest Latite DLL. The error is as follows: {ex.Message}");
+            dllPath = $"{LatiteInjectorDataFolder}\\Latite_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
         }
 
         SetStatusLabel.Pending("Downloading Latite DLL");
