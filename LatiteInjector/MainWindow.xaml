@@ -158,7 +158,7 @@
                 Source="/Assets/Minimize.png" />
             <Label
                 Margin="0,251,0,0"
-                Width="350"
+                Width="586"
                 HorizontalAlignment="Center"
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Top"
