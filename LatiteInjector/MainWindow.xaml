@@ -62,7 +62,7 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Cursor="Hand"
-                MouseLeftButtonDown="DiscordIcon_MouseLeftButtonDown"
+                MouseLeftButtonUp="DiscordIcon_MouseLeftButtonUp"
                 Source="/Assets/Discord Icon.png"
                 Style="{StaticResource HoverEffect}"/>
             <Image
@@ -73,7 +73,7 @@
                 VerticalAlignment="Top"
                 Style="{StaticResource HoverEffect}"
                 Cursor="Hand"
-                MouseLeftButtonDown="SettingsButton_MouseLeftButtonDown"
+                MouseLeftButtonUp="SettingsButton_MouseLeftButtonUp"
                 Source="/Assets/SettingsIcon.png" />
             <Label
                 x:Name="StatusLabel"

@@ -115,14 +115,14 @@ public partial class MainWindow
     private void OpenLatiteFolderLabel_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e) =>
         Process.Start("explorer.exe", Logging.LatiteFolder);
 
-    private void SettingsButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void SettingsButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
         App.SettingsWindow.Show();
         if (SettingsWindow.IsDiscordPresenceEnabled)
             DiscordPresence.SettingsPresence();
     }
 
-    private void DiscordIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void DiscordIcon_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
         if (Process.GetProcessesByName("Discord").Length > 0)
             Process.Start(new ProcessStartInfo
