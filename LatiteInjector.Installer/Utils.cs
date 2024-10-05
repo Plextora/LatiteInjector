@@ -164,6 +164,8 @@ namespace LatiteInjector.Installer
             return false;
         }
 
+        public static bool IsLatiteInstalled() => File.Exists(Program.LatiteInjectorExePath);
+
         public static void CreateShortcut(string shortcutPath, string shortcutDescription, string shortcutIconPath, string targetPath)
         {
             IShellLink link = (IShellLink)new ShellLink();

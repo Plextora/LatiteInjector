@@ -39,6 +39,30 @@ namespace LatiteInjector.Installer
 
             await Utils.InjectorAutoUpdate(args);
 
+            if (Utils.IsLatiteInstalled())
+            {
+                Utils.WriteColor("Latite Injector has already been installed. Do you want to uninstall it? (Y/N)",
+                    ConsoleColor.DarkGray);
+                Console.Write("> ");
+                string input = Console.ReadLine();
+                // multiple cases because for some godforsaken reason users can't be trusted to type Y correctly
+                if (input == "Y" || input == "y" || input == "yes" || input == "Yes" || input == "YES")
+                {
+                    Directory.Delete(LatiteInjectorExeFolder, true);
+                    Utils.WriteColor("\nDeleted Latite Injector .exe folder", ConsoleColor.Green);
+                    Directory.Delete(LatiteInjectorDataFolder, true);
+                    Utils.WriteColor("Deleted Latite Injector data folder", ConsoleColor.Green);
+                    File.Delete(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
+                        "Latite Injector.lnk"));
+                    Utils.WriteColor("Deleted Latite Injector desktop shortcut", ConsoleColor.Green);
+                    Utils.WriteColor($"\nLatite Injector has been uninstalled. There may be leftover Installer files downloaded by Latite Injector in your Temporary folder ({Path.GetTempPath()}).\nPress any key to close this window.", ConsoleColor.White);
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                }
+                else
+                    Console.Clear();
+            }
+
             Utils.WriteColor("Welcome to the Latite Injector Installer!", ConsoleColor.White);
             Utils.WriteColor("The installer will now start..", ConsoleColor.White);
             Thread.Sleep(4000);
