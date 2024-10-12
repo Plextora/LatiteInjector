@@ -108,7 +108,7 @@ public partial class App
             "ja" => "Japanese",
             "ja-JP" => "Japanese",
             "pt" => "Portuguese",
-            "pt-BR" => "Portuguese, Brazillian",
+            "pt-BR" => "Portuguese, Brazilian",
             "pt-PT" => "Portuguese",
             "es" => "Spanish",
             "es-AR" => "Spanish",
