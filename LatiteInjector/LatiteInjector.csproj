@@ -23,9 +23,6 @@
     <EmbeddedResource Remove="LatiteInjector\**" />
     <None Remove="LatiteInjector\**" />
     <Page Remove="LatiteInjector\**" />
-    <Page Update="Assets\Translations\Japanese.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Update="LanguageWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>
@@ -49,6 +46,19 @@
     <None Remove="X.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Remove="Assets\Translations\Arabic.xaml" />
+    <Page Remove="Assets\Translations\Chinese %28Simplified%29.xaml" />
+    <Page Remove="Assets\Translations\Chinese %28Traditional%29.xaml" />
+    <Page Remove="Assets\Translations\Czech.xaml" />
+    <Page Remove="Assets\Translations\English.xaml" />
+    <Page Remove="Assets\Translations\French.xaml" />
+    <Page Remove="Assets\Translations\Hindi.xaml" />
+    <Page Remove="Assets\Translations\Japanese.xaml" />
+    <Page Remove="Assets\Translations\Portuguese, Brazilian.xaml" />
+    <Page Remove="Assets\Translations\Portuguese.xaml" />
+    <Page Remove="Assets\Translations\Spanish.xaml" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="Assets\latite.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +68,19 @@
     <Resource Include="Assets\LatiteText.png" />
     <Resource Include="Assets\Minimize.png" />
     <Resource Include="Assets\SettingsIcon.png" />
+    <Resource Include="Assets\Translations\Arabic.xaml" />
+    <Resource Include="Assets\Translations\Chinese (Simplified).xaml" />
+    <Resource Include="Assets\Translations\Chinese (Traditional).xaml" />
+    <Resource Include="Assets\Translations\Czech.xaml" />
+    <Resource Include="Assets\Translations\English.xaml" />
+    <Resource Include="Assets\Translations\French.xaml" />
+    <Resource Include="Assets\Translations\Hindi.xaml" />
+    <Resource Include="Assets\Translations\Japanese.xaml">
+      <Generator></Generator>
+    </Resource>
+    <Resource Include="Assets\Translations\Portuguese, Brazilian.xaml" />
+    <Resource Include="Assets\Translations\Portuguese.xaml" />
+    <Resource Include="Assets\Translations\Spanish.xaml" />
     <Resource Include="Assets\X.png" />
     <Resource Include="latite.png" />
   </ItemGroup>
