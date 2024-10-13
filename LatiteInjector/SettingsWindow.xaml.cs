@@ -156,9 +156,9 @@ public partial class SettingsWindow : Window
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
-            {
-
-            }
+                ModifyConfig("latitebeta:true", 5);
+            else
+                LatiteBetaCheckBox.IsChecked = false;
         }
         else if (!IsLatiteBetaEnabled)
             ModifyConfig("latitebeta:false", 5);
