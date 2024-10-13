@@ -20,10 +20,11 @@ public partial class SettingsWindow : Window
         $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LatiteInjector\\config.txt";
     private static readonly string LatiteInjectorFolder = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LatiteInjector";
 
-    public static bool IsCloseAfterInjectedEnabled;
     public static bool IsDiscordPresenceEnabled;
+    public static bool IsCloseAfterInjectedEnabled;
     public static bool IsDisableAppSuspensionEnabled;
     public static string SelectedLanguage = string.Empty;
+    public static bool IsLatiteBetaEnabled;
 
     public void ConfigSetup()
     {
@@ -35,7 +36,8 @@ public partial class SettingsWindow : Window
                 "discordstatus:true\n" +
                 "closeafterinjected:false\n" +
                 "disableappsuspension:true\n" +
-                "selectedlanguage:pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml\n";
+                "selectedlanguage:pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml\n" +
+                "latitebeta:false";
 
             File.WriteAllText(ConfigFilePath, defaultConfigText);
 
@@ -44,6 +46,7 @@ public partial class SettingsWindow : Window
             IsCloseAfterInjectedEnabled = false;
             IsDisableAppSuspensionEnabled = true;
             SelectedLanguage = "pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml";
+            IsLatiteBetaEnabled = false;
         }
         else
         {
@@ -53,13 +56,14 @@ public partial class SettingsWindow : Window
 
     private void LoadConfig()
     {
-        if (File.ReadAllLines(ConfigFilePath).Length != 4)
+        if (File.ReadAllLines(ConfigFilePath).Length != 5)
         {
             string defaultConfigText =
                 "discordstatus:true\n" +
                 "closeafterinjected:false\n" +
                 "disableappsuspension:true\n" +
-                "selectedlanguage:pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml\n";
+                "selectedlanguage:pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml\n" +
+                "latitebeta:false\n";
 
             File.WriteAllText(ConfigFilePath, defaultConfigText);
 
@@ -68,6 +72,7 @@ public partial class SettingsWindow : Window
             IsCloseAfterInjectedEnabled = false;
             IsDisableAppSuspensionEnabled = true;
             SelectedLanguage = "pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml";
+            IsLatiteBetaEnabled = false;
         }
 
         string config = File.ReadAllText(ConfigFilePath);
@@ -76,9 +81,11 @@ public partial class SettingsWindow : Window
         IsDisableAppSuspensionEnabled = MainWindow.GetLine(config, 3) == "disableappsuspension:true";
         SelectedLanguage = MainWindow.GetLine(config, 4)?.Replace("selectedlanguage:", "") ??
                            "pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml";
+        IsLatiteBetaEnabled = MainWindow.GetLine(config, 5) == "latitebeta:true";
         DiscordPresenceCheckBox.IsChecked = IsDiscordPresenceEnabled;
         CloseAfterInjectedCheckBox.IsChecked = IsCloseAfterInjectedEnabled;
         DisableAppSuspensionCheckBox.IsChecked = IsDisableAppSuspensionEnabled;
+        LatiteBetaCheckBox.IsChecked = IsLatiteBetaEnabled;
     }
 
     public static void ModifyConfig(string newText, int lineToEdit)
@@ -135,6 +142,26 @@ public partial class SettingsWindow : Window
             ModifyConfig("disableappsuspension:true", 3);
         else if (!IsDisableAppSuspensionEnabled)
             ModifyConfig("disableappsuspension:false", 3);
+    }
+
+    private void LatiteBetaCheckBox_OnClick(object sender, RoutedEventArgs e)
+    {
+        IsLatiteBetaEnabled = (bool)LatiteBetaCheckBox.IsChecked;
+
+        if (IsLatiteBetaEnabled)
+        {
+            MessageBoxResult result = MessageBox.Show(
+                App.GetTranslation("WARNING: This option lets you use experimental builds of Latite Client that have a high chance of containing bugs or crashes\nDo you still want to use Latite Beta?"),
+                "Latite Beta disclaimer",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+
+            }
+        }
+        else if (!IsLatiteBetaEnabled)
+            ModifyConfig("latitebeta:false", 5);
     }
 
     private void SwitchLanguageButton_OnClick(object sender, RoutedEventArgs e)

@@ -183,9 +183,9 @@
                 Opacity="0" />
             <CheckBox
                 x:Name="CloseAfterInjectedCheckBox"
-                Margin="18,149,0,0"
+                Margin="18,0,0,0"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Top"
+                VerticalAlignment="Center"
                 x:FieldModifier="public"
                 Background="#202020"
                 Click="CloseAfterInjectedCheckBox_OnClick"
@@ -197,7 +197,7 @@
                 Style="{StaticResource CheckBox}" />
             <CheckBox
                 x:Name="DisableAppSuspensionCheckBox"
-                Margin="18,186,0,0"
+                Margin="18,176,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 x:FieldModifier="public"
@@ -209,9 +209,23 @@
                 Foreground="AliceBlue"
                 IsChecked="True"
                 Style="{StaticResource CheckBox}" />
+            <CheckBox
+                x:Name="LatiteBetaCheckBox"
+                Margin="18,206,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                x:FieldModifier="public"
+                Background="#202020"
+                Click="LatiteBetaCheckBox_OnClick"
+                Content="{DynamicResource 'Latite Beta'}"
+                Cursor="Hand"
+                FontSize="17"
+                Foreground="AliceBlue"
+                IsChecked="False"
+                Style="{StaticResource CheckBox}" />
             <Button
                 x:Name="SwitchLanguageButton"
-                Margin="18,221,192,65"
+                Margin="18,261,192,25"
                 Background="#202020"
                 Cursor="Hand"
                 FontSize="17"

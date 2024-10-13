@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Net.Http;
 using System.Security.Policy;
 using System.Threading.Tasks;
@@ -112,29 +113,71 @@ public static class Updater
         if (File.Exists(dllPath)) return dllPath;
         */
 
-        // I fucking hate Windows
         string dllPath = $"{LatiteInjectorDataFolder}\\Latite.dll";
+
+        bool useBeta = SettingsWindow.IsLatiteBetaEnabled;
+        string betaDllPath = $"{LatiteInjectorDataFolder}\\Latite (Beta).dll";
+        string betaFolderPath = $"{LatiteInjectorDataFolder}\\Latite-Release";
+        string betaDllFolderPath = $@"{LatiteInjectorDataFolder}\Latite-Release\LatiteRewrite.dll";
+        string betaZipPath = $"{LatiteInjectorDataFolder}\\Latite-Release.zip";
+
+        // This whole section looks like a schizophrenic wrote it
+        // but I have to do this because Windows doesn't listen when you ask
+        // nicely to delete a file
         try
         {
             if (File.Exists(dllPath))
                 File.Delete(dllPath);
+            if (File.Exists(betaDllPath))
+                File.Delete(betaDllPath);
+            if (File.Exists(betaZipPath))
+                File.Delete(betaZipPath);
 
             while (File.Exists(dllPath))
                 File.Delete(dllPath);
+            while (File.Exists(betaDllPath))
+                File.Delete(betaDllPath);
+            while (File.Exists(betaZipPath))
+                File.Delete(betaZipPath);
 
             if (File.Exists(dllPath))
             {
                 Logging.ErrorLogging($"Failed to delete file: '{dllPath}'.");
                 dllPath = $"{LatiteInjectorDataFolder}\\Latite_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
             }
+            if (File.Exists(betaDllPath))
+            {
+                Logging.ErrorLogging($"Failed to delete file: '{betaDllPath}'.");
+                betaDllPath = $"{LatiteInjectorDataFolder}\\Latite_Beta_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
+            }
+            if (File.Exists(betaZipPath))
+            {
+                Logging.ErrorLogging($"Failed to delete file: '{betaZipPath}'.");
+                useBeta = false;
+            }
         }
         catch (Exception ex)
         {
             Logging.ErrorLogging($"The injector ran into an error downloading the latest Latite DLL. The error is as follows: {ex.Message}");
             dllPath = $"{LatiteInjectorDataFolder}\\Latite_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
+            betaDllPath = $"{LatiteInjectorDataFolder}\\Latite_Beta_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
         }
 
         SetStatusLabel.Pending("Downloading Latite DLL");
+        if (useBeta)
+        {
+            Logging.InfoLogging("Using latest Latite Beta (Latite-Release.zip)");
+            await DownloadFile(
+                new Uri("https://nightly.link/LatiteClient/Latite/workflows/releasebuild/master/Latite-Release.zip"),
+                betaZipPath);
+            ZipFile.ExtractToDirectory(betaZipPath, betaFolderPath);
+            File.Copy(betaDllFolderPath, betaDllPath);
+            Directory.Delete(betaFolderPath, true);
+            File.Delete(betaZipPath);
+
+            return betaDllPath;
+        }
+
         await DownloadFile(
             new Uri("https://github.com/Imrglop/Latite-Releases/releases/latest/download/Latite.dll"),
             dllPath);
