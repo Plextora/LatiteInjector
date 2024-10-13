@@ -99,6 +99,8 @@ public static class Updater
         Process.Start(new ProcessStartInfo
         {
             FileName = path,
+            UseShellExecute = true,
+            Verb = "runas",
             Arguments = "--injectorAutoUpdate"
         });
         Application.Current.Shutdown();
