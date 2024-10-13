@@ -54,6 +54,10 @@ public partial class App
     public static void ChangeLanguage(Uri uri)
     {
         ResourceDictionary lang = new();
+        if (null == Current)
+        {
+            new System.Windows.Application();
+        }
         lang.Source = uri;
 
         Current.Resources.MergedDictionaries[0].Source = uri;
