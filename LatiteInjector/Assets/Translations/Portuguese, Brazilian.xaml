@@ -23,6 +23,7 @@
     <s:String x:Key="Misc.">Variedades.</s:String>
     <s:String x:Key="Close after injected">Fechar após injetar</s:String>
     <s:String x:Key="Minimize fix">Reparar minimização</s:String>
+    <s:String x:Key="Latite Beta">Latite Beta</s:String>
     <s:String x:Key="Switch language">Alterar idioma</s:String>
     <!--Changelog Window-->
     <s:String x:Key="Latite Client Changelog">Registro de alterações do cliente</s:String>
@@ -49,4 +50,5 @@
     <s:String x:Key="An error has occurred! Please report this error to the developers!\nClick Yes to go to the Latite Discord.\n\n{0}...">Aconteceu um erro! Favor, reporte esse erro aos desenvolvedores!\nClique Sim para ir ao Discord do Latite.\n\n{0}...</s:String>
     <s:String x:Key="Your Minecraft version, {0}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! The supported versions are:\n{1}\n\nLook at the #announcements channel in the Discord for directions on how to change your Minecraft version to a compatible one.">Sua versão do Minecraft, {0}, nao esta na lista de versões suportadas pelo Latite. É MUITO provável que você encontre travamentos ou outros tipos de bugs! As versões suportadas são:\n{1}\n\nVeja o canal #announcements no Discord para obter instruções sobre como alterar sua versão do Minecraft para uma compatível.</s:String>
     <s:String x:Key="Minecraft version not supported!!">Versão do Minecraft não suportada!!</s:String>
+    <s:String x:Key="WARNING: This option lets you use experimental builds of Latite Client that have a high chance of containing bugs or crashes\nDo you still want to use Latite Beta?">AVISO: Essa opção te permite usar builds experimentais do Latite Client e tem uma alta possibilidade de conter bugs ou crashs\nVocê realmente deseja usar o Latite Beta?</s:String>
 </ResourceDictionary>

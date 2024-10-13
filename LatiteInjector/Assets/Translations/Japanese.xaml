@@ -23,6 +23,7 @@
     <s:String x:Key="Misc.">その他</s:String>
     <s:String x:Key="Close after injected">起動後に閉じる</s:String>
     <s:String x:Key="Minimize fix">最小化の修正</s:String>
+    <s:String x:Key="Latite Beta">Latiteベータ</s:String>
     <s:String x:Key="Switch language">言語の切り替え</s:String>
     <!--Changelog Window-->
     <s:String x:Key="Latite Client Changelog">Latiteクライアントの変更履歴</s:String>
@@ -49,4 +50,5 @@
     <s:String x:Key="An error has occurred! Please report this error to the developers!\nClick Yes to go to the Latite Discord.\n\n{0}...">エラーが発生しました! このエラーを開発者に報告してください!\nはいをクリックしてLatite Discordに移動します。\n\n{0}...</s:String>
     <s:String x:Key="Your Minecraft version, {0}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! The supported versions are:\n{1}\n\nLook at the #announcements channel in the Discord for directions on how to change your Minecraft version to a compatible one.">あなたのMinecraftのバージョン {0} はLatiteクライアントがサポートしているバージョンリストにありません。クラッシュやその他のバグが発生する可能性が非常に高いです! サポートしているバージョン:\n{1}\n\nMinecraftのバージョンを互換性のあるものに変更する方法については、Discordの#announcementsチャンネルを見てください。</s:String>
     <s:String x:Key="Minecraft version not supported!!">Minecraftのバージョンはサポートされていません!!</s:String>
+    <s:String x:Key="WARNING: This option lets you use experimental builds of Latite Client that have a high chance of containing bugs or crashes\nDo you still want to use Latite Beta?">警告: このオプションはバグやクラッシュが発生する可能性が高いLatiteクライアントの実験的なビルドを使用することができます\nそれでもLatiteベータを使用しますか?</s:String>
 </ResourceDictionary>
