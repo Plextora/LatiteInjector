@@ -151,7 +151,7 @@ public partial class SettingsWindow : Window
         if (IsLatiteBetaEnabled)
         {
             MessageBoxResult result = MessageBox.Show(
-                App.GetTranslation("WARNING: This option lets you use experimental builds of Latite Client that have a high chance of containing bugs or crashes\nDo you still want to use Latite Beta?"),
+                App.GetTranslation(@"WARNING: This option lets you use experimental builds of Latite Client that have a high chance of containing bugs or crashes\nDo you still want to use Latite Beta?"),
                 "Latite Beta disclaimer",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning);

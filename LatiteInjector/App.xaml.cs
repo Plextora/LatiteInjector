@@ -86,14 +86,15 @@ public partial class App
                 // have their newlines escaped by default
                 return temp.Replace("\\n", "\n");
             }
-            var result = Current.TryFindResource(input);
+            object? result = Current.TryFindResource(input);
+            string resultString = result.ToString();
             if (result is not null)
-                return (string)result;
+                return resultString?.Replace("\\n", "\n");
             return input;
         }
         catch (Exception)
         {
-            return input;
+            return input.Replace("\\n", "\n");
         }
     }
 
