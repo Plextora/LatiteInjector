@@ -1,6 +1,5 @@
 ﻿using LatiteInjector.Utils;
 using System.Globalization;
-using System.Threading;
 using System;
 using System.Windows;
 using System.ComponentModel;

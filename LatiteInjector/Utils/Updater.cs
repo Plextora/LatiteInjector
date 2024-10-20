@@ -3,10 +3,8 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
-using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Windows;
-using static LatiteInjector.MainWindow;
 
 namespace LatiteInjector.Utils;
 

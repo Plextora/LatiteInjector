@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using LatiteInjector.Utils;
-using static LatiteInjector.MainWindow;
 
 namespace LatiteInjector
 {
