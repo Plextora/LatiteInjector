@@ -101,7 +101,17 @@ public partial class App
     {
         if (SettingsWindow.SelectedLanguage !=
             "pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml")
-            ChangeLanguage(new Uri(SettingsWindow.SelectedLanguage, UriKind.Absolute));
+        {
+            try
+            {
+                ChangeLanguage(new Uri(SettingsWindow.SelectedLanguage, UriKind.Absolute));
+            }
+            catch
+            {
+                Logging.ErrorLogging(
+                    $"FAILED TO AUTO SWITCH LANGUAGE (SettingsWindow.SelectedLanguage) ({SettingsWindow.SelectedLanguage}) ({new Uri(SettingsWindow.SelectedLanguage, UriKind.Absolute)})");
+            }
+        }
 
         string? lang = CultureInfo.CurrentCulture.Name switch
         {
@@ -144,7 +154,15 @@ public partial class App
         {
             string langUri = $"pack://application:,,,/Latite Injector;component//Assets/Translations/{lang}.xaml";
             SettingsWindow.SelectedLanguage = langUri;
-            ChangeLanguage(new Uri(langUri, UriKind.Absolute));
+            try
+            {
+                ChangeLanguage(new Uri(langUri, UriKind.Absolute));
+            }
+            catch
+            {
+                Logging.ErrorLogging(
+                    $"FAILED TO AUTO SWITCH LANGUAGE (langUri) ({SettingsWindow.SelectedLanguage}) ({new Uri(SettingsWindow.SelectedLanguage, UriKind.Absolute)})");
+            }
             SettingsWindow.ModifyConfig(
                 $"selectedlanguage:{langUri}",
                 4);
