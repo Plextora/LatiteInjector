@@ -117,6 +117,7 @@ public partial class App
         {
             "ar-SA" => "Arabic",
             "cs-CZ" => "Czech",
+            "nl-NL" => "Dutch",
             "fr-FR" => "French",
             "hi-IN" => "Hindi",
             "ja" => "Japanese",
