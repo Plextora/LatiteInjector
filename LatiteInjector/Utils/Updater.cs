@@ -117,9 +117,9 @@ public static class Updater
 
         bool useBeta = SettingsWindow.IsLatiteBetaEnabled;
         string betaDllPath = $"{LatiteInjectorDataFolder}\\Latite (Beta).dll";
-        string betaFolderPath = $"{LatiteInjectorDataFolder}\\Latite-Release";
-        string betaDllFolderPath = $@"{LatiteInjectorDataFolder}\Latite-Release\LatiteRewrite.dll";
-        string betaZipPath = $"{LatiteInjectorDataFolder}\\Latite-Release.zip";
+        string betaFolderPath = $"{LatiteInjectorDataFolder}\\Latite-Nightly";
+        string betaDllFolderPath = $@"{LatiteInjectorDataFolder}\Latite-Nightly\LatiteRewrite.dll";
+        string betaZipPath = $"{LatiteInjectorDataFolder}\\Latite-Nightly.zip";
 
         // This whole section looks like a schizophrenic wrote it
         // but I have to do this because Windows doesn't listen when you ask
@@ -166,9 +166,9 @@ public static class Updater
         SetStatusLabel.Pending("Downloading Latite DLL");
         if (useBeta)
         {
-            Logging.InfoLogging("Using latest Latite Beta (Latite-Release.zip)");
+            Logging.InfoLogging("Using latest Latite Beta (Latite-Nightly.zip)");
             await DownloadFile(
-                new Uri("https://nightly.link/LatiteClient/Latite/workflows/releasebuild/master/Latite-Release.zip"),
+                new Uri("https://nightly.link/LatiteClient/Latite/workflows/releasebuild/master/Latite-Nightly.zip"),
                 betaZipPath);
             ZipFile.ExtractToDirectory(betaZipPath, betaFolderPath);
             File.Copy(betaDllFolderPath, betaDllPath);
