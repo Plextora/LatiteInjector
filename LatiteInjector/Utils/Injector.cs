@@ -91,7 +91,7 @@ public static class Injector
                 MinecraftVersion.LastIndexOf(".",
                     StringComparison.Ordinal)));
 
-        if (!isCompatible)
+        if (!isCompatible && !SettingsWindow.IsLatiteBetaEnabled)
         {
             string warningMessageThatNobodyWillReadBecauseReadingIsForCasualsIGuess =
                 $"Your Minecraft version, {MinecraftVersion}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! " +
