@@ -217,7 +217,7 @@
                 x:FieldModifier="public"
                 Background="#202020"
                 Click="LatiteBetaCheckBox_OnClick"
-                Content="{DynamicResource 'Latite Beta'}"
+                Content="{DynamicResource 'Latite Nightly'}"
                 Cursor="Hand"
                 FontSize="17"
                 Foreground="AliceBlue"

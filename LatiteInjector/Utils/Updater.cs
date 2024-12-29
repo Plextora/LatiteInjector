@@ -116,7 +116,7 @@ public static class Updater
         string dllPath = $"{LatiteInjectorDataFolder}\\Latite.dll";
 
         bool useBeta = SettingsWindow.IsLatiteBetaEnabled;
-        string betaDllPath = $"{LatiteInjectorDataFolder}\\Latite (Beta).dll";
+        string betaDllPath = $"{LatiteInjectorDataFolder}\\Latite (Nightly).dll";
         string betaFolderPath = $"{LatiteInjectorDataFolder}\\Latite-Nightly";
         string betaDllFolderPath = $@"{LatiteInjectorDataFolder}\Latite-Nightly\LatiteRewrite.dll";
         string betaZipPath = $"{LatiteInjectorDataFolder}\\Latite-Nightly.zip";
@@ -166,7 +166,7 @@ public static class Updater
         SetStatusLabel.Pending("Downloading Latite DLL");
         if (useBeta)
         {
-            Logging.InfoLogging("Using latest Latite Beta (Latite-Nightly.zip)");
+            Logging.InfoLogging("Using latest Latite Nightly (Latite-Nightly.zip)");
             await DownloadFile(
                 new Uri("https://nightly.link/LatiteClient/Latite/workflows/releasebuild/master/Latite-Nightly.zip"),
                 betaZipPath);
