@@ -23,7 +23,7 @@
     <s:String x:Key="Misc.">Misc.</s:String>
     <s:String x:Key="Close after injected">Cerrar después de inyectar</s:String>
     <s:String x:Key="Minimize fix">Solucionar el problema al minimizar</s:String>
-    <s:String x:Key="Latite Beta">Latite Beta</s:String>
+    <s:String x:Key="Latite Nightly">Latite Nightly</s:String>
     <s:String x:Key="Switch language">Cambiar el idioma</s:String>
     <!--Changelog Window-->
     <s:String x:Key="Latite Client Changelog">Cambios del cliente Latite</s:String>
@@ -50,5 +50,5 @@
     <s:String x:Key="An error has occurred! Please report this error to the developers!\nClick Yes to go to the Latite Discord.\n\n{0}...">¡Ha ocurrido un error! ¡Por favor reporta este error a los desarrolladores!\nHaz clic en Sí para ir al Discord Latite.\n\n{0}...</s:String>
     <s:String x:Key="Your Minecraft version, {0}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! The supported versions are:\n{1}\n\nLook at the #announcements channel in the Discord for directions on how to change your Minecraft version to a compatible one.">Tu versión de Minecraft, {0}, no está en la lista de versiones soportadas por Latite Client. ¡Es MUY probable que usted se encunetre con una cantudad de fallos u otros tipos de errores! Las versiones soportadas son:\n{1}\n\nMira el canal de #announcements Discord para instrucciones sobre cómo cambiar tu versión de Minecraft a una compatible.</s:String>
     <s:String x:Key="Minecraft version not supported!!">¡La versión de Minecraft no es compatible!!</s:String>
-    <s:String x:Key="WARNING: This option lets you use experimental builds of Latite Client that have a high chance of containing bugs or crashes\nDo you still want to use Latite Beta?">PRECAUCIÓN: Esta opción te permite usar funciones experimentales de Latite Client, aunque con una gran posibilidad de contener errores\n¿Quieres aún usar Latite Beta?</s:String>
+    <s:String x:Key="WARNING: This option lets you use experimental builds of Latite Client that have a high chance of containing bugs or crashes\nDo you still want to use Latite Nightly?">WARNING: This option lets you use experimental builds of Latite Client that have a high chance of containing bugs or crashes\nDo you still want to use Latite Nightly?</s:String>
 </ResourceDictionary>
