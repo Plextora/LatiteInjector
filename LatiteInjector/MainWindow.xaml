@@ -135,7 +135,7 @@
                 FontFamily="Segoe UI"
                 FontSize="35px"
                 FontWeight="Light"
-                Foreground="White" Margin="76,10,0,365" />
+                Foreground="White" Margin="76,10,0,365" Width="464" />
             <Image
                 Width="26"
                 Height="26"
