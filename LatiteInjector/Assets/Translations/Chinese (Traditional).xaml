@@ -23,7 +23,7 @@
     <s:String x:Key="Misc.">雜項</s:String>
     <s:String x:Key="Close after injected">注入後關閉</s:String>
     <s:String x:Key="Minimize fix">最小化修複</s:String>
-    <s:String x:Key="Latite Nightly">Latite Nightly</s:String>
+    <s:String x:Key="Latite Nightly">Latite 測試版</s:String>
     <s:String x:Key="Switch language">切換語言</s:String>
     <!--Changelog Window-->
     <s:String x:Key="Latite Client Changelog">Latite 客戶端更新日志</s:String>
@@ -50,5 +50,5 @@
     <s:String x:Key="An error has occurred! Please report this error to the developers!\nClick Yes to go to the Latite Discord.\n\n{0}...">發生錯誤！請將此錯誤報告給開發人員！\n單擊 &quot;Yes&quot; 以前往 Latite客戶端 Discord 頻道。\n\n{0}...</s:String>
     <s:String x:Key="Your Minecraft version, {0}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! The supported versions are:\n{1}\n\nLook at the #announcements channel in the Discord for directions on how to change your Minecraft version to a compatible one.">妳的 Minecraft版本 {0} 不在 Latite Client的支持版本裏。您很可能會遇到崩潰或其他類型的錯誤！支持的版本是：\n{1}\n\n查看 Discord 中的 #announcements 頻道，了解如何將您的 Minecraft 版本更改爲兼容版本的說明。</s:String>
     <s:String x:Key="Minecraft version not supported!!">不支持當前 Minecraft 版本！</s:String>
-    <s:String x:Key="WARNING: This option lets you use experimental builds of Latite Client that have a high chance of containing bugs or crashes\nDo you still want to use Latite Nightly?">WARNING: This option lets you use experimental builds of Latite Client that have a high chance of containing bugs or crashes\nDo you still want to use Latite Nightly?</s:String>
+    <s:String x:Key="WARNING: This option lets you use experimental builds of Latite Client that have a high chance of containing bugs or crashes\nDo you still want to use Latite Nightly?">警告：此選項將使您使用 Latite客戶端 的測試版本，該版本很可能包含錯誤或崩潰\n您仍想使用 Latite 測試版 嗎？</s:String>
 </ResourceDictionary>
