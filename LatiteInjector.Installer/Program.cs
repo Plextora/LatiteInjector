@@ -15,6 +15,11 @@ namespace LatiteInjector.Installer
             $"{Environment.ExpandEnvironmentVariables("%ProgramW6432%")}\\Latite Injector";
         public static readonly string LatiteInjectorExePath =
             $@"{Environment.ExpandEnvironmentVariables("%ProgramW6432%")}\Latite Injector\Latite Injector.exe";
+        public static readonly string LatiteInjectorStartMenuFolder =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Programs), "Latite Injector");
+        public static readonly string LatiteInjectorStartMenuShortcutPath =
+            Path.Combine(LatiteInjectorStartMenuFolder, "Latite Injector.lnk");
+
 
         private static async Task Main(string[] args)
         {
@@ -48,13 +53,29 @@ namespace LatiteInjector.Installer
                 // multiple cases because for some godforsaken reason users can't be trusted to type Y correctly
                 if (input == "Y" || input == "y" || input == "yes" || input == "Yes" || input == "YES")
                 {
-                    Directory.Delete(LatiteInjectorExeFolder, true);
-                    Utils.WriteColor("\nDeleted Latite Injector .exe folder", ConsoleColor.Green);
-                    Directory.Delete(LatiteInjectorDataFolder, true);
-                    Utils.WriteColor("Deleted Latite Injector data folder", ConsoleColor.Green);
-                    File.Delete(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
-                        "Latite Injector.lnk"));
-                    Utils.WriteColor("Deleted Latite Injector desktop shortcut", ConsoleColor.Green);
+                    if (Directory.Exists(LatiteInjectorExeFolder))
+                    {
+                        Directory.Delete(LatiteInjectorExeFolder, true);
+                        Utils.WriteColor("\nDeleted Latite Injector .exe folder", ConsoleColor.Green);
+                    }
+                    if (Directory.Exists(LatiteInjectorDataFolder))
+                    {
+                        Directory.Delete(LatiteInjectorDataFolder, true);
+                        Utils.WriteColor("Deleted Latite Injector data folder", ConsoleColor.Green);
+                    }
+                    string desktopShortcut = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
+                        "Latite Injector.lnk");
+                    if (File.Exists(desktopShortcut))
+                    {
+                        File.Delete(desktopShortcut);
+                        Utils.WriteColor("Deleted Latite Injector desktop shortcut", ConsoleColor.Green);
+                    }
+                    if (Directory.Exists(LatiteInjectorStartMenuFolder))
+                    {
+                        Directory.Delete(LatiteInjectorStartMenuFolder, true);
+                        Utils.WriteColor("Deleted Latite Injector Start Menu folder and shortcut", ConsoleColor.Green);
+                    }
+
                     Utils.WriteColor($"\nLatite Injector has been uninstalled. There may be leftover Installer files downloaded by Latite Injector in your Temporary folder ({Path.GetTempPath()}).\nPress any key to close this window.", ConsoleColor.White);
                     Console.ReadKey();
                     Environment.Exit(0);
@@ -158,6 +179,20 @@ namespace LatiteInjector.Installer
                     "Latite Injector.lnk"));
 
             Utils.WriteColor("Added shortcut to Desktop!", ConsoleColor.Green);
+
+            Utils.WriteColor("The installer will now create a Start Menu shortcut.", ConsoleColor.White);
+            Thread.Sleep(4000);
+
+            if (!Directory.Exists(LatiteInjectorStartMenuFolder))
+            {
+                Directory.CreateDirectory(LatiteInjectorStartMenuFolder);
+            }
+            Utils.CreateShortcut(LatiteInjectorExePath,
+                "Latite Client's new and improved injector!",
+                LatiteInjectorExePath,
+                LatiteInjectorStartMenuShortcutPath);
+            Utils.WriteColor("Added shortcut to the Start Menu!", ConsoleColor.Green);
+
 
             Utils.WriteColor(
                 $"Latite Injector's installation has completed!\nLatite Injector's .exe is now located in {LatiteInjectorExePath}.",
