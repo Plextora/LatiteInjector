@@ -69,10 +69,21 @@ public static class Injector
             {
                 if (IsMinecraftRunning())
                 {
-                    Minecraft = Process.GetProcessesByName("Minecraft.Windows")[0];
-                    if (Minecraft.MainModule?.FileVersionInfo.FileVersion != null)
-                        MinecraftVersion = Minecraft.MainModule?.FileVersionInfo.FileVersion;
-                    break;
+                    try
+                    {
+                        if (Minecraft.MainModule?.FileVersionInfo.FileVersion != null)
+                        {
+                            MinecraftVersion = Minecraft.MainModule.FileVersionInfo.FileVersion;
+                            break;
+                        }
+                    }
+                    catch (Win32Exception e)
+                    {
+                        if (e.NativeErrorCode != 299)
+                        {
+                            Logging.ErrorLogging($"Error accessing Minecraft modules: {e.Message}");
+                        }
+                    }
                 }
 
                 await Task.Delay(500);
