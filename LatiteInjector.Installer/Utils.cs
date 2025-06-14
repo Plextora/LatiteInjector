@@ -113,9 +113,7 @@ namespace LatiteInjector.Installer
 
         public static async Task DownloadFile(Uri uri, string fileName)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
-                                                   SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 |
-                                                   SecurityProtocolType.Tls13;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.SystemDefault;
             using Stream asyncStream = await _client.GetStreamAsync(uri);
             using FileStream fs = new(fileName, FileMode.CreateNew);
             await asyncStream.CopyToAsync(fs);
@@ -123,9 +121,7 @@ namespace LatiteInjector.Installer
 
         private static async Task<string> DownloadString(Uri uri)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
-                                                   SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 |
-                                                   SecurityProtocolType.Tls13;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.SystemDefault;
             return await _client.GetStringAsync(uri);
         }
 
