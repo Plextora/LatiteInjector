@@ -142,6 +142,8 @@ namespace LatiteInjector.Installer
             return false;
         }
 
+        // this just WILL NOT work so im just gonna attempt .net 8 installation every time
+        /*
         public static bool IsNet8Installed()
         {
             const string versionPrefix = "8.";
@@ -158,6 +160,7 @@ namespace LatiteInjector.Installer
 
             return false;
         }
+        */
 
         public static bool IsLatiteInstalled() => File.Exists(Program.LatiteInjectorExePath);
 

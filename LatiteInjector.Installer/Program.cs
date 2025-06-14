@@ -91,46 +91,39 @@ namespace LatiteInjector.Installer
             Console.Clear();
             Utils.WriteColor("[1/3] Installing .NET 8\n", ConsoleColor.White);
 
-            if (Utils.IsNet8Installed())
+            string downloadURL =
+                "https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe";
+            string downloadPath = Path.Combine(Path.GetTempPath(), "dotnet8.exe");
+            if (File.Exists(downloadPath))
             {
-                Utils.WriteColor(".NET 8 is already installed. Skipping .NET 8 installation", ConsoleColor.Green);
+                Utils.WriteColor(
+                    "The .NET 8 installer file already exists (possibly from a previous failed install), deleting and redownloading file...",
+                    ConsoleColor.DarkGray);
+                File.Delete(downloadPath);
+            }
+
+            Utils.WriteColor("Downloading the .NET 8 installer..", ConsoleColor.Yellow);
+            await Utils.DownloadFile(new Uri(downloadURL), downloadPath);
+            Utils.WriteColor("Downloaded .NET 8 installer!", ConsoleColor.Green);
+
+            Process dotnetInstaller = Process.Start(new ProcessStartInfo
+            {
+                FileName = downloadPath,
+                Arguments = "/passive /norestart" // run installer quietly
+            });
+
+            dotnetInstaller?.WaitForExit();
+            File.Delete(downloadPath);
+            if (dotnetInstaller?.ExitCode == 0)
+            {
+                Utils.WriteColor(".NET 8 has been installed!", ConsoleColor.Green);
                 Thread.Sleep(4000);
             }
             else
             {
-                Utils.WriteColor(
-                    "It looks like .NET 8, which Latite Injector needs to run, isn't installed on your system. Installing .NET 8 now..",
+                Utils.WriteColor(".NET 8 installation has failed in some way. Please try manually installing .NET 8",
                     ConsoleColor.Red);
-                string downloadURL =
-                    "https://aka.ms/dotnet/8.0/windowsdesktop-runtime-win-x64.exe";
-                string downloadPath = Path.Combine(Path.GetTempPath(), "dotnet8.exe");
-                if (File.Exists(downloadPath))
-                {
-                    Utils.WriteColor("The .NET 8 installer file already exists (possibly from a previous failed install), deleting and redownloading file...", ConsoleColor.DarkGray);
-                    File.Delete(downloadPath);
-                }
-                Utils.WriteColor("Downloading the .NET 8 installer..", ConsoleColor.Yellow);
-                await Utils.DownloadFile(new Uri(downloadURL), downloadPath);
-                Utils.WriteColor("Downloaded .NET 8 installer!", ConsoleColor.Green);
-
-                Process dotnetInstaller = Process.Start(new ProcessStartInfo
-                {
-                    FileName = downloadPath,
-                    Arguments = "/passive /norestart" // run installer quietly
-                });
-
-                dotnetInstaller?.WaitForExit();
-                File.Delete(downloadPath);
-                if (dotnetInstaller?.ExitCode == 0)
-                {
-                    Utils.WriteColor(".NET 8 has been installed!", ConsoleColor.Green);
-                    Thread.Sleep(4000);
-                }
-                else
-                {
-                    Utils.WriteColor(".NET 8 installation has failed in some way. Please try manually installing .NET 8", ConsoleColor.Red);
-                    Console.ReadLine();
-                }
+                Console.ReadLine();
             }
 
             Console.Clear();
