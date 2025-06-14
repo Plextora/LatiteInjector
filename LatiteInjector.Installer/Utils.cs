@@ -115,7 +115,7 @@ namespace LatiteInjector.Installer
 
         public static async Task DownloadFile(Uri uri, string fileName)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.SystemDefault;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
             using Stream asyncStream = await _client.GetStreamAsync(uri);
             using FileStream fs = new(fileName, FileMode.CreateNew);
             await asyncStream.CopyToAsync(fs);
@@ -123,28 +123,40 @@ namespace LatiteInjector.Installer
 
         private static async Task<string> DownloadString(Uri uri)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.SystemDefault;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
             return await _client.GetStringAsync(uri);
+        }
+
+        private static bool CheckRegistry(RegistryView view, string path, string versionPrefix)
+        {
+            try
+            {
+                using RegistryKey baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view);
+                using RegistryKey subKey = baseKey.OpenSubKey(path);
+                if (subKey != null && subKey.GetSubKeyNames().Any(v => v.StartsWith(versionPrefix)))
+                    return true;
+            }
+            catch (Exception)
+            { }
+
+            return false;
         }
 
         public static bool IsNet8Installed()
         {
-            const string registryPath =
+            const string versionPrefix = "8.";
+
+            const string runtimePath64 =
                 @"SOFTWARE\dotnet\Setup\InstalledVersions\x64\sharedfx\Microsoft.WindowsDesktop.App";
+            const string sdkPath64 = @"SOFTWARE\dotnet\Setup\InstalledVersions\x64\sdk";
 
-            try
-            {
-                using RegistryKey runtimeKey = Registry.LocalMachine.OpenSubKey(registryPath);
-                if (runtimeKey == null)
-                    return false;
+            if (CheckRegistry(RegistryView.Registry64, runtimePath64, versionPrefix)) return true;
+            if (CheckRegistry(RegistryView.Registry64, sdkPath64, versionPrefix)) return true;
 
-                string[] installedVersions = runtimeKey.GetSubKeyNames();
-                return installedVersions.Any(version => version.StartsWith("8."));
-            }
-            catch
-            {
-                return false;
-            }
+            if (CheckRegistry(RegistryView.Registry32, runtimePath64, versionPrefix)) return true;
+            if (CheckRegistry(RegistryView.Registry32, sdkPath64, versionPrefix)) return true;
+
+            return false;
         }
 
         public static bool IsLatiteInstalled() => File.Exists(Program.LatiteInjectorExePath);
