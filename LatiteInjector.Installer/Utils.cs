@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
@@ -8,6 +9,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Win32;
 
 namespace LatiteInjector.Installer
 {
@@ -127,37 +129,22 @@ namespace LatiteInjector.Installer
 
         public static bool IsNet8Installed()
         {
-            if (Environment.GetEnvironmentVariable("PATH")?.Contains("dotnet") ?? false)
+            const string registryPath =
+                @"SOFTWARE\dotnet\Setup\InstalledVersions\x64\sharedfx\Microsoft.WindowsDesktop.App";
+
+            try
             {
-                ProcessStartInfo dotnetVersionProcessInfo = new()
-                {
-                    FileName = "dotnet",
-                    Arguments = "--version",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false
-                };
-
-                Process dotnetVersionProcess;
-
-                try
-                {
-                    dotnetVersionProcess = Process.Start(dotnetVersionProcessInfo);
-                }
-                catch
-                {
+                using RegistryKey runtimeKey = Registry.LocalMachine.OpenSubKey(registryPath);
+                if (runtimeKey == null)
                     return false;
-                }
 
-                dotnetVersionProcess?.WaitForExit();
-                string stdout = dotnetVersionProcess?.StandardOutput.ReadToEnd();
-                string stderr = dotnetVersionProcess?.StandardError.ReadLine();
-                if (stdout != null && stdout.StartsWith("8."))
-                    return true;
+                string[] installedVersions = runtimeKey.GetSubKeyNames();
+                return installedVersions.Any(version => version.StartsWith("8."));
+            }
+            catch
+            {
                 return false;
             }
-
-            return false;
         }
 
         public static bool IsLatiteInstalled() => File.Exists(Program.LatiteInjectorExePath);
