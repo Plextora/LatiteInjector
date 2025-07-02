@@ -10,7 +10,7 @@ namespace LatiteInjector.Utils;
 
 public static class Updater
 {
-    public const string InjectorCurrentVersion = "27";
+    public const string InjectorCurrentVersion = "28";
 
     private static readonly string LatiteInjectorDataFolder =
         $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LatiteInjector";
@@ -23,32 +23,29 @@ public static class Updater
     private static readonly Uri InjectorExecutableUrl =
         new("https://github.com/Imrglop/Latite-Releases/raw/main/injector/Injector.exe");
     */
+    private static readonly Uri DllDownloadUrl =
+        new("https://github.com/Imrglop/Latite-Releases/releases/latest/download/Latite.dll");
+    private static readonly Uri NightlyDownloadUrl =
+        new("https://github.com/LatiteClient/Latite/releases/download/nightly/LatiteNightly.dll");
+    private static readonly Uri DebugDllDownloadUrl =
+        new("https://github.com/LatiteClient/Latite/releases/download/debug/LatiteDebug.dll");
+    private static readonly Uri DebugPdbDownloadUrl =
+        new("https://github.com/LatiteClient/Latite/releases/download/debug/LatiteDebug.pdb");
     private static readonly Uri InstallerExecutableUrl =
         new("https://github.com/Imrglop/Latite-Releases/raw/main/injector/Installer.exe");
     private static readonly Uri SupportedVersionList =
         new("https://raw.githubusercontent.com/Imrglop/Latite-Releases/main/supported_versions");
 
-    private static readonly HttpClient Client = new();
-
-    private static async Task DownloadFile(Uri uri, string fileName)
-    {
-        await using Stream asyncStream = await Client.GetStreamAsync(uri);
-        await using FileStream fs = new(fileName, FileMode.CreateNew);
-        await asyncStream.CopyToAsync(fs);
-    }
-
-    private static async Task<string> DownloadString(Uri uri) => await Client.GetStringAsync(uri);
-
     public static async Task<string[]> GetSupportedVersionList()
     {
-        string rawSupportedVersions = await DownloadString(SupportedVersionList);
+        string rawSupportedVersions = await FileHelper.DownloadString(SupportedVersionList);
         string[] supportedVersionList = rawSupportedVersions.Split('\n');
         return supportedVersionList;
     }
 
     private static async Task<string> GetLatestInjectorVersion()
     {
-        string latestVersion = await DownloadString(InjectorVersionUrl);
+        string latestVersion = await FileHelper.DownloadString(InjectorVersionUrl);
         latestVersion = latestVersion.Replace("\n", "");
         return latestVersion;
     }
@@ -93,7 +90,7 @@ public static class Updater
         string path = $"{Path.GetTempPath()}{fileName}";
         if (File.Exists(path))
             File.Delete(path);
-        await DownloadFile(InstallerExecutableUrl, path);
+        await FileHelper.DownloadFile(InstallerExecutableUrl, path);
         Process.Start(new ProcessStartInfo
         {
             FileName = path,
@@ -116,72 +113,64 @@ public static class Updater
         string dllPath = $"{LatiteInjectorDataFolder}\\Latite.dll";
 
         bool useBeta = SettingsWindow.IsLatiteBetaEnabled;
-        string betaDllPath = $"{LatiteInjectorDataFolder}\\Latite (Nightly).dll";
-        string betaFolderPath = $"{LatiteInjectorDataFolder}\\Latite-Nightly";
-        string betaDllFolderPath = $@"{LatiteInjectorDataFolder}\Latite-Nightly\LatiteRewrite.dll";
-        string betaZipPath = $"{LatiteInjectorDataFolder}\\Latite-Nightly.zip";
+        string betaDllPath = $"{LatiteInjectorDataFolder}\\LatiteNightly.dll";
+
+        bool useDebug = SettingsWindow.IsLatiteDebugEnabled;
+        string debugDllPath = $"{Logging.LatiteFolder}\\LatiteDebug.dll";
+        string debugPdbPath = $"{Logging.LatiteFolder}\\LatiteDebug.pdb";
 
         // This whole section looks like a schizophrenic wrote it
         // but I have to do this because Windows doesn't listen when you ask
         // nicely to delete a file
         try
         {
-            if (File.Exists(dllPath))
-                File.Delete(dllPath);
-            if (File.Exists(betaDllPath))
-                File.Delete(betaDllPath);
-            if (File.Exists(betaZipPath))
-                File.Delete(betaZipPath);
-
-            while (File.Exists(dllPath))
-                File.Delete(dllPath);
-            while (File.Exists(betaDllPath))
-                File.Delete(betaDllPath);
-            while (File.Exists(betaZipPath))
-                File.Delete(betaZipPath);
-
-            if (File.Exists(dllPath))
+            if (!await FileHelper.DeleteFile(dllPath))
             {
-                Logging.ErrorLogging($"Failed to delete file: '{dllPath}'.");
+                Logging.ErrorLogging($"Failed to delete file: '{dllPath}'");
                 dllPath = $"{LatiteInjectorDataFolder}\\Latite_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
             }
-            if (File.Exists(betaDllPath))
+            if (!await FileHelper.DeleteFile(betaDllPath))
             {
-                Logging.ErrorLogging($"Failed to delete file: '{betaDllPath}'.");
+                Logging.ErrorLogging($"Failed to delete file: '{betaDllPath}'");
                 betaDllPath = $"{LatiteInjectorDataFolder}\\Latite_Beta_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
             }
-            if (File.Exists(betaZipPath))
+            if (!await FileHelper.DeleteFile(debugDllPath))
             {
-                Logging.ErrorLogging($"Failed to delete file: '{betaZipPath}'.");
-                useBeta = false;
+                Logging.ErrorLogging($"Failed to delete file: '{debugDllPath}'");
+                debugDllPath = $"{Logging.LatiteFolder}\\Latite_Debug_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
+            }
+            if (!await FileHelper.DeleteFile(debugDllPath))
+            {
+                Logging.ErrorLogging($"Failed to delete file: '{debugPdbPath}'");
+                debugPdbPath = $"{Logging.LatiteFolder}\\Latite_Debug_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.pdb";
             }
         }
         catch (Exception ex)
         {
-            Logging.ErrorLogging($"The injector ran into an error downloading the latest Latite DLL. The error is as follows: {ex.Message}");
+            Logging.ErrorLogging(
+                $"The injector ran into an error downloading the latest Latite DLL. The error is as follows: {ex.Message}");
             dllPath = $"{LatiteInjectorDataFolder}\\Latite_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
             betaDllPath = $"{LatiteInjectorDataFolder}\\Latite_Beta_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
+            debugDllPath = $"{Logging.LatiteFolder}\\Latite_Debug_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
+            debugPdbPath = $"{Logging.LatiteFolder}\\Latite_Debug_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.pdb";
         }
 
         SetStatusLabel.Pending("Downloading Latite DLL");
         if (useBeta)
         {
-            Logging.InfoLogging("Using latest Latite Nightly (Latite-Nightly.zip)");
-            await DownloadFile(
-                new Uri("https://nightly.link/LatiteClient/Latite/workflows/releasebuild/master/Latite-Nightly.zip"),
-                betaZipPath);
-            ZipFile.ExtractToDirectory(betaZipPath, betaFolderPath);
-            File.Copy(betaDllFolderPath, betaDllPath);
-            Directory.Delete(betaFolderPath, true);
-            File.Delete(betaZipPath);
-
+            Logging.InfoLogging("Using latest Latite Nightly build (LatiteNightly.dll)");
+            await FileHelper.DownloadFile(NightlyDownloadUrl, betaDllPath);
             return betaDllPath;
         }
+        else if (useDebug)
+        {
+            Logging.InfoLogging("Using latest Latite Debug build (LatiteDebug.dll)");
+            await FileHelper.DownloadFile(DebugDllDownloadUrl, debugDllPath);
+            await FileHelper.DownloadFile(DebugPdbDownloadUrl, debugPdbPath);
+            return debugDllPath;
+        }
 
-        await DownloadFile(
-            new Uri("https://github.com/Imrglop/Latite-Releases/releases/latest/download/Latite.dll"),
-            dllPath);
-
+        await FileHelper.DownloadFile(DllDownloadUrl, dllPath);
         return dllPath;
     }
 }

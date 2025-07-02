@@ -223,9 +223,23 @@
                 Foreground="AliceBlue"
                 IsChecked="False"
                 Style="{StaticResource CheckBox}" />
+            <CheckBox
+                x:Name="LatiteDebugCheckBox"
+                Margin="18,236,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                x:FieldModifier="public"
+                Background="#202020"
+                Click="LatiteDebugCheckBox_OnClick"
+                Content="{DynamicResource 'Latite Debug'}"
+                Cursor="Hand"
+                FontSize="17"
+                Foreground="AliceBlue"
+                IsChecked="False"
+                Style="{StaticResource CheckBox}" />
             <Button
                 x:Name="SwitchLanguageButton"
-                Margin="18,261,192,25"
+                Margin="18,276,192,10"
                 Background="#202020"
                 Cursor="Hand"
                 FontSize="17"

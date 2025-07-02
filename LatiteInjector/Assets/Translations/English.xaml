@@ -25,6 +25,7 @@
     <s:String x:Key="Close after injected">Close after injected</s:String>
     <s:String x:Key="Minimize fix">Minimize fix</s:String>
     <s:String x:Key="Latite Nightly">Latite Nightly</s:String>
+    <s:String x:Key="Latite Debug">Latite Debug</s:String>
     <s:String x:Key="Switch language">Switch language</s:String>
     <!--Changelog Window-->
     <s:String x:Key="Latite Client Changelog">Latite Client Changelog</s:String>
@@ -52,4 +53,7 @@
     <s:String x:Key="Your Minecraft version, {0}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! The supported versions are:\n{1}\n\nLook at the #announcements channel in the Discord for directions on how to change your Minecraft version to a compatible one.">Your Minecraft version, {0}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! The supported versions are:\n{1}\n\nLook at the #announcements channel in the Discord for directions on how to change your Minecraft version to a compatible one.</s:String>
     <s:String x:Key="Minecraft version not supported!!">Minecraft version not supported!!</s:String>
     <s:String x:Key="WARNING: This option lets you use experimental builds of Latite Client that have a high chance of containing bugs or crashes\nDo you still want to use Latite Nightly?">WARNING: This option lets you use experimental builds of Latite Client that have a high chance of containing bugs or crashes\nDo you still want to use Latite Nightly?</s:String>
+    <s:String x:Key="WARNING: This option is only meant for detailed reporting of bugs in Latite Client.\nThis version may run slower than production builds.\nDo you still want to use Latite Debug?">WARNING: This option is only meant for detailed reporting of bugs in Latite Client.\nThis version may run slower than production builds.\nDo you still want to use Latite Debug?</s:String>
+    <s:String x:Key="Latite Nightly disclaimer">Latite Nightly disclaimer</s:String>
+    <s:String x:Key="Latite Debug disclaimer">Latite Debug disclaimer</s:String>
 </ResourceDictionary>

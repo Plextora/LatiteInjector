@@ -25,6 +25,7 @@ public partial class SettingsWindow : Window
     public static bool IsDisableAppSuspensionEnabled;
     public static string SelectedLanguage = string.Empty;
     public static bool IsLatiteBetaEnabled;
+    public static bool IsLatiteDebugEnabled;
 
     public void ConfigSetup()
     {
@@ -37,7 +38,8 @@ public partial class SettingsWindow : Window
                 "closeafterinjected:false\n" +
                 "disableappsuspension:true\n" +
                 "selectedlanguage:pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml\n" +
-                "latitebeta:false";
+                "latitebeta:false\n" +
+                "latitedebug:false";
 
             File.WriteAllText(ConfigFilePath, defaultConfigText);
 
@@ -47,6 +49,7 @@ public partial class SettingsWindow : Window
             IsDisableAppSuspensionEnabled = true;
             SelectedLanguage = "pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml";
             IsLatiteBetaEnabled = false;
+            IsLatiteDebugEnabled = false;
         }
         else
         {
@@ -56,14 +59,15 @@ public partial class SettingsWindow : Window
 
     private void LoadConfig()
     {
-        if (File.ReadAllLines(ConfigFilePath).Length != 5)
+        if (File.ReadAllLines(ConfigFilePath).Length != 6)
         {
             string defaultConfigText =
                 "discordstatus:true\n" +
                 "closeafterinjected:false\n" +
                 "disableappsuspension:true\n" +
                 "selectedlanguage:pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml\n" +
-                "latitebeta:false\n";
+                "latitebeta:false\n" +
+                "latitedebug:false";
 
             File.WriteAllText(ConfigFilePath, defaultConfigText);
 
@@ -73,6 +77,7 @@ public partial class SettingsWindow : Window
             IsDisableAppSuspensionEnabled = true;
             SelectedLanguage = "pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml";
             IsLatiteBetaEnabled = false;
+            IsLatiteDebugEnabled = false;
         }
 
         string config = File.ReadAllText(ConfigFilePath);
@@ -82,6 +87,8 @@ public partial class SettingsWindow : Window
         SelectedLanguage = MainWindow.GetLine(config, 4)?.Replace("selectedlanguage:", "") ??
                            "pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml";
         IsLatiteBetaEnabled = MainWindow.GetLine(config, 5) == "latitebeta:true";
+        IsLatiteDebugEnabled = MainWindow.GetLine(config, 6) == "latitedebug:true";
+
         DiscordPresenceCheckBox.IsChecked = IsDiscordPresenceEnabled;
         CloseAfterInjectedCheckBox.IsChecked = IsCloseAfterInjectedEnabled;
         DisableAppSuspensionCheckBox.IsChecked = IsDisableAppSuspensionEnabled;
@@ -148,11 +155,18 @@ public partial class SettingsWindow : Window
     {
         IsLatiteBetaEnabled = (bool)LatiteBetaCheckBox.IsChecked;
 
+        if (IsLatiteDebugEnabled)
+        {
+            LatiteDebugCheckBox.IsChecked = false;
+            IsLatiteDebugEnabled = false;
+            ModifyConfig("latitedebug:false", 6);
+        }
+
         if (IsLatiteBetaEnabled)
         {
             MessageBoxResult result = MessageBox.Show(
                 App.GetTranslation(@"WARNING: This option lets you use experimental builds of Latite Client that have a high chance of containing bugs or crashes\nDo you still want to use Latite Nightly?"),
-                "Latite Nightly disclaimer",
+                App.GetTranslation("Latite Nightly disclaimer"),
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
@@ -162,6 +176,34 @@ public partial class SettingsWindow : Window
         }
         else if (!IsLatiteBetaEnabled)
             ModifyConfig("latitebeta:false", 5);
+    }
+
+    private void LatiteDebugCheckBox_OnClick(object sender, RoutedEventArgs e)
+    {
+        IsLatiteDebugEnabled = (bool)LatiteDebugCheckBox.IsChecked;
+
+        if (IsLatiteBetaEnabled)
+        {
+            LatiteBetaCheckBox.IsChecked = false;
+            IsLatiteBetaEnabled = false;
+            ModifyConfig("latitebeta:false", 5);
+        }
+
+        if (IsLatiteDebugEnabled)
+        {
+            MessageBoxResult result = MessageBox.Show(
+                App.GetTranslation(
+                    @"WARNING: This option is only meant for detailed reporting of bugs in Latite Client.\nThis version may run slower than production builds.\nDo you still want to use Latite Debug?"),
+           App.GetTranslation("Latite Debug disclaimer"),
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+                ModifyConfig("latitedebug:true", 6);
+            else
+                LatiteDebugCheckBox.IsChecked = false;
+        }
+        else if (!IsLatiteDebugEnabled)
+            ModifyConfig("latitedebug:false", 6);
     }
 
     private void SwitchLanguageButton_OnClick(object sender, RoutedEventArgs e)
