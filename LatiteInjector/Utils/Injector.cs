@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -8,7 +7,6 @@ using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -274,6 +272,6 @@ public static class Injector
         }
 
         Minecraft = minecraft;
-        Thread.Sleep(100);
+        await Task.Delay(100);
     }
 }
