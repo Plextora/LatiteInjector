@@ -12,9 +12,7 @@ public static class Logging
     public static string InjectorFolder =
         $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\LatiteInjector";
     public static string LatiteFolder =
-        $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\LatiteRecode";
-    public static readonly string RoamingStateDirectory =
-        $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState";
+        $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Latite";
 
     public static void ExceptionLogging(Exception? ex)
     {
