@@ -44,7 +44,8 @@ public partial class MainWindow
 
         await Injector.WaitForMinecraft();
         await Injector.InjectionPrep();
-        await Injector.CheckVersionCompatibility();
+        if(string.IsNullOrEmpty(SettingsWindow.CustomDLLURL))
+            await Injector.CheckVersionCompatibility();
         await Injector.WaitForModules();
 
         Injector.Inject(await Updater.DownloadDll());
