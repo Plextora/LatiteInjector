@@ -18,19 +18,6 @@ public static class Injector
     public static string MinecraftVersion = "";
     public static bool IsCustomDll;
     public static string? CustomDllName;
-
-    private static void ApplyAppPackages(string path)
-    {
-        FileInfo infoFile = new(path);
-        FileSecurity fSecurity = infoFile.GetAccessControl();
-        fSecurity.AddAccessRule(
-            new FileSystemAccessRule(new SecurityIdentifier("S-1-15-2-1"),
-                FileSystemRights.FullControl, InheritanceFlags.None,
-                PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-
-        infoFile.SetAccessControl(fSecurity);
-    }
-
     public static void OpenMinecraft()
     {
         Process process = new()
@@ -121,47 +108,12 @@ public static class Injector
         }
     }
 
-    // App suspension code made by (https://github.com/flarialmc/launcher/pull/7/commits/cf11941c79fe5fe64625e3e7731c7ec51dc7ed50)
-    // They also have very good material on how this works and the reasoning behind it on their own project's README (https://github.com/Aetopia/AppLifecycleOptOut)
-    //private static void PreventAppSuspension()
-    //{
-    //    if (IsMinecraftRunning())
-    //    {
-    //        WinAPI.IPackageDebugSettings pPackageDebugSettings = (WinAPI.IPackageDebugSettings)Activator.CreateInstance(
-    //            Type.GetTypeFromCLSID(new Guid(0xb1aec16f, 0x2383, 0x4852, 0xb0, 0xe9, 0x8f, 0x0b, 0x1d, 0xc6, 0x6b,
-    //                0x4d)));
-    //        uint count = 0, bufferLength = 0;
-    //        WinAPI.GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", ref count, IntPtr.Zero, ref bufferLength,
-    //            IntPtr.Zero);
-    //        IntPtr packageFullNames = Marshal.AllocHGlobal((int)(count * IntPtr.Size)),
-    //            buffer = Marshal.AllocHGlobal((int)(bufferLength * 2));
-    //        WinAPI.GetPackagesByPackageFamily("Microsoft.MinecraftUWP_8wekyb3d8bbwe", ref count, packageFullNames,
-    //            ref bufferLength, buffer);
-    //        for (int i = 0; i < count; i++)
-    //        {
-    //            pPackageDebugSettings.EnableDebugging(Marshal.PtrToStringUni(Marshal.ReadIntPtr(packageFullNames)),
-    //                null, null);
-    //            packageFullNames += IntPtr.Size;
-    //        }
-
-    //        Marshal.FreeHGlobal(packageFullNames);
-    //        Marshal.FreeHGlobal(buffer);
-
-    //        Logging.WarnLogging("Disable app suspension has been enabled.");
-    //    }
-    //}
-
     public static bool Inject(string path)
     {
-        //if (SettingsWindow.IsDisableAppSuspensionEnabled)
-        //    PreventAppSuspension();
-
         try
         {
             // a lot of this is from https://github.com/JiayiSoftware/JiayiLauncher/blob/master/JiayiLauncher/Features/Launch/Injector.cs
             // we <3 jiayi and phase
-
-            ApplyAppPackages(path);
 
             IntPtr procHandle = WinAPI.OpenProcess(
                 WinAPI.PROCESS_CREATE_THREAD |
