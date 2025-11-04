@@ -42,8 +42,11 @@ public partial class MainWindow
 
         Injector.OpenMinecraft();
 
+        await Injector.WaitForMinecraft();
         await Injector.InjectionPrep();
-        await Injector.CheckVersionCompatibility();
+        if(string.IsNullOrEmpty(SettingsWindow.CustomDLLURL))
+            await Injector.CheckVersionCompatibility();
+        await Injector.WaitForModules();
 
         Injector.Inject(await Updater.DownloadDll());
         SetStatusLabel.Completed(App.GetTranslation("Injected Latite Client!"));
@@ -80,15 +83,16 @@ public partial class MainWindow
 
         if (Process.GetProcessesByName("Minecaft.Windows").Length != 0) return;
 
-        Injector.OpenMinecraft();
         if (SettingsWindow.SelectedLanguage ==
             "pack://application:,,,/Latite Injector;component//Assets/Translations/Spanish.xaml")
             StatusLabel.FontSize = 15;
 
+        Injector.OpenMinecraft();
+        await Injector.WaitForMinecraft();
         await Injector.InjectionPrep();
+        await Injector.WaitForModules();
 
         Injector.IsCustomDll = true;
-        await Injector.WaitForModules();
         Injector.Inject(openFileDialog.FileName);
         SetStatusLabel.Completed(App.GetTranslation("Injected custom DLL!"));
         DiscordPresence.CurrentTimestamp = Timestamps.Now;

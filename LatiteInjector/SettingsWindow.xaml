@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="{DynamicResource 'Latite Client Settings'}"
     Width="376"
-    Height="324"
+    Height="370"
     AllowsTransparency="True"
     RenderOptions.BitmapScalingMode="HighQuality"
     Background="Transparent"
@@ -118,6 +118,51 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="CustomTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Padding" Value="6,2" />
+            <Setter Property="Foreground" Value="AliceBlue" />
+            <Setter Property="Background" Value="#202020" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="Border"
+                        BorderThickness="1"
+                        CornerRadius="3">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#10a9a8" Offset="0.0" />
+                                    <GradientStop Color="#5f65b9" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#202020" Offset="0"/>
+                                    <GradientStop Color="#303030" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Opacity" Value="0.8" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="#5f65b9" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Border
         Padding="2"
@@ -183,9 +228,9 @@
                 Opacity="0" />
             <CheckBox
                 x:Name="CloseAfterInjectedCheckBox"
-                Margin="18,0,0,0"
+                Margin="18,147,0,0"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Center"
+                VerticalAlignment="Top"
                 x:FieldModifier="public"
                 Background="#202020"
                 Click="CloseAfterInjectedCheckBox_OnClick"
@@ -237,10 +282,43 @@
                 Foreground="AliceBlue"
                 IsChecked="False"
                 Style="{StaticResource CheckBox}" />
+            <Grid Margin="18,276,18,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Height="30">
+
+                <TextBox
+                    x:Name="CustomDLLInput"
+                    Style="{StaticResource CustomTextBox}"
+                    FontSize="17"
+                    ToolTip="{DynamicResource 'Custom DLL URL'}"
+                    TextChanged="CustomDLLInput_OnTextChanged" />
+
+                <TextBlock Text="{DynamicResource 'Custom DLL URL'}"
+                   Foreground="Gray"
+                   FontSize="17"
+                   Margin="10,1,0,0"
+                   IsHitTestVisible="False"
+                   VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=CustomDLLInput}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+            </Grid>
             <Button
                 x:Name="SwitchLanguageButton"
-                Margin="18,276,192,10"
+                Margin="18,0,192,10"
                 Background="#202020"
+                VerticalAlignment="Bottom"
+                Height="30"
                 Cursor="Hand"
                 FontSize="17"
                 Foreground="AliceBlue"

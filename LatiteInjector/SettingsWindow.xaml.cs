@@ -26,6 +26,7 @@ public partial class SettingsWindow : Window
     public static string SelectedLanguage = string.Empty;
     public static bool IsLatiteBetaEnabled;
     public static bool IsLatiteDebugEnabled;
+    public static string CustomDLLURL = string.Empty;
 
     public void ConfigSetup()
     {
@@ -39,7 +40,8 @@ public partial class SettingsWindow : Window
                 "disableappsuspension:true\n" +
                 "selectedlanguage:pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml\n" +
                 "latitebeta:false\n" +
-                "latitedebug:false";
+                "latitedebug:false" +
+                "customdllurl:";
 
             File.WriteAllText(ConfigFilePath, defaultConfigText);
 
@@ -50,6 +52,7 @@ public partial class SettingsWindow : Window
             SelectedLanguage = "pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml";
             IsLatiteBetaEnabled = false;
             IsLatiteDebugEnabled = false;
+            CustomDLLURL = string.Empty;
         }
         else
         {
@@ -59,7 +62,7 @@ public partial class SettingsWindow : Window
 
     private void LoadConfig()
     {
-        if (File.ReadAllLines(ConfigFilePath).Length != 6)
+        if (File.ReadAllLines(ConfigFilePath).Length != 7)
         {
             string defaultConfigText =
                 "discordstatus:true\n" +
@@ -67,7 +70,8 @@ public partial class SettingsWindow : Window
                 "disableappsuspension:true\n" +
                 "selectedlanguage:pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml\n" +
                 "latitebeta:false\n" +
-                "latitedebug:false";
+                "latitedebug:false\n" +
+                "customdllurl:";
 
             File.WriteAllText(ConfigFilePath, defaultConfigText);
 
@@ -78,6 +82,7 @@ public partial class SettingsWindow : Window
             SelectedLanguage = "pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml";
             IsLatiteBetaEnabled = false;
             IsLatiteDebugEnabled = false;
+            CustomDLLURL = string.Empty;
         }
 
         string config = File.ReadAllText(ConfigFilePath);
@@ -88,11 +93,13 @@ public partial class SettingsWindow : Window
                            "pack://application:,,,/Latite Injector;component//Assets/Translations/English.xaml";
         IsLatiteBetaEnabled = MainWindow.GetLine(config, 5) == "latitebeta:true";
         IsLatiteDebugEnabled = MainWindow.GetLine(config, 6) == "latitedebug:true";
+        CustomDLLURL = MainWindow.GetLine(config, 7)?.Replace("customdllurl:", "") ?? string.Empty;
 
         DiscordPresenceCheckBox.IsChecked = IsDiscordPresenceEnabled;
         CloseAfterInjectedCheckBox.IsChecked = IsCloseAfterInjectedEnabled;
         DisableAppSuspensionCheckBox.IsChecked = IsDisableAppSuspensionEnabled;
         LatiteBetaCheckBox.IsChecked = IsLatiteBetaEnabled;
+        CustomDLLInput.Text = CustomDLLURL;
     }
 
     public static void ModifyConfig(string newText, int lineToEdit)
@@ -204,6 +211,20 @@ public partial class SettingsWindow : Window
         }
         else if (!IsLatiteDebugEnabled)
             ModifyConfig("latitedebug:false", 6);
+    }
+
+    private void CustomDLLInput_OnTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+        bool isValid =
+            Uri.TryCreate(CustomDLLInput.Text, UriKind.Absolute, out Uri uri) &&
+            (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps) &&
+            uri.AbsolutePath.EndsWith(".dll", StringComparison.OrdinalIgnoreCase);
+
+        if (isValid)
+        {
+            CustomDLLURL = CustomDLLInput.Text;
+            ModifyConfig($"customdllurl:{CustomDLLURL}", 7);
+        }
     }
 
     private void SwitchLanguageButton_OnClick(object sender, RoutedEventArgs e)

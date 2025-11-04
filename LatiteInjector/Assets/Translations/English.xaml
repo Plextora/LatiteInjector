@@ -26,6 +26,7 @@
     <s:String x:Key="Minimize fix">Minimize fix</s:String>
     <s:String x:Key="Latite Nightly">Latite Nightly</s:String>
     <s:String x:Key="Latite Debug">Latite Debug</s:String>
+    <s:String x:Key="Custom DLL URL">Custom DLL URL</s:String>
     <s:String x:Key="Switch language">Switch language</s:String>
     <!--Changelog Window-->
     <s:String x:Key="Latite Client Changelog">Latite Client Changelog</s:String>

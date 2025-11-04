@@ -119,6 +119,9 @@ public static class Updater
         string debugDllPath = $"{Logging.LatiteFolder}\\LatiteDebug.dll";
         string debugPdbPath = $"{Logging.LatiteFolder}\\LatiteDebug.pdb";
 
+        string customDllUrl = SettingsWindow.CustomDLLURL;
+        string customDllPath = $"{Logging.LatiteFolder}\\Custom_DLL.dll";
+
         // This whole section looks like a schizophrenic wrote it
         // but I have to do this because Windows doesn't listen when you ask
         // nicely to delete a file
@@ -144,6 +147,11 @@ public static class Updater
                 Logging.ErrorLogging($"Failed to delete file: '{debugPdbPath}'");
                 debugPdbPath = $"{Logging.LatiteFolder}\\Latite_Debug_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.pdb";
             }
+            if (!await FileHelper.DeleteFile(customDllPath))
+            {
+                Logging.ErrorLogging($"Failed to delete file: '{customDllPath}'");
+                customDllPath = $"{Logging.LatiteFolder}\\Latite_Debug_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.pdb";
+            }
         }
         catch (Exception ex)
         {
@@ -153,10 +161,17 @@ public static class Updater
             betaDllPath = $"{LatiteInjectorDataFolder}\\Latite_Beta_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
             debugDllPath = $"{Logging.LatiteFolder}\\Latite_Debug_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
             debugPdbPath = $"{Logging.LatiteFolder}\\Latite_Debug_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.pdb";
+            customDllPath = $"{LatiteInjectorDataFolder}\\Custom_DLL_{DateTime.Now:yyyy_MM_dd_HH_mm_ss}.dll";
         }
 
         SetStatusLabel.Pending("Downloading Latite DLL");
-        if (useBeta)
+        if (!string.IsNullOrEmpty(customDllUrl))
+        {
+            Logging.InfoLogging($"Using custom DLL URL: {customDllUrl}");
+            await FileHelper.DownloadFile(new Uri(customDllUrl), customDllPath);
+            return customDllPath;
+        }
+        else if (useBeta)
         {
             Logging.InfoLogging("Using latest Latite Nightly build (LatiteNightly.dll)");
             await FileHelper.DownloadFile(NightlyDownloadUrl, betaDllPath);
