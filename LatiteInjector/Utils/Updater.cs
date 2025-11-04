@@ -10,7 +10,7 @@ namespace LatiteInjector.Utils;
 
 public static class Updater
 {
-    public const string InjectorCurrentVersion = "28";
+    public const string InjectorCurrentVersion = "29";
 
     private static readonly string LatiteInjectorDataFolder =
         $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\LatiteInjector";
