@@ -17,6 +17,7 @@ public static class Injector
     public static string MinecraftVersion = "";
     public static bool IsCustomDll;
     public static string? CustomDllName;
+
     public static void OpenMinecraft()
     {
         Process process = new()
@@ -54,7 +55,8 @@ public static class Injector
                         if (Minecraft.MainModule?.FileName != null)
                         {
                             string FileName = Minecraft.MainModule.FileName;
-                            MinecraftVersion = System.Text.RegularExpressions.Regex.Match(FileName, @"\d+\.\d+\.\d+\.\d+").Value;
+                            MinecraftVersion = System.Text.RegularExpressions.Regex
+                                .Match(FileName, @"\d+\.\d+\.\d+\.\d+").Value;
                             break;
                         }
                     }
@@ -77,11 +79,18 @@ public static class Injector
         string[] supportedVersions = await Updater.GetSupportedVersionList();
         string supportedVersionsString = string.Join("\n", supportedVersions).Replace("\n\n", "");
 
-        bool hasValidFormat = Regex.IsMatch(MinecraftVersion, @"^\d+\.\d+\.\d+$");
+        string versionToCheck = MinecraftVersion;
+        Match match = Regex.Match(MinecraftVersion, @"^(\d+\.\d+\.\d+)(?:\.\d+)?$");
+        if (match.Success)
+        {
+            versionToCheck = match.Groups[1].Value;
+        }
+
+        bool hasValidFormat = Regex.IsMatch(versionToCheck, @"^\d+\.\d+\.\d+$");
 
         bool isCompatible = hasValidFormat &&
                             supportedVersions.Any(v =>
-                                string.Equals(v.Trim(), MinecraftVersion, StringComparison.Ordinal));
+                                string.Equals(v.Trim(), versionToCheck, StringComparison.Ordinal));
 
         if (!isCompatible && !Settings.Default.Nightly && !Settings.Default.Debug)
         {
