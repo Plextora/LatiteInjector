@@ -18,6 +18,13 @@
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <StartupObject>LatiteInjector.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <PublishRelease>true</PublishRelease>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <PublishReadyToRun>false</PublishReadyToRun>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Remove="LatiteInjector\**" />
     <EmbeddedResource Remove="LatiteInjector\**" />
