@@ -2,8 +2,10 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -75,10 +77,11 @@ public static class Injector
         string[] supportedVersions = await Updater.GetSupportedVersionList();
         string supportedVersionsString = string.Join("\n", supportedVersions).Replace("\n\n", "");
 
-        // Partially check if MinecraftVersion matches currently supported versions list
-        bool isCompatible =
-            supportedVersionsString.Contains(MinecraftVersion.Substring(0,
-                MinecraftVersion.LastIndexOf(".", StringComparison.Ordinal)));
+        bool hasValidFormat = Regex.IsMatch(MinecraftVersion, @"^\d+\.\d+\.\d+$");
+
+        bool isCompatible = hasValidFormat &&
+                            supportedVersions.Any(v =>
+                                string.Equals(v.Trim(), MinecraftVersion, StringComparison.Ordinal));
 
         if (!isCompatible && !Settings.Default.Nightly && !Settings.Default.Debug)
         {
@@ -89,8 +92,10 @@ public static class Injector
             Logging.WarnLogging(warningMessageThatNobodyWillReadBecauseReadingIsForCasualsIGuess);
 
             MessageBox.Show(
-                Application.Current.MainWindow, // put messagebox on top of the main window
-                App.GetTranslation("Your Minecraft version, {0}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! The supported versions are:\\n{1}\\n\\nLook at the #announcements channel in the Discord for directions on how to change your Minecraft version to a compatible one.", [MinecraftVersion, supportedVersionsString]),
+                Application.Current.MainWindow,
+                App.GetTranslation(
+                    "Your Minecraft version, {0}, is not in the supported versions list for Latite Client. It is VERY likely that you will run into crashes or other types of bugs! The supported versions are:\\n{1}\\n\\nLook at the #announcements channel in the Discord for directions on how to change your Minecraft version to a compatible one.",
+                    [MinecraftVersion, supportedVersionsString]),
                 App.GetTranslation("Minecraft version not supported!!"),
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);
