@@ -38,8 +38,50 @@ public static class Injector
         Process[] minecraftProcesses = Process.GetProcessesByName("Minecraft.Windows");
         if (minecraftProcesses.Length == 0) return false;
 
-        Minecraft = minecraftProcesses[0];
+        // multiple Minecraft.Windows processes can exist (a lightweight stub and the real game).
+        // pick the one with the largest working set to target the actual game process.
+        Minecraft = minecraftProcesses
+            .OrderByDescending(p =>
+            {
+                try { return p.WorkingSet64; }
+                catch { return 0L; }
+            })
+            .First();
         return true;
+    }
+    
+    public static async Task<bool> WaitForLiveMinecraftProcess(int timeoutMs = 10000)
+    {
+        int elapsed = 0;
+        const int interval = 500;
+
+        while (elapsed < timeoutMs)
+        {
+            try
+            {
+                if (!Minecraft.HasExited)
+                    return true;
+            }
+            catch (InvalidOperationException)
+            {
+                Logging.ErrorLogging("(WaitForLiveMinecraftProcess) InvalidOperationException");
+            }
+            
+            if (IsMinecraftRunning())
+            {
+                try
+                {
+                    if (!Minecraft.HasExited)
+                        return true;
+                }
+                catch (InvalidOperationException) { }
+            }
+
+            await Task.Delay(interval);
+            elapsed += interval;
+        }
+
+        return false;
     }
 
     public static async Task InjectionPrep()

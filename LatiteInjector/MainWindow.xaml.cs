@@ -4,6 +4,7 @@ using LatiteInjector.Utils;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Application = System.Windows.Application;
@@ -45,8 +46,7 @@ public partial class MainWindow
         SetStatusLabel.Completed(App.GetTranslation("Injected Latite Client!"));
         DiscordPresence.CurrentTimestamp = Timestamps.Now;
 
-        Injector.Minecraft.EnableRaisingEvents = true;
-        Injector.Minecraft.Exited += IfMinecraftExited!;
+        await SubscribeToMinecraftExit();
     }
 
     private async void LaunchButton_OnRightClick(object sender, RoutedEventArgs e)
@@ -88,8 +88,26 @@ public partial class MainWindow
         SetStatusLabel.Completed(App.GetTranslation("Injected custom DLL!"));
         DiscordPresence.CurrentTimestamp = Timestamps.Now;
 
-        Injector.Minecraft.EnableRaisingEvents = true;
-        Injector.Minecraft.Exited += IfMinecraftExited!;
+        await SubscribeToMinecraftExit();
+    }
+
+    private static async Task SubscribeToMinecraftExit()
+    {
+        bool found = await Injector.WaitForLiveMinecraftProcess();
+        if (!found) return;
+
+        try
+        {
+            if (!Injector.Minecraft.HasExited)
+            {
+                Injector.Minecraft.EnableRaisingEvents = true;
+                Injector.Minecraft.Exited += IfMinecraftExited!;
+            }
+        }
+        catch (InvalidOperationException)
+        {
+            Logging.ErrorLogging("(SubscribeToMinecraftExit) Process exited between check and subscribe");
+        }
     }
 
     private static void IfMinecraftExited(object sender, EventArgs e)
