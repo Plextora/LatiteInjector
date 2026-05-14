@@ -1,3 +1,9 @@
+# This Injector/Launcher has been discontinued and will no longer be updated.
+
+As of 5/13/2026, this application has ceased all development and has been publicly archived. If you're looking to use Latite Client, you can use our [new and redesigned Launcher](https://github.com/LatiteClient/Launcher)
+
+---
+
 # LatiteInjector
 Latite Client's new and improved injector!
 
